@@ -7,8 +7,8 @@ cursor = connection.cursor()
 # Create the Unit table
 create_unit_table_query = """
 CREATE TABLE IF NOT EXISTS Unit (
-    code TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
+    code TEXT PRIMARY KEY, 
+    name TEXT ,
     semester INTEGER
 );
 """
@@ -17,12 +17,10 @@ cursor.execute(create_unit_table_query)
 # Create the UnitRelationship table
 create_unit_relationship_table_query = """
 CREATE TABLE IF NOT EXISTS UnitRelationship (
-    id INTEGER PRIMARY KEY,
-    unit_code TEXT NOT NULL,
-    related_unit_code TEXT NOT NULL,
-    relationship_type TEXT NOT NULL,
+    unit_code TEXT,
+    pre_requisite TEXT,
     FOREIGN KEY (unit_code) REFERENCES Unit (code),
-    FOREIGN KEY (related_unit_code) REFERENCES Unit (code)
+    FOREIGN KEY (pre_requisite) REFERENCES Unit (code)
 );
 """
 cursor.execute(create_unit_relationship_table_query)
