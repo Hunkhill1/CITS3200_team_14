@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }} - UWA Planner</title>
+      {% else %}
+      <title>Welcome to the UWA Course Planner</title>
+      {% endif %}
+    </head>
+    <body>   
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>
