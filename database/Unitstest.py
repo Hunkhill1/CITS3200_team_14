@@ -18,7 +18,7 @@ def highlight_path(G, selected_unit):
     return path_nodes
 
 # Connect to the SQLite database
-conn = sqlite3.connect('CITS3200_team_14/database/degree_database.db')
+conn = sqlite3.connect('/home/long/Desktop/Professional Computing/CITS3200_team_14/database/degree_database.db')
 cursor = conn.cursor()
 
 # Query the database to get unit relationships
