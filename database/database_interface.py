@@ -71,6 +71,26 @@ def update_unit_status():
 
     print(f"Status of unit {unit_code} updated to {new_status}.")
 
+def insert_prerequisite():
+    unit_code = input("Enter the unit code to add a prerequisite for: ")
+    pre_requisite = input("Enter the prerequisite unit code: ")
+
+    # Connect to the database
+    connection = sqlite3.connect('database/degree_database.db')
+    cursor = connection.cursor()
+
+    # Insert the prerequisite into the UnitRelationship table
+    insert_query = """
+    INSERT INTO UnitRelationship (unit_code, pre_requisite) VALUES (?, ?)
+    """
+    cursor.execute(insert_query, (unit_code, pre_requisite))
+
+    # Commit the changes and close the connection
+    connection.commit()
+    connection.close()
+
+    print(f"Prerequisite {pre_requisite} added for unit {unit_code}.")
+
 def test_run():
     # Example usage
     # unit_code = "GENG2003"
