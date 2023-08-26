@@ -9,7 +9,8 @@ create_unit_table_query = """
 CREATE TABLE IF NOT EXISTS Unit (
     code TEXT PRIMARY KEY, 
     name TEXT ,
-    semester INTEGER
+    semester INTEGER,
+    status TEXT DEFAULT 'incomplete'
 );
 """
 cursor.execute(create_unit_table_query)

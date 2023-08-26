@@ -44,7 +44,7 @@ unit_data = [
 ]
 
 insert_unit_query = """
-INSERT INTO Unit (code,name,semester) VALUES (?, ?, ?)
+INSERT INTO Unit (code,name,semester,status) VALUES (?, ?, ?,'incomplete')
 """
 
 cursor.executemany(insert_unit_query, unit_data)
