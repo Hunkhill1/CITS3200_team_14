@@ -49,9 +49,35 @@ def insert_unit_data():
 
     print("Unit data inserted successfully.")
 
-# Example usage
-# unit_code = "GENG2003"
-# prerequisites = get_prerequisites(unit_code)
-# print(f"Prerequisites for unit {unit_code}: {prerequisites}")
-if __name__ == "__main__":
-    insert_unit_data()
+def update_unit_status():
+    unit_code = input("Enter the unit code to update status: ")
+    new_status = input("Enter the new status: ")
+
+    # Connect to the database
+    connection = sqlite3.connect('database/degree_database.db')
+    cursor = connection.cursor()
+
+    # Update the status of the unit
+    update_query = """
+    UPDATE Unit
+    SET status = ?
+    WHERE code = ?
+    """
+    cursor.execute(update_query, (new_status, unit_code))
+
+    # Commit the changes and close the connection
+    connection.commit()
+    connection.close()
+
+    print(f"Status of unit {unit_code} updated to {new_status}.")
+
+def test_run():
+    # Example usage
+    # unit_code = "GENG2003"
+    # prerequisites = get_prerequisites(unit_code)
+    # print(f"Prerequisites for unit {unit_code}: {prerequisites}")
+    if __name__ == "__main__":
+        update_unit_status()
+
+test_run()
+
