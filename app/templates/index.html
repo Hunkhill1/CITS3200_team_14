@@ -1,8 +1,25 @@
-% extends "base.html" %}
-
-{% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-    {% endfor %}
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unit Data</title>
+</head>
+<body>
+    <h1>Unit Data</h1>
+    <table>
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Semester</th>
+            <th>Status</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
