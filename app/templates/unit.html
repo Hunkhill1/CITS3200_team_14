@@ -2,15 +2,22 @@
 <html>
 <head>
     <title>Unit Prerequisites</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
 </head>
 <body>
     <h1>Unit Prerequisites</h1>
-    <h2>Unit Code: {{ unit_code }} - {{ unit_name }}</h2>
-    <h3>Prerequisites:</h3>
-    <ul>
-        {% for prerequisite in prerequisites %}
-        <li>{{ prerequisite }}</li>
-        {% endfor %}
-    </ul>
+    <div class="unit-info">
+        <h2>{{ unit_code }}</h2>
+        <p>Unit Name: {{ unit_name }}</p>
+        <p>Semester: {{ unit_semester }}</p>
+    </div>
+    <div class="prerequisites">
+        <h3>Prerequisites</h3>
+        <ul>
+            {% for prerequisite in prerequisites %}
+                <li>{{ prerequisite }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
