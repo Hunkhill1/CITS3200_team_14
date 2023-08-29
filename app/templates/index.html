@@ -5,21 +5,40 @@
 </head>
 <body>
     <h1>Unit Data</h1>
-    <table>
-        <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Semester</th>
-            <th>Status</th>
-        </tr>
+    
+    <!-- Dropdown box to select a unit -->
+    <label for="unitSelect">Select a Unit:</label>
+    <select id="unitSelect" name="unitSelect">
         {% for row in data %}
-        <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-        </tr>
+        <option value="{{ row[0] }}">{{ row[1] }}</option>
         {% endfor %}
-    </table>
+    </select>
+    
+    <!-- Section to display prerequisites -->
+    <h2>Prerequisites:</h2>
+    <ul id="prerequisites"></ul>
+    
+    <script>
+        // JavaScript code to fetch prerequisites when a unit is selected
+        const unitSelect = document.getElementById('unitSelect');
+        const prerequisitesList = document.getElementById('prerequisites');
+
+        unitSelect.addEventListener('change', () => {
+            const selectedUnitCode = unitSelect.value;
+            
+            // Make a request to the server to get prerequisites
+            fetch(`/unit/${selectedUnitCode}`)
+                .then(response => response.json())
+                .then(data => {
+                    prerequisitesList.innerHTML = ''; // Clear previous prerequisites
+                    data.prerequisites.forEach(prerequisite => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = prerequisite;
+                        prerequisitesList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching prerequisites:', error));
+        });
+    </script>
 </body>
 </html>

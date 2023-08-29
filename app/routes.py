@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, jsonify
 import sqlite3
 
 index = Blueprint('index', __name__)
@@ -19,20 +19,20 @@ def index_route():
     # Pass the fetched data to the template for rendering
     return render_template('index.html', data=data_from_database)
 
-# unit = Blueprint('unit', __name__)
+unit = Blueprint('unit', __name__)
 
-# @unit.route('/unit/<unit_code>')
-# def unit_route(unit_code):
-#     # Connect to the database
-#     conn = sqlite3.connect('database/degree_database.db')
-#     cursor = conn.cursor()
+@unit.route('/unit/<unit_code>')
+def unit_route(unit_code):
+    # Connect to the database
+    conn = sqlite3.connect('database/degree_database.db')
+    cursor = conn.cursor()
 
-#     # Fetch prerequisites for the specified unit
-#     cursor.execute("SELECT pre_requisite FROM UnitRelationship WHERE unit_code=?", (unit_code,))
-#     prerequisites = [row[0] for row in cursor.fetchall()]
+    # Fetch prerequisites for the specified unit
+    cursor.execute("SELECT pre_requisite FROM UnitRelationship WHERE unit_code=?", (unit_code,))
+    prerequisites = [row[0] for row in cursor.fetchall()]
 
-#     # Close the database connection
-#     conn.close()
+    # Close the database connection
+    conn.close()
 
-#     # Pass data to the template for rendering
-#     return render_template('unit.html', unit_code=unit_code, prerequisites=prerequisites)
+    # Return prerequisites as JSON
+    return jsonify(prerequisites=prerequisites)
