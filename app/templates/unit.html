@@ -4,7 +4,9 @@
     <title>Unit Prerequisites</title>
 </head>
 <body>
-    <h1>Unit Prerequisites for {{ unit_code }}</h1>
+    <h1>Unit Prerequisites</h1>
+    <h2>Unit Code: {{ unit_code }} - {{ unit_name }}</h2>
+    <h3>Prerequisites:</h3>
     <ul>
         {% for prerequisite in prerequisites %}
         <li>{{ prerequisite }}</li>

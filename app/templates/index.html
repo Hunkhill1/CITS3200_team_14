@@ -6,38 +6,50 @@
 <body>
     <h1>Unit Data</h1>
     
-    <!-- Dropdown box to select a unit -->
-    <label for="unitSelect">Select a Unit:</label>
-    <select id="unitSelect" name="unitSelect">
-        {% for row in data %}
-        <option value="{{ row[0] }}">{{ row[1] }}</option>
-        {% endfor %}
-    </select>
+    <!-- Dropdown to select a unit -->
+    <form id="unitForm">
+        <label for="unitCode">Select a unit:</label>
+        <select id="unitCode" name="unit_code">
+            {% for row in data %}
+            <option value="{{ row[0] }}">{{ row[0] }}</option>
+            {% endfor %}
+        </select>
+        <button type="button" id="showPrerequisites">Show Prerequisites</button>
+    </form>
     
     <!-- Section to display prerequisites -->
-    <h2>Prerequisites:</h2>
-    <ul id="prerequisites"></ul>
+    <div id="prerequisitesSection" style="display:none;">
+        <h2>Prerequisites for Unit <span id="selectedUnit"></span></h2>
+        <ul id="prerequisitesList">
+            <!-- Prerequisites will be added here dynamically -->
+        </ul>
+    </div>
     
     <script>
-        // JavaScript code to fetch prerequisites when a unit is selected
-        const unitSelect = document.getElementById('unitSelect');
-        const prerequisitesList = document.getElementById('prerequisites');
-
-        unitSelect.addEventListener('change', () => {
-            const selectedUnitCode = unitSelect.value;
+        // Get references to elements
+        const unitCodeDropdown = document.getElementById('unitCode');
+        const showPrerequisitesButton = document.getElementById('showPrerequisites');
+        const prerequisitesSection = document.getElementById('prerequisitesSection');
+        const selectedUnitSpan = document.getElementById('selectedUnit');
+        const prerequisitesList = document.getElementById('prerequisitesList');
+        
+        // Event listener for the Show Prerequisites button
+        showPrerequisitesButton.addEventListener('click', async () => {
+            const selectedUnitCode = unitCodeDropdown.value;
             
-            // Make a request to the server to get prerequisites
-            fetch(`/unit/${selectedUnitCode}`)
-                .then(response => response.json())
-                .then(data => {
-                    prerequisitesList.innerHTML = ''; // Clear previous prerequisites
-                    data.prerequisites.forEach(prerequisite => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = prerequisite;
-                        prerequisitesList.appendChild(listItem);
-                    });
-                })
-                .catch(error => console.error('Error fetching prerequisites:', error));
+            // Fetch prerequisites using AJAX (you can use fetch or jQuery.ajax)
+            const response = await fetch(`/unit/${selectedUnitCode}`);
+            const data = await response.json();
+            
+            // Update the page with prerequisites
+            prerequisitesSection.style.display = 'block';
+            selectedUnitSpan.textContent = selectedUnitCode;
+            prerequisitesList.innerHTML = '';
+            for (const prerequisite of data.prerequisites) {
+                const listItem = document.createElement('li');
+                listItem.textContent = prerequisite;
+                prerequisitesList.appendChild(listItem);
+            }
         });
     </script>
 </body>
