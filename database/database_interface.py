@@ -1,9 +1,13 @@
 import sqlite3
-import sqlite3
 from DAG import create_unit_graph, highlight_path, visualize_graph
 
 
 def get_prerequisites(unit_code):
+    """Get the prerequisites for a unit.
+
+    :param unit_code: The unit code.
+    :return: A list of prerequisites.
+    """
     # Connect to the database
     connection = sqlite3.connect('database/degree_database.db')
     cursor = connection.cursor()
@@ -24,7 +28,10 @@ def get_prerequisites(unit_code):
     return prerequisites
 
 
-def insert_unit_data():
+def insert_unit_data() -> None:
+    """Insert unit data into the database.
+
+    :return: None"""
     unit_data = []
 
     while True:
@@ -54,7 +61,10 @@ def insert_unit_data():
     print("Unit data inserted successfully.")
 
 
-def update_unit_status():
+def update_unit_status() -> None:
+    """Update the status of a unit in the database.
+
+    :return: None"""
     unit_code = input("Enter the unit code to update status: ")
     new_status = input("Enter the new status: ")
 
@@ -77,7 +87,10 @@ def update_unit_status():
     print(f"Status of unit {unit_code} updated to {new_status}.")
 
 
-def insert_prerequisite():
+def insert_prerequisite() -> None:
+    """Insert a prerequisite for a unit into the database.
+
+    :return: None"""
     unit_code = input("Enter the unit code to add a prerequisite for: ")
     pre_requisite = input("Enter the prerequisite unit code: ")
 
@@ -98,7 +111,11 @@ def insert_prerequisite():
     print(f"Prerequisite {pre_requisite} added for unit {unit_code}.")
 
 
-def visualize_prerequisites(G):
+def visualize_prerequisites(G) -> None:
+    """Visualize the prerequisites path for a unit.
+
+    :param G: The unit graph.
+    :return: None"""
     unit_code = input("Enter the unit code: ")
 
     # Call the functions from graph_visualizer.py directly
@@ -106,7 +123,7 @@ def visualize_prerequisites(G):
     visualize_graph(G, unit_code, path_nodes)
 
 
-def main():
+def main() -> None:
     G = create_unit_graph()
     while True:
         print("1. Get Prerequisites")

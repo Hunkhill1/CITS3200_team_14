@@ -4,6 +4,11 @@ import sqlite3
 
 
 def create_unit_graph():
+    """ Create a directed acyclic graph (DAG) of units and their prerequisites.
+
+    Returns:
+        DiGraph:  A directed acyclic graph (DAG) of units and their prerequisites.
+    """    
     conn = sqlite3.connect('database/degree_database.db')
     cursor = conn.cursor()
 
@@ -24,6 +29,15 @@ def create_unit_graph():
 
 
 def highlight_path(G, selected_unit):
+    """ Highlight the path to prerequisites for a selected unit.
+
+    Args:
+        G (DiGraph): A directed acyclic graph (DAG) of units and their prerequisites.
+        selected_unit (str):  The unit code of the selected unit.
+
+    Returns:
+        path_nodes (list(str)): list of unit codes in the path to prerequisites
+    """    
     # Perform a BFS from the selected_unit to find the path to prerequisites
     visited = set()
     queue = [selected_unit]
@@ -39,7 +53,14 @@ def highlight_path(G, selected_unit):
     return path_nodes
 
 
-def visualize_graph(G, selected_unit, path_nodes):
+def visualize_graph(G, selected_unit:str, path_nodes)-> None:
+    """ Visualize the DAG with highlighted path.
+
+    Args:
+        G (DiGraph): A directed acyclic graph (DAG) of units and their prerequisites.  
+        selected_unit (str): unit code of the selected unit
+        path_nodes (list(str)): list of unit codes in the path to prerequisites
+    """    
     # Draw the DAG with highlighted path
     pos = nx.drawing.layout.shell_layout(G, nlist=[list(G.nodes())])
 
