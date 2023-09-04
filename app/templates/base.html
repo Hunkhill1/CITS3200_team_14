@@ -1,16 +1,17 @@
+<!DOCTYPE html>
 <html>
     <head>
         {% if title %}
-        <title>{{ title }} - microblog</title>
+        <title>{{ title }} - UWA</title>
         {% else %}
-        <title>microblog</title>
+        <title>UWA</title>
         {% endif %}
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     </head>
     <body>
         <div>
-            Microblog:
-            <a href="{{ url_for('index') }}">Home</a>
+            UWA Study Planner:
+            <a href="{{ url_for('index.index_route') }}">Home</a>
             {% if current_user.is_anonymous %}
             <a href="{{ url_for('login') }}">Login</a>
             {% else %}

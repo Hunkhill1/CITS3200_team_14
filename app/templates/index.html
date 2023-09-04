@@ -1,36 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Unit Planner</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1>Unit Planner</h1>
+{% extends "base.html" %}
 
-        <!-- Dropdown to select a unit -->
-        <label for="unitCode">Select a unit:</label>
-        <select id="unitCode" name="unit_code">
-            {% for row in data %}
-            <option value="{{ row[0] }}">{{ row[0] }}</option>
-            {% endfor %}
-        </select>
-        <button class="button" id="showPrerequisites">Show Prerequisites</button>
+{% block title %}
+Unit Planner - UWA
+{% endblock %}
 
-        <!-- Unit Planner Display -->
-        <div class="unit-planner">
-            <div class="unit-info">
-                <h2>Unit Information</h2>
-                <!-- Information about the selected unit will be displayed here -->
-            </div>
-            <div class="prerequisites">
-                <ul id="prerequisitesList">
-                    <!-- Prerequisites will be added here dynamically -->
-                </ul>
-            </div>
+{% block content %}
+<div class="container">
+    <h1>Unit Planner</h1>
+
+    <!-- Dropdown to select a unit -->
+    <label for="unitCode">Select a unit:</label>
+    <select id="unitCode" name="unit_code">
+        {% for row in data %}
+        <option value="{{ row[0] }}">{{ row[0] }}</option>
+        {% endfor %}
+    </select>
+    <button class="button" id="showPrerequisites">Show Prerequisites</button>
+
+    <!-- Unit Planner Display -->
+    <div class="unit-planner">
+        <div class="unit-info">
+            <h2>Unit Information</h2>
+            <!-- Information about the selected unit will be displayed here -->
+        </div>
+        <div class="prerequisites">
+            <ul id="prerequisitesList">
+                <!-- Prerequisites will be added here dynamically -->
+            </ul>
         </div>
     </div>
+</div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}
+
