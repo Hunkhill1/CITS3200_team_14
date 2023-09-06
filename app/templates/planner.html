@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="unit-planner">
+        <h1>Unit Planner</h1>
+        
+        {% for year in range(1, 4) %}
+        <div class="year">
+            <h2>Year {{ year }}</h2>
+            
+            {% for semester in range(1, 3) %}
+            <div class="semester">
+                <h3>Semester {{ semester }}</h3>
+                <table>
+                    <tr>
+                        <th>Unit 1</th>
+                        <th>Unit 2</th>
+                        <th>Unit 3</th>
+                        <th>Unit 4</th>
+                    </tr>
+                    <tr>
+                        <td><select name="unit1_{{ year }}_{{ semester }}">
+                            <option value="placeholder">Select unit</option>
+                            <!-- Add options for units -->
+                        </select></td>
+                        <td><select name="unit2_{{ year }}_{{ semester }}">
+                            <option value="placeholder">Select unit</option>
+                            <!-- Add options for units -->
+                        </select></td>
+                        <td><select name="unit3_{{ year }}_{{ semester }}">
+                            <option value="placeholder">Select unit</option>
+                            <!-- Add options for units -->
+                        </select></td>
+                        <td><select name="unit4_{{ year }}_{{ semester }}">
+                            <option value="placeholder">Select unit</option>
+                            <!-- Add options for units -->
+                        </select></td>
+                    </tr>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
