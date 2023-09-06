@@ -18,12 +18,15 @@
                         <th>Unit 4</th>
                     </tr>
                     <tr>
+                        {% set year_key = 'year_' ~ year|string %}
+                        {% set semester_key = 'semester_' ~ semester|string %}
                         {% for unit_num in range(1, 5) %}
                         <td>
                             <select name="unit{{ unit_num }}_{{ year }}_{{ semester }}">
-                                <option value="placeholder">Select unit</option>
-                                {% for code, name, unit_semester, status in units %}
-                                    {% if unit_semester == semester or unit_semester == 12 %}
+                                {% set default_code = default_plan[year_key][semester_key][unit_num - 1] %}
+                                <option value="{{ default_code }}" selected>{{ default_code }}</option>
+                                {% for code, name, unit_semester, status in all_units %}
+                                    {% if code != default_code and (unit_semester == semester or unit_semester == 12) %}
                                         <option value="{{ code }}">{{ code }}</option>
                                     {% endif %}
                                 {% endfor %}
@@ -38,3 +41,4 @@
         {% endfor %}
     </div>
 {% endblock %}
+
