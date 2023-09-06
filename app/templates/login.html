@@ -4,21 +4,28 @@
     <h1>Sign In</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br>
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
-            {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit() }}</p>
+        <div class="container text-center sm">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingUsername" placeholder="Username" value="{{ form.username.data }}" name="{{ form.username.name }}">
+                {% for error in form.username.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="{{ form.password.name }}">
+                {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="rememberMe" name="{{ form.remember_me.name }}" value="y">
+                <label class="form-check-label" for="rememberMe">
+                    {{ form.remember_me.label.text }}
+                </label>
+            </div>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+            </div>
+        </div>
     </form>
 {% endblock %}
