@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    
     <h1>Bachelor of Engineering</h1>
     <div class="container text-center">
-        {% for year in range(1, 4) %}
+        {% for year in range(1, 5) %}
         <div>
             <h2>Year {{ year }}</h2>
             
@@ -19,22 +18,18 @@
                         <th>Unit 4</th>
                     </tr>
                     <tr>
-                        <td><select name="unit1_{{ year }}_{{ semester }}">
-                            <option value="placeholder">Select unit</option>
-                            <!-- Add options for units -->
-                        </select></td>
-                        <td><select name="unit2_{{ year }}_{{ semester }}">
-                            <option value="placeholder">Select unit</option>
-                            <!-- Add options for units -->
-                        </select></td>
-                        <td><select name="unit3_{{ year }}_{{ semester }}">
-                            <option value="placeholder">Select unit</option>
-                            <!-- Add options for units -->
-                        </select></td>
-                        <td><select name="unit4_{{ year }}_{{ semester }}">
-                            <option value="placeholder">Select unit</option>
-                            <!-- Add options for units -->
-                        </select></td>
+                        {% for unit_num in range(1, 5) %}
+                        <td>
+                            <select name="unit{{ unit_num }}_{{ year }}_{{ semester }}">
+                                <option value="placeholder">Select unit</option>
+                                {% for code, name, unit_semester, status in units %}
+                                    {% if unit_semester == semester or unit_semester == 12 %}
+                                        <option value="{{ code }}">{{ code }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                        {% endfor %}
                     </tr>
                 </table>
             </div>

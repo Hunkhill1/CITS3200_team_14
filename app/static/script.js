@@ -26,3 +26,14 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
     });
 });
+
+(document).ready(function () {
+    $('.dropdown-item').click(function () {
+        var dropdownButton = $(this)
+        .closest('.dropdown')
+        .find('.dropdown-toggle');
+        var selectedValue = $(this).attr('data-value');
+        dropdownButton.text(selectedValue);
+        // Add logic to set this value in a hidden form field or use in other ways.
+    });
+});

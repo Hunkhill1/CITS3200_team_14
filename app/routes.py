@@ -37,6 +37,23 @@ def unit_route(unit_code):
     # Return prerequisites as JSON
     return jsonify(prerequisites=prerequisites)
 
+@index.route('/planner')
+def planner_route():
+    # Connect to the database
+    conn = sqlite3.connect('database/degree_database.db')
+    cursor = conn.cursor()
+
+    # Fetch data from the Unit table
+    cursor.execute("SELECT code, name, semester, status FROM Unit")
+    units_from_database = cursor.fetchall()
+
+    # Close the database connection
+    conn.close()
+
+    # Pass the fetched data to the template for rendering
+    return render_template('planner.html', units=units_from_database)
+
+
 
 
 
