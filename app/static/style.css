@@ -6,8 +6,9 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f2f2f2;
+  background-color: #eaeaea; /* UWA background color */
 }
+
 .nav-item {
   padding-left: 1rem;
 }
@@ -26,9 +27,10 @@ h1 {
 }
 
 h2 {
-  border: 1px solid #007bff;
+  border: 1px solid #007bff; /* UWA blue */
   padding: 10px;
-  background-color: #007bff;
+  background-color: #007bff; /* UWA blue */
+  color: #fff; /* White text on blue background */
 }
 
 label {
@@ -43,7 +45,7 @@ label {
 }
 
 .button {
-  background-color: #007bff;
+  background-color: #007bff; /* UWA blue */
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -57,9 +59,9 @@ label {
 
 .unit-info,
 .prerequisites {
-  background-color: #f8f9fa;
+  background-color: #f2f2f2; /* UWA light gray */
   padding: 20px;
-  border: 1px solid #ced4da;
+  border: 1px solid #ccc; /* UWA gray */
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
@@ -78,7 +80,7 @@ label {
 
 @media (max-width: 600px) {
   .container {
-      padding: 10px;
+    padding: 10px;
   }
 }
 
@@ -100,4 +102,33 @@ label {
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
+}
+
+.semester {
+  border: 1px solid #ccc; /* Subtle gray border */
+  /* border-radius: 5px; */
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #fff; /* White background */
+}
+
+
+/* Style for the custom select dropdown */
+.custom-select {
+  /* Add a smooth transition effect on hover and focus */
+  transition: background-color 0.3s;
+
+  /* Set the initial background color */
+  background-color: #fff;
+}
+
+/* Change background color on hover for the custom select dropdown */
+.custom-select:hover {
+  background-color: #f2f2f2; /* Light gray on hover */
+}
+
+/* Style for the individual options within the dropdown */
+.custom-select option:hover {
+  background-color: #007bff; /* Blue on hover for individual options */
+  color: #fff; /* White text on hover for individual options */
 }

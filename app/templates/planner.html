@@ -22,7 +22,7 @@
                         {% set semester_key = 'semester_' ~ semester|string %}
                         {% for unit_num in range(1, 5) %}
                         <td>
-                            <select name="unit{{ unit_num }}_{{ year }}_{{ semester }}">
+                            <select name="unit{{ unit_num }}_{{ year }}_{{ semester }}" class="custom-select">
                                 {% set default_code = default_plan[year_key][semester_key][unit_num - 1] %}
                                 <option value="{{ default_code }}" selected>{{ default_code }}</option>
                                 {% for code, name, unit_semester, status in all_units %}
