@@ -1,4 +1,11 @@
-venv/*
 __pycache__
-venv
+venv/
 /home/iash/University/CITS3200/CITS3200_team_14/venv
+venv/pyvenv.cfg
+.gitignore
+venv/bin/activate.csh
+venv/bin/Activate.ps1
+venv/bin/flask
+venv/bin/pip
+venv/bin/pip3
+venv/bin/activate.csh

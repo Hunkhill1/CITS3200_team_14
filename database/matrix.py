@@ -79,14 +79,42 @@ def update_semester_column():
             current_year += 1
     conn.commit()
 
+# Function to add a unit to the study matrix based on semester availability
+def add_unit_to_matrix(unit_code: str, semester: int):
+    study_units = get_study_units()
+    for row in study_units:
+        if not row[semester + 1]:  # Check if the cell is empty for the specified semester
+            cursor.execute(f'''
+                UPDATE study_units
+                SET unit_{semester} = ?
+                WHERE id = ?
+            ''', (unit_code, row[0]))
+            conn.commit()
+            return  # Exit the function after adding the unit code
+
+    # If no suitable cell is found, print a message
+    print(f"Unit {unit_code} cannot be added for semester {semester}.")
+    print("Matrix is full. Cannot add more units.")
+
 def run():
     # Example usage:
     update_semester_column()
 
     # Example usage:
-    add_study_unit("Semester 1, 2023", "PHYS1001", "MATH1011", "CITS2401", "ENSC1001")
-    add_study_unit("Semester 1, 2023", "Test1", "Test2", "Test3", "Test4")
-    add_study_unit("Semester 2, 2023", "Test5", "Test6", "Test7", "Test8")
+    add_unit_to_matrix("PHYS1001", 1)
+    add_unit_to_matrix("MATH1011", 1)
+    add_unit_to_matrix("CITS2401", 1)
+    add_unit_to_matrix("ENSC1001", 1)
+
+    add_unit_to_matrix("Test1", 1)
+    add_unit_to_matrix("Test2", 1)
+    add_unit_to_matrix("Test3", 1)
+    add_unit_to_matrix("Test4", 1)
+
+    add_unit_to_matrix("Test5", 1)
+    add_unit_to_matrix("Test6", 1)
+    add_unit_to_matrix("Test7", 1)
+    add_unit_to_matrix("Test8", 1)
 
     # Display the study matrix in a GUI window
     display_study_matrix_gui()
