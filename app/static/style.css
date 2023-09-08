@@ -132,3 +132,26 @@ label {
   background-color: #007bff; /* Blue on hover for individual options */
   color: #fff; /* White text on hover for individual options */
 }
+
+/* Center the login container vertically at the top of the page */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh; /* Ensures the container takes at least the full viewport height */
+}
+
+/* Style the form elements */
+.form-group {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+label {
+  font-weight: bold;
+}
+
+.error-text {
+  color: red;
+}
