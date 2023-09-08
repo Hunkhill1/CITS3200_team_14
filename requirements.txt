@@ -34,4 +34,5 @@ typing-extensions==4.7.1
 werkzeug==2.3.7
 WTForms==3.0.1
 zipp==3.16.2
+#python3-testresources== [need to be added]
 
