@@ -9,3 +9,9 @@ venv/bin/flask
 venv/bin/pip
 venv/bin/pip3
 venv/bin/activate.csh
+.vscode/settings.json
+venv/bin/Activate.ps1
+venv/bin/activate.fish
+venv/bin/activate.csh
+venv/bin/activate
+venv/pyvenv.cfg

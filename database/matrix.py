@@ -47,29 +47,39 @@ def update_semester_column():
 def add_unit_to_matrix(unit_code: str, semester: int):
     study_units = get_study_units()
     for row in study_units:
-        if not row[semester + 1]:  # Check if the cell is empty for the specified semester
-            cursor.execute(f'''
-                UPDATE study_units
-                SET unit_{semester} = ?
-                WHERE id = ?
-            ''', (unit_code, row[0]))
-            conn.commit()
-            return  # Exit the function after adding the unit code
+        if row[1] == f"Semester {semester}, {datetime.date.today().year}":
+            for i in range(2, 6):
+                if not row[i]:
+                    cursor.execute(f'''
+                        UPDATE study_units
+                        SET unit_{i - 1} = ?
+                        WHERE id = ?
+                    ''', (unit_code, row[0]))
+                    conn.commit()
+                    return  # Exit the function after adding the unit code
 
     # If no suitable cell is found, print a message
     print(f"Unit {unit_code} cannot be added for semester {semester}.")
-    print("Matrix is full. Cannot add more units.")
+    print("Matrix is full for this semester. Cannot add more units.")
 
-def run():
-    # Example usage:
-    #update_semester_column()
-
-    # Example usage:
+    
+# Function to drop the study_units table
+def drop_table():
+    cursor.execute('DROP TABLE IF EXISTS study_units')
+    conn.commit()
+    print("Table 'study_units' has been dropped.")
+    
+def add_sample_data():
     add_unit_to_matrix("PHYS1001", 1)
     add_unit_to_matrix("MATH1011", 1)
     add_unit_to_matrix("CITS2401", 1)
     add_unit_to_matrix("ENSC1001", 1)
 
+def run():
+    # Example usage:
+    update_semester_column()
+
+    add_sample_data()
 run()
 
 # Close the database connection when done
