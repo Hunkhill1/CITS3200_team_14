@@ -46,8 +46,16 @@ def update_semester_column():
 # Function to add a unit to the study matrix based on semester availability
 def add_unit_to_matrix(unit_code: str, semester: int):
     study_units = get_study_units()
-    for row in study_units:
+    available_semesters = {}  # Dictionary to store available semesters and their row indices
+    
+    # Populate available_semesters with rows that match the given semester
+    for index, row in enumerate(study_units):
         if row[1] == f"Semester {semester}, {datetime.date.today().year}":
+            available_semesters[index] = row
+
+    # Check if there are available semesters
+    if available_semesters:
+        for index, row in available_semesters.items():
             for i in range(2, 6):
                 if not row[i]:
                     cursor.execute(f'''
@@ -57,10 +65,25 @@ def add_unit_to_matrix(unit_code: str, semester: int):
                     ''', (unit_code, row[0]))
                     conn.commit()
                     return  # Exit the function after adding the unit code
-
-    # If no suitable cell is found, print a message
+    
+    # If no suitable cell is found in the current semester, check for future semesters of the same type
+    for index, row in enumerate(study_units):
+        if row[1].startswith(f"Semester {semester}"):
+            for i in range(2, 6):
+                if not row[i]:
+                    cursor.execute(f'''
+                        UPDATE study_units
+                        SET unit_{i - 1} = ?
+                        WHERE id = ?
+                    ''', (unit_code, row[0]))
+                    conn.commit()
+                    return  # Exit the function after adding the unit code
+    
+    # If no suitable semester is found, print a message
     print(f"Unit {unit_code} cannot be added for semester {semester}.")
-    print("Matrix is full for this semester. Cannot add more units.")
+    print("Matrix is full for this semester and future semesters of the same type. Cannot add more units.")
+
+
 
     
 # Function to drop the study_units table
@@ -74,6 +97,25 @@ def add_sample_data():
     add_unit_to_matrix("MATH1011", 1)
     add_unit_to_matrix("CITS2401", 1)
     add_unit_to_matrix("ENSC1001", 1)
+    
+    add_unit_to_matrix("TEST1", 1)
+    add_unit_to_matrix("TEST2", 1)
+    add_unit_to_matrix("TEST3", 1)
+    add_unit_to_matrix("TEST4", 1)
+    
+    add_unit_to_matrix("TEST5", 1)
+    add_unit_to_matrix("TEST6", 1)
+    add_unit_to_matrix("TEST7", 1)
+    add_unit_to_matrix("TEST8", 1)
+    
+    add_unit_to_matrix("TEST9", 1)
+    
+    
+# Function to clear all data from the study_units table
+def clear_table():
+    cursor.execute('DELETE FROM study_units')
+    conn.commit()
+    print("All data has been cleared from the 'study_units' table.")
 
 def run():
     # Example usage:
