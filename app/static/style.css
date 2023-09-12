@@ -92,3 +92,13 @@ select {
   text-align: center;
 }
 
+.select-wrapper {
+  position: relative;
+}
+
+.close-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
