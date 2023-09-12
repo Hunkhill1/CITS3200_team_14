@@ -22,15 +22,18 @@
                         {% set semester_key = 'semester_' ~ semester|string %}
                         {% for unit_num in range(1, 5) %}
                         <td>
-                            <select name="unit{{ unit_num }}_{{ year }}_{{ semester }}">
-                                {% set default_code = default_plan[year_key][semester_key][unit_num - 1] %}
-                                <option value="{{ default_code }}" selected>{{ default_code }}</option>
-                                {% for code, name, unit_semester, status in all_units %}
-                                    {% if code != default_code and (unit_semester == semester or unit_semester == 12) %}
-                                        <option value="{{ code }}">{{ code }}</option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
+                            <div class="select-wrapper">
+                                <select name="unit{{ unit_num }}_{{ year }}_{{ semester }}" class="unit-select">
+                                    {% set default_code = default_plan[year_key][semester_key][unit_num - 1] %}
+                                    <option value="{{ default_code }}" selected>{{ default_code }}</option>
+                                    {% for code, name, unit_semester, status in all_units %}
+                                        {% if code != default_code and (unit_semester == semester or unit_semester == 12) %}
+                                            <option value="{{ code }}">{{ code }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <span class="close-icon" onclick="removeSelect(this)">&#10006;</span>
+                            </div>
                         </td>
                         {% endfor %}
                     </tr>
@@ -40,5 +43,4 @@
         </div>
         {% endfor %}
     </div>
-{% endblock %}
-
+{% endblock content %}
