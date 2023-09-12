@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
     $('.dropdown-item').click(function () {
         var dropdownButton = $(this)
         .closest('.dropdown')
@@ -40,28 +40,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
 const selectedUnits = [];
 
-        function removeSelect(element) {
-            const selectElement = element.previousElementSibling;
-            
-            // Change the border color of the select box to red
-            selectElement.style.borderColor = 'red';
-            
-            // You can also add additional styling as needed
-            // For example, change the background color
-            selectElement.style.backgroundColor = '#ffcccc';
+function removeSelect(element) {
+    const selectElement = element.previousElementSibling;
+    const removedValue = selectElement.value;
+    
+    // Find the index of the removed unit in the array and remove it
+    const index = selectedUnits.indexOf(removedValue);
+    if (index !== -1) {
+        selectedUnits.splice(index, 1);
+    }
+    
+    selectElement.style.borderColor = 'red';
+    selectElement.style.backgroundColor = '#ffcccc';
+    
+    // Enable the select box so it can be changed again
+    selectElement.disabled = false;
 
-            // Optionally, you can disable the select box to prevent further changes
-            selectElement.disabled = true;
+    // Log the updated selected units
+    console.log("Selected Units: ", selectedUnits);
+}
 
-            // Log the selected units (you can do whatever you want with this array)
-            console.log("Selected Units: ", selectedUnits);
-        }
+document.addEventListener("DOMContentLoaded", () => {
+    // Add initial select values to the array
+    const selectElements = document.querySelectorAll(".unit-select");
+    selectElements.forEach((select) => {
+        selectedUnits.push(select.value);
+    });
+});
 
-
-        document.addEventListener("DOMContentLoaded", () => {
-            // Add initial select values to the array
-            const selectElements = document.querySelectorAll(".unit-select");
-            selectElements.forEach((select) => {
-                selectedUnits.push(select.value);
-            });
-        });
