@@ -1,5 +1,5 @@
-from matrix import update_semester_column, add_unit_to_matrix
-from Candopy import CanDo
+from script.study_planner_interface import update_semester_column, add_unit_to_matrix
+from script.available_units import CanDo
 
 update_semester_column()
 

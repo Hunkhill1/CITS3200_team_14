@@ -2,11 +2,11 @@ import sqlite3
 from typing import List
 import datetime
 
-from Candopy import CanDo
+from script.available_units import CanDo
 
 
 # Create an SQLite database and a table to store study units
-conn = sqlite3.connect('study_units.db')
+conn = sqlite3.connect('database/study_units.db')
 cursor = conn.cursor()
 
 # Create the study_units table if it doesn't exist

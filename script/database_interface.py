@@ -1,5 +1,5 @@
 import sqlite3
-from DAG import create_unit_graph, highlight_path, visualize_graph
+from script.dag import create_unit_graph, highlight_path, visualize_graph
 
 
 def get_prerequisites(unit_code):
