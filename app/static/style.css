@@ -96,9 +96,40 @@ select {
   position: relative;
 }
 
+<<<<<<< HEAD
 .close-icon {
   position: absolute;
   top: 0;
   right: 0;
   cursor: pointer;
 }
+=======
+/* Style for the individual options within the dropdown */
+.custom-select option:hover {
+  background-color: #007bff; /* Blue on hover for individual options */
+  color: #fff; /* White text on hover for individual options */
+}
+
+/* Center the login container vertically at the top of the page */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh; /* Ensures the container takes at least the full viewport height */
+}
+
+/* Style the form elements */
+.form-group {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+label {
+  font-weight: bold;
+}
+
+.error-text {
+  color: red;
+}
+>>>>>>> f729477562bed75d5620dd79881cb01d34210283
