@@ -2,6 +2,8 @@ import sqlite3
 from typing import List
 import datetime
 
+from Candopy import CanDo
+
 
 # Create an SQLite database and a table to store study units
 conn = sqlite3.connect('study_units.db')
@@ -111,22 +113,11 @@ def drop_table()->None:
     print("Table 'study_units' has been dropped.")
     
 def add_sample_data():
-    add_unit_to_matrix("PHYS1001", 1)
-    add_unit_to_matrix("MATH1011", 1)
-    add_unit_to_matrix("CITS2401", 1)
-    add_unit_to_matrix("ENSC1001", 1)
-    
-    add_unit_to_matrix("TEST1", 1)
-    add_unit_to_matrix("TEST2", 1)
-    add_unit_to_matrix("TEST3", 1)
-    add_unit_to_matrix("TEST4", 1)
-    
-    add_unit_to_matrix("TEST5", 1)
-    add_unit_to_matrix("TEST6", 1)
-    add_unit_to_matrix("TEST7", 1)
-    add_unit_to_matrix("TEST8", 1)
-    
-    add_unit_to_matrix("TEST9", 1)
+    completed_units = ['a','b','c']
+    incomplete_units = [['d',['a']],['e',['a','b']],['f',['l','m','n']]]
+    post_req = CanDo(completed_units, incomplete_units)
+    for units in  post_req:
+     add_unit_to_matrix(units, 1)
     
     
 # Function to clear all data from the study_units table
