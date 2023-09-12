@@ -96,14 +96,12 @@ select {
   position: relative;
 }
 
-<<<<<<< HEAD
 .close-icon {
   position: absolute;
   top: 0;
   right: 0;
   cursor: pointer;
 }
-=======
 /* Style for the individual options within the dropdown */
 .custom-select option:hover {
   background-color: #007bff; /* Blue on hover for individual options */
@@ -132,4 +130,3 @@ label {
 .error-text {
   color: red;
 }
->>>>>>> f729477562bed75d5620dd79881cb01d34210283
