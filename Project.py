@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect
+from flask import Flask, render_template, flash, redirect, jsonify, request
 from flask_login import LoginManager, current_user
 from config import Config
 from app.routes import index, unit
@@ -31,6 +31,22 @@ def login():
 @app.route('/planner', methods=['GET'])
 def planner():
     return render_template('planner.html', title='Unit Planner')
+
+@app.route('/process_json', methods=['POST'])
+def process_json_data():
+    try:
+        json_data = request.get_json()
+        
+        # Process the JSON data as needed
+        print("Received JSON data:")
+        print(json_data)
+        # For example, you can access unit codes and statuses like json_data['unit_code']
+
+        # Return a response if needed
+        response_data = {'message': 'Data received successfully'}
+        return jsonify(response_data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
