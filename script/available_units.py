@@ -13,7 +13,7 @@ def CanDo(completed_units, incomplete_units):
     post_units = []
     #transverse incomplete
     for unit in incomplete_units:
-        pre_reqs = unit[1]
+        pre_reqs = get_prerequisites(unit[0])
         #check if pre_reqs of incomplete are contained within the completed untits 
         if all(item in completed_units for item in pre_reqs):
             post_units.append(unit[0])

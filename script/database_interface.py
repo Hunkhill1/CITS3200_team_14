@@ -85,7 +85,37 @@ def update_unit_status() -> None:
     connection.close()
 
     print(f"Status of unit {unit_code} updated to {new_status}.")
+    
+def get_unit_semester(unit_code:str)->int:
+    """ Get the semester of a unit
 
+    Args:
+        unit_code (str):  Unit code to search for
+
+    Returns:
+        int:  Semester of the unit
+    """ 
+    # Connect to the database
+    connection = sqlite3.connect('database/degree_database.db')
+    cursor = connection.cursor()
+
+    # Query the semester based on unit code
+    query = """
+    SELECT semester
+    FROM Unit
+    WHERE code = ?
+    """
+
+    cursor.execute(query, (unit_code,))
+    result = cursor.fetchone()
+
+    # Close the connection
+    connection.close()
+
+    if result:
+        return result[0]  # Extract the semester from the result
+    else:
+        raise Exception("Unit not found in the database")# Unit not found in the database
 
 def insert_prerequisite() -> None:
     """Insert a prerequisite for a unit into the database.

@@ -3,6 +3,7 @@ from typing import List
 import datetime
 
 from script.available_units import CanDo
+from script.database_interface import get_unit_semester
 
 
 # Create an SQLite database and a table to store study units
@@ -53,18 +54,19 @@ def update_semester_column()->None:
     conn.commit()
 
 # Function to add a unit to the study matrix based on semester availability
-def add_unit_to_matrix(unit_code: str, semester: int)->None:
+def add_unit_to_matrix(unit_code: str)->None:
     """ Add a unit to the study matrix based on semester availability.
 
     Args:
         unit_code (str):  Unit Code
-        semester (int):  Semester number (1,2 or 12, with 12 meaning both semesters)
 
     Returns:
         None: _description_
     """    
     study_units = get_study_units()
     available_semesters = {}  # Dictionary to store available semesters and their row indices
+    
+    semester = get_unit_semester(unit_code) 
     
     # Populate available_semesters with rows that match the given semester
     for index, row in enumerate(study_units):
@@ -112,14 +114,7 @@ def drop_table()->None:
     conn.commit()
     print("Table 'study_units' has been dropped.")
     
-def add_sample_data():
-    completed_units = ['a','b','c']
-    incomplete_units = [['d',['a']],['e',['a','b']],['f',['l','m','n']]]
-    post_req = CanDo(completed_units, incomplete_units)
-    for units in  post_req:
-     add_unit_to_matrix(units, 1)
-    
-    
+   
 # Function to clear all data from the study_units table
 def clear_table()->None:
     """Clear all data from the study_units table.
@@ -131,7 +126,6 @@ def clear_table()->None:
 def run():
     # Example usage:
     update_semester_column()
-    add_sample_data()
 run()
 
 # Close the database connection when done
