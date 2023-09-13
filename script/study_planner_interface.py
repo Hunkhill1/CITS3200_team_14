@@ -99,13 +99,23 @@ def add_unit_to_matrix(unit_code: str)->None:
                     conn.commit()
                     return None # Exit the function after adding the unit code
     
+     # If the unit is available in both semesters (semester 12)
+    if semester == 12:
+        for index, row in enumerate(study_units):
+            for i in range(2, 6):
+                if not row[i]:
+                    cursor.execute(f'''
+                        UPDATE study_units
+                        SET unit_{i - 1} = ?
+                        WHERE id = ?
+                    ''', (unit_code, row[0]))
+                    conn.commit()
+                    break  # Move on to the next row after adding the unit code
+    
     # If no suitable semester is found, print a message
     print(f"Unit {unit_code} cannot be added for semester {semester}.")
     print("Matrix is full for this semester and future semesters of the same type. Cannot add more units.")
 
-
-
-    
 # Function to drop the study_units table
 def drop_table()->None:
     """ Drop the study_units table.
