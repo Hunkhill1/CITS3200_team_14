@@ -41,6 +41,7 @@ def process_json_data():
         print("Received JSON data:")
         print(json_data)
         # For example, you can access unit codes and statuses like json_data['unit_code']
+        
 
         # Return a response if needed
         response_data = {'message': 'Data received successfully'}
