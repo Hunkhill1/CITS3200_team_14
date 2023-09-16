@@ -5,6 +5,8 @@ from app.routes import index, unit
 from app.forms import LoginForm
 from app.models import User
 from app import db
+from script.algo import algorithm
+
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 app.config.from_object(Config)
@@ -40,14 +42,30 @@ def process_json_data():
         # Process the JSON data as needed
         print("Received JSON data:")
         print(json_data)
-        # For example, you can access unit codes and statuses like json_data['unit_code']
+
+        # Initialize lists to store complete and incomplete units
+        complete_units = []
+        incomplete_units = []
+
+        # Loop through the JSON data and categorize units based on status
+        for unit_code, status in json_data.items():
+            if status == 'complete':
+                complete_units.append(unit_code)
+            elif status == 'incomplete':
+                incomplete_units.append(unit_code)
+
+        # Convert the lists of complete and incomplete units to strings
         
+
+        print(f'Complete Units: {complete_units}')
+        print(f'Incomplete Units: {incomplete_units}')
 
         # Return a response if needed
         response_data = {'message': 'Data received successfully'}
         return jsonify(response_data), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)
