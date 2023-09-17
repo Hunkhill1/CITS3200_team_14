@@ -3,12 +3,15 @@ from script.dag import create_unit_graph, highlight_path, visualize_graph
 import script.constants as constants
 
 
-def get_prerequisites(unit_code):
-    """Get the prerequisites for a unit.
+def get_prerequisites(unit_code:str)->list[str]:
+    """ Get the prerequisites for a unit
 
-    :param unit_code: The unit code.
-    :return: A list of prerequisites.
-    """
+    Args:
+        unit_code (str):  Unit code to search for
+
+    Returns:
+        list[str]:  List of prerequisites for the unit
+    """    
     # Connect to the database
     connection = sqlite3.connect(constants.degree_db_address)
     cursor = connection.cursor()
@@ -19,7 +22,7 @@ def get_prerequisites(unit_code):
     FROM UnitRelationship
     WHERE unit_code = ?
     """
-
+    
     cursor.execute(query, (unit_code,))
     prerequisites = [row[0] for row in cursor.fetchall()]
 

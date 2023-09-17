@@ -1,20 +1,26 @@
 from script.database_interface import get_prerequisites
 
-def CanDo(completed_units, incomplete_units):
+def CanDo(completed_units:list[str], incomplete_units:list[str])->list[str]:
     """ Checks if a unit can be done based on the pre-requisites
 
     Args:
-        completed_units (str): list of completed unit codes
-        incomplete_units (str): list of uncompleted unit codes
+        completed_units (list[str]): list of completed unit codes
+        incomplete_units (list[str],): list of uncompleted unit codes
 
     Returns:
         post_units (list[str]): list of units whose pre-reqs are within completed_units
     """    
-    post_units = []
+    post_units: list[str] = []
     #transverse incomplete
     for unit in incomplete_units:
-        pre_reqs = get_prerequisites(unit[0])
-        #check if pre_reqs of incomplete are contained within the completed untits 
-        if all(item in completed_units for item in pre_reqs):
-            post_units.append(unit[0])
+        pre_reqs = get_prerequisites(unit)
+       
+        # Check if pre_reqs is None (unit has no prerequisites)
+        if pre_reqs is None:
+            post_units.append(unit)
+        else:
+            # Check if all prerequisites are in completed_units
+            if all(item in completed_units for item in pre_reqs):
+                post_units.append(unit)
     return post_units
+

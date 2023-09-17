@@ -27,7 +27,7 @@ def create_database()->None:
     conn.commit()
     conn.close()
 # Function to retrieve study units from the database
-def get_study_units()->List[str]:
+def get_study_units() -> List[str]:
     """ Retrieve study units from the database.
 
     Returns:
@@ -35,102 +35,120 @@ def get_study_units()->List[str]:
     """    
     conn = sqlite3.connect(constants.study_planner_db_address)
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM study_planner')
-    study_units = cursor.fetchall()
-    conn.close()
+    try:
+        cursor.execute('SELECT * FROM study_units')
+        study_units = cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"Error executing SQL query: {e}")
+        study_units = []
+    finally:
+        conn.close()
     return study_units
-    
+   
 
 # Function to update the semester column in the database
-def update_semester_column()->None:
+def update_semester_column() -> None:
     """ Update the semester column in the database.
     """    
-    today = datetime.date.today()
-    current_year = today.year  # Change this to the desired starting year
-    
-    conn = sqlite3.connect(constants.study_planner_db_address)
-    cursor = conn.cursor()
-    
-    # Add the semester column to the database if it doesn't exist      
-    for semester in range(1, 7):
-        # Alternate between 1 and 2 for the semester number
-        semester_number = 1 if semester % 2 == 1 else 2
-        
-        cursor.execute('''
-            INSERT INTO study_units (id, semester)
-            VALUES (?, ?)
-        ''', (semester, f"Semester {semester_number}, {current_year}"))
-        if semester % 2 == 0:
-            current_year += 1
-    conn.commit()
-    conn.close()
+    conn = None  # Initialize conn outside the try block
+    try:
+        today = datetime.date.today()
+        current_year = today.year  # Change this to the desired starting year
+
+        conn = sqlite3.connect(constants.study_planner_db_address)
+        cursor = conn.cursor()
+
+        # Add the semester column to the database if it doesn't exist      
+        for semester in range(1, 7):
+            # Alternate between 1 and 2 for the semester number
+            semester_number = 1 if semester % 2 == 1 else 2
+
+            cursor.execute('''
+                INSERT INTO study_units (id, semester)
+                VALUES (?, ?)
+            ''', (semester, f"Semester {semester_number}, {current_year}"))
+            if semester % 2 == 0:
+                current_year += 1
+        conn.commit()
+    except sqlite3.Error as e:
+        print(f"Error updating semester column: {e}")
+    finally:
+        if conn:
+            conn.close()
 
 # Function to add a unit to the study matrix based on semester availability
-def add_unit_to_matrix(unit_code: str)->None:
+def add_unit_to_planner(unit_code: str) -> None:
     """ Add a unit to the study matrix based on semester availability.
 
     Args:
-        unit_code (str):  Unit Code
+        unit_code (str): Unit Code
 
     Returns:
-        None: _description_
-    """    
-    study_units = get_study_units()
-    available_semesters = {}  # Dictionary to store available semesters and their row indices
-    
-    semester = get_unit_semester(unit_code) 
-    
-    conn = sqlite3.connect(constants.study_planner_db_address)
-    cursor = conn.cursor()
-    
-    # Populate available_semesters with rows that match the given semester
-    for index, row in enumerate(study_units):
-        if row[1] == f"Semester {semester}, {datetime.date.today().year}":
-            available_semesters[index] = row
+        None
+    """
+    conn = None  # Initialize conn outside the try block
+    try:
+        study_units = get_study_units()
+        available_semesters = {}  # Dictionary to store available semesters and their row indices
 
-    # Check if there are available semesters
-    if available_semesters:
-        for index, row in available_semesters.items():
-            for i in range(2, 6):
-                if not row[i]:
-                    cursor.execute(f'''
-                        UPDATE study_planner
-                        SET unit_{i - 1} = ?
-                        WHERE id = ?
-                    ''', (unit_code, row[0]))
-                    conn.commit()
-                    return None # Exit the function after adding the unit code
-    
-    # If no suitable cell is found in the current semester, check for future semesters of the same type
-    for index, row in enumerate(study_units):
-        if row[1].startswith(f"Semester {semester}"):
-            for i in range(2, 6):
-                if not row[i]:
-                    cursor.execute(f'''
-                        UPDATE study_planner
-                        SET unit_{i - 1} = ?
-                        WHERE id = ?
-                    ''', (unit_code, row[0]))
-                    conn.commit()
-                    return None # Exit the function after adding the unit code
-    
-     # If the unit is available in both semesters (semester 12)
-    if semester == 12:
+        semester = get_unit_semester(unit_code)
+        print(f"Semester of unit {unit_code} is {semester}.")
+
+        conn = sqlite3.connect(constants.study_planner_db_address)
+        cursor = conn.cursor()
+
+        # Populate available_semesters with rows that match the given semester
         for index, row in enumerate(study_units):
-            for i in range(2, 6):
-                if not row[i]:
-                    cursor.execute(f'''
-                        UPDATE study_planner
-                        SET unit_{i - 1} = ?
-                        WHERE id = ?
-                    ''', (unit_code, row[0]))
-                    conn.commit()
-                    break  # Move on to the next row after adding the unit code
-    
-    # If no suitable semester is found, print a message
-    print(f"Unit {unit_code} cannot be added for semester {semester}.")
-    print("Matrix is full for this semester and future semesters of the same type. Cannot add more units.")
-    conn.close()
+            if row[1] == f"Semester {semester}, {datetime.date.today().year}":
+                available_semesters[index] = row
+
+        # Check if there are available semesters
+        if available_semesters:
+            for index, row in available_semesters.items():
+                for i in range(2, 6):
+                    if not row[i]:
+                        cursor.execute(f'''
+                            UPDATE study_units
+                            SET unit_{i - 1} = ?
+                            WHERE id = ?
+                        ''', (unit_code, row[0]))
+                        conn.commit()
+                        return None  # Exit the function after adding the unit code
+
+        # If no suitable cell is found in the current semester, check for future semesters of the same type
+        for index, row in enumerate(study_units):
+            if row[1].startswith(f"Semester {semester}"):
+                for i in range(2, 6):
+                    if not row[i]:
+                        cursor.execute(f'''
+                            UPDATE study_units
+                            SET unit_{i - 1} = ?
+                            WHERE id = ?
+                        ''', (unit_code, row[0]))
+                        conn.commit()
+                        return None  # Exit the function after adding the unit code
+
+        # If the unit is available in both semesters (semester 12)
+        if semester == 12:
+            for index, row in enumerate(study_units):
+                for i in range(2, 6):
+                    if not row[i]:
+                        cursor.execute(f'''
+                            UPDATE study_units
+                            SET unit_{i - 1} = ?
+                            WHERE id = ?
+                        ''', (unit_code, row[0]))
+                        conn.commit()
+                        break  # Move on to the next row after adding the unit code
+
+        # If no suitable semester is found, print a message
+        print(f"Unit {unit_code} cannot be added for semester {semester}.")
+        print("Matrix is full for this semester and future semesters of the same type. Cannot add more units.")
+    except sqlite3.Error as e:
+        print(f"Error adding unit to planner: {e}")
+    finally:
+        if conn:
+            conn.close()
 
 # Function to drop the study_units table
 def drop_table()->None:
