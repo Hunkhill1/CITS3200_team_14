@@ -163,7 +163,7 @@ def add_unit_to_planner(unit_code: str) -> None:
                 # Check if the prerequisites have been completed
                 if all(prereq in completed_units for prereq in prerequisites):
                     for i in range(2, 6):
-                        if not row[i] and check_prerequisite_completed(semester, prerequisite_completion_dates):
+                        if not row[i] and check_prerequisite_completed(row[0], prerequisite_completion_dates):
                             # Calculate the semester and year for placing the unit code
                             cursor.execute(f'''
                                 UPDATE study_units
@@ -177,7 +177,7 @@ def add_unit_to_planner(unit_code: str) -> None:
         for index, row in enumerate(study_units):
             if row[1].startswith(f"Semester {semester}"):
                 for i in range(2, 6):
-                    if not row[i] and check_prerequisite_completed(semester, prerequisite_completion_dates):
+                    if not row[i] and check_prerequisite_completed(index+1, prerequisite_completion_dates):
                         # Check if the prerequisites have been completed
                         if all(prereq in completed_units for prereq in prerequisites):
                             cursor.execute(f'''
