@@ -1,10 +1,8 @@
 import sqlite3
-from typing import List
 import datetime
-
-from script.available_units import CanDo
-from script.database_interface import get_unit_semester
 import script.constants as constants
+from script.database_interface import get_unit_semester
+from typing import List, Tuple, Union
 
 
 # Function to create the database and the study_units table
@@ -77,6 +75,25 @@ def update_semester_column() -> None:
         if conn:
             conn.close()
 
+# Function to get the next available semester in future years
+def get_next_available_semester(semester_type: str, year: int, study_units: List[str])-> Union[Tuple[int, int, str], None]:
+    """ Get the next available semester in future years.
+
+    Args:
+        semester_type (str):  The type of semester to check for.
+        year (int):  The year to start checking from.
+        study_units (List[str]):  The list of study units.
+
+    Returns:
+        Union[Tuple[int, int, str], None]:  
+    """    
+    for index, row in enumerate(study_units):
+        if row[1].startswith(f"{semester_type}, {year}"):
+            for i in range(2, 6):
+                if not row[i]:
+                    return (index, i, f"{semester_type}, {year}")
+    return None
+
 # Function to add a unit to the study matrix based on semester availability
 def add_unit_to_planner(unit_code: str) -> None:
     """ Add a unit to the study matrix based on semester availability.
@@ -97,15 +114,6 @@ def add_unit_to_planner(unit_code: str) -> None:
 
         conn = sqlite3.connect(constants.study_planner_db_address)
         cursor = conn.cursor()
-
-        # Function to get the next available semester in future years
-        def get_next_available_semester(semester_type: str, year: int):
-            for index, row in enumerate(study_units):
-                if row[1].startswith(f"{semester_type}, {year}"):
-                    for i in range(2, 6):
-                        if not row[i]:
-                            return (index, i, f"{semester_type}, {year}")
-            return None
 
         # Populate available_semesters with rows that match the given semester
         for index, row in enumerate(study_units):
@@ -173,9 +181,9 @@ def add_unit_to_planner(unit_code: str) -> None:
                 next_year = current_year + 1
                 next_available_semester = None
                 if semester == 1:
-                    next_available_semester = get_next_available_semester("Semester 1", next_year)
+                    next_available_semester = get_next_available_semester("Semester 1", next_year,study_units)
                 elif semester == 2:
-                    next_available_semester = get_next_available_semester("Semester 2", next_year)
+                    next_available_semester = get_next_available_semester("Semester 2", next_year,study_units)
 
                 if next_available_semester:
                     index, i, semester_type = next_available_semester
