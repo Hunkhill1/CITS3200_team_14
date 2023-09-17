@@ -42,26 +42,26 @@ const selectedUnits = [];
 
 function removeSelect(element) {
     const selectElement = element.previousElementSibling;
-    const removedValue = selectElement.value;
+    const value = selectElement.value;
     
-    // Find the index of the removed unit in the array and remove it
-    const index = selectedUnits.indexOf(removedValue);
-    if (index !== -1) {
+    const index = selectedUnits.indexOf(value);
+
+    if (index === -1) {
+        selectedUnits.push(value);
+        selectElement.style.borderColor = 'green';
+        selectElement.style.backgroundColor = '#71f086';
+    } else {
         selectedUnits.splice(index, 1);
+        selectElement.style.borderColor = 'red';
+        selectElement.style.backgroundColor = '#ffcccc';
     }
     
-    selectElement.style.borderColor = 'red';
-    selectElement.style.backgroundColor = '#ffcccc';
-    
-    // Enable the select box so it can be changed again
     selectElement.disabled = false;
 
-    // Log the updated selected units
     console.log("Selected Units: ", selectedUnits);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Add initial select values to the array
     const selectElements = document.querySelectorAll(".unit-select");
     selectElements.forEach((select) => {
         selectedUnits.push(select.value);
