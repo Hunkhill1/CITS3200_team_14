@@ -4,3 +4,5 @@ static_folder_address = 'app/static'
 template_folder_address = 'app/templates'
 number_of_semesters = 8
 
+completed_units: list[str] = []  # Initialize an empty list
+

@@ -1,13 +1,17 @@
 from script.study_planner_interface import  add_unit_to_planner
 from script.available_units import CanDo
+from script.constants import completed_units
 
-def algorithm(completed_units:list[str], incomplete_units:list[str])->None:
+def algorithm(completed_units_list:list[str], incomplete_units:list[str])->None:
     """ Algorithm to add units to the study plan matrix
 
     Args:
         completed_units (list[str]): list of completed unit codes
         incomplete_units (list[str]): list of uncompleted unit codes
     """
+    
+    completed_units = completed_units_list  # Assign the provided completed_units_list
+    print(f'Completed Units in algorithm: {completed_units}')
     # Step 1: Add completed units to the study planner
     for unit in completed_units:
         add_unit_to_planner(unit)
