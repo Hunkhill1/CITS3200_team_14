@@ -8,6 +8,10 @@ def algorithm(completed_units:list[str], incomplete_units:list[str])->None:
         completed_units (list[str]): list of completed unit codes
         incomplete_units (list[str]): list of uncompleted unit codes
     """
+    
+    for unit in completed_units:
+        add_unit_to_planner(unit)
+        
     post_req = CanDo(completed_units, incomplete_units)
     print("Post reqs:", post_req)
     for units in post_req:
