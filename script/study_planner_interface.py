@@ -112,7 +112,7 @@ def get_next_available_semester(semester_type: str, year: int, study_units: List
             for i in range(2, 6):
                 if not row[i]:
                     return (index, i, f"{semester_type}, {year}")
-    return None
+    return None 
 
 # Function to add a unit to the study matrix based on prerequisites and semester availability
 def add_unit_to_planner(unit_code: str) -> None:
@@ -139,6 +139,8 @@ def add_unit_to_planner(unit_code: str) -> None:
         cursor = conn.cursor()
         
         completed_units = extract_unit_codes(study_units)
+        
+        prerequisites = get_prerequisites(unit_code) 
 
         # Populate available_semesters with rows that match the given semester
         for index, row in enumerate(study_units):
@@ -149,7 +151,6 @@ def add_unit_to_planner(unit_code: str) -> None:
         if available_semesters:
             for index, row in available_semesters.items():
                 # Check if the prerequisites have been completed
-                prerequisites = get_prerequisites(unit_code)
                 if all(prereq in completed_units for prereq in prerequisites):
                     for i in range(2, 6):
                         if not row[i]:
@@ -167,7 +168,6 @@ def add_unit_to_planner(unit_code: str) -> None:
                 for i in range(2, 6):
                     if not row[i]:
                         # Check if the prerequisites have been completed
-                        prerequisites = get_prerequisites(unit_code)
                         if all(prereq in completed_units for prereq in prerequisites):
                             cursor.execute(f'''
                                 UPDATE study_units
@@ -185,9 +185,6 @@ def add_unit_to_planner(unit_code: str) -> None:
                     for i in range(2, 6):
                         if not row[i]:
                             # Check if the prerequisites have been completed
-                            prerequisites = get_prerequisites(unit_code)
-                            print("completed units:  ",completed_units)
-                            print("pre requisites:  ",prerequisites)
                             if all(prereq in completed_units for prereq in prerequisites):
                                 cursor.execute(f'''
                                     UPDATE study_units
