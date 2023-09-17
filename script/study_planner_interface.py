@@ -2,9 +2,7 @@ import sqlite3
 import datetime
 import script.constants as constants
 from script.database_interface import get_unit_semester, get_prerequisites
-from typing import List, Tuple, Union
-
-from script.constants import completed_units 
+from typing import List, Tuple, Union,Dict
 
 def extract_unit_codes(study_units):
     """Extract unit codes from the study_units list, filtering out None, single integers, and semester strings.
@@ -23,6 +21,21 @@ def extract_unit_codes(study_units):
                 unit_codes.add(value)
 
     return unit_codes
+
+def check_prerequisite_completed(current_semester: int, prerequisite_completion_dates: Dict[str, List[int]]) -> bool:
+    """ Check if prerequisites have been completed based on completion dates.
+
+    Args:
+        current_semester (int): Current semester.
+        prerequisite_completion_dates (Dict[str, List[int]]): Dictionary of prerequisite completion dates.
+
+    Returns:
+        bool: True if current semester is later than all prerequisite semesters, False otherwise.
+    """
+    for prereq_semesters in prerequisite_completion_dates.values():
+        if not all(current_semester > prereq_semester for prereq_semester in prereq_semesters):
+            return False
+    return True
 
 
 # Function to create the database and the study_units table
@@ -116,20 +129,9 @@ def get_next_available_semester(semester_type: str, year: int, study_units: List
 
 # Function to add a unit to the study matrix based on prerequisites and semester availability
 def add_unit_to_planner(unit_code: str) -> None:
-
-    """ Add a unit to the study matrix based on prerequisites and semester availability.
-
-    Args:
-        unit_code (str): Unit Code
-
-    Returns:
-        None
-    """
     conn = None  # Initialize conn outside the try block
     try:
         study_units = get_study_units()
-       
-        # completed_units = get_completed_units(study_units)  # Function to retrieve completed units from the study matrix
         available_semesters = {}  # Dictionary to store available semesters and their row indices
 
         # Retrieve the semester of the unit
@@ -137,10 +139,18 @@ def add_unit_to_planner(unit_code: str) -> None:
 
         conn = sqlite3.connect(constants.study_planner_db_address)
         cursor = conn.cursor()
-        
+
         completed_units = extract_unit_codes(study_units)
+        prerequisites = get_prerequisites(unit_code)
         
-        prerequisites = get_prerequisites(unit_code) 
+        prerequisite_completion_dates: Dict[str, List[int]] = {}
+        for prereq in prerequisites:
+            indexes = []
+            for index, row in enumerate(study_units):
+                for i in range(2, 6):
+                    if row[i] == prereq:
+                        indexes.append(index)
+            prerequisite_completion_dates[prereq] = indexes
 
         # Populate available_semesters with rows that match the given semester
         for index, row in enumerate(study_units):
@@ -153,7 +163,8 @@ def add_unit_to_planner(unit_code: str) -> None:
                 # Check if the prerequisites have been completed
                 if all(prereq in completed_units for prereq in prerequisites):
                     for i in range(2, 6):
-                        if not row[i]:
+                        if not row[i] and check_prerequisite_completed(semester, prerequisite_completion_dates):
+                            # Calculate the semester and year for placing the unit code
                             cursor.execute(f'''
                                 UPDATE study_units
                                 SET unit_{i - 1} = ?
@@ -162,11 +173,11 @@ def add_unit_to_planner(unit_code: str) -> None:
                             conn.commit()
                             return None  # Exit the function after adding the unit code
 
-        # If no suitable cell is found in the current semester, check for future semesters of the same type
+       # If no suitable cell is found in the current semester, check for future semesters of the same type
         for index, row in enumerate(study_units):
             if row[1].startswith(f"Semester {semester}"):
                 for i in range(2, 6):
-                    if not row[i]:
+                    if not row[i] and check_prerequisite_completed(semester, prerequisite_completion_dates):
                         # Check if the prerequisites have been completed
                         if all(prereq in completed_units for prereq in prerequisites):
                             cursor.execute(f'''
@@ -183,8 +194,9 @@ def add_unit_to_planner(unit_code: str) -> None:
             for index, row in enumerate(study_units):
                 if row[1] == f"Semester 1, {datetime.date.today().year}":
                     for i in range(2, 6):
-                        if not row[i]:
-                            # Check if the prerequisites have been completed
+                        if not row[i] and check_prerequisite_completed(semester, prerequisite_completion_dates):
+                            # Calculate the semester and year for placing the unit code
+                                                        # Check if the prerequisites have been completed
                             if all(prereq in completed_units for prereq in prerequisites):
                                 cursor.execute(f'''
                                     UPDATE study_units
@@ -198,9 +210,8 @@ def add_unit_to_planner(unit_code: str) -> None:
             for index, row in enumerate(study_units):
                 if row[1] == f"Semester 2, {datetime.date.today().year}":
                     for i in range(2, 6):
-                        if not row[i]:
+                        if not row[i] and check_prerequisite_completed(semester, prerequisite_completion_dates):
                             # Check if the prerequisites have been completed
-                            prerequisites = get_prerequisites(unit_code)
                             if all(prereq in completed_units for prereq in prerequisites):
                                 cursor.execute(f'''
                                     UPDATE study_units
@@ -222,10 +233,8 @@ def add_unit_to_planner(unit_code: str) -> None:
                     next_available_semester = get_next_available_semester("Semester 2", next_year, study_units)
 
                 if next_available_semester:
-                    index, i, semester_type = next_available_semester
-                    # Check if the prerequisites have been completed
-                    prerequisites = get_prerequisites(unit_code)
-                    if all(prereq in completed_units for prereq in prerequisites):
+                    index, i, semester_type = next_available_semester                   
+                    if all(prereq in completed_units for prereq in prerequisites) and check_prerequisite_completed(semester, prerequisite_completion_dates):
                         cursor.execute(f'''
                             UPDATE study_units
                             SET unit_{i - 1} = ?
