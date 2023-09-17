@@ -1,3 +1,35 @@
+// Dictionary to cache fetched prerequisites for each unit code
+const fetchedPrerequisites = {};
+
+// Fetch and cache prerequisites
+async function fetchAndCachePrerequisites(unitCode) {
+    if (!fetchedPrerequisites[unitCode]) {
+        const response = await fetch(`/unit/${unitCode}`);
+        const data = await response.json();
+        fetchedPrerequisites[unitCode] = data.prerequisites;
+    }
+    return fetchedPrerequisites[unitCode];
+}
+
+// Check and highlight prerequisites
+async function checkAndHighlightPrerequisitesAndPostreqs(selectedUnitCode) {
+    const prerequisites = await fetchAndCachePrerequisites(selectedUnitCode);
+  
+    const selectElements = document.querySelectorAll(".unit-select");
+    selectElements.forEach(async (select) => {
+        const unitCode = select.value;
+
+        if (prerequisites.includes(unitCode)) {
+            select.style.boxShadow = '0 0 2rem orange';
+        }
+
+        const postreqsForUnit = await fetchAndCachePrerequisites(unitCode);
+        if (postreqsForUnit.includes(selectedUnitCode)) {
+            select.style.boxShadow = '0 0 2rem blue';
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const unitCodeDropdown = document.getElementById('unitCode');
     const showPrerequisitesButton = document.getElementById('showPrerequisites');
@@ -6,27 +38,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     showPrerequisitesButton.addEventListener('click', async () => {
         const selectedUnitCode = unitCodeDropdown.value;
-
-        // Fetch prerequisites using AJAX (you can use fetch or jQuery.ajax)
-        const response = await fetch(`/unit/${selectedUnitCode}`);
-        const data = await response.json();
-
-        // Update the unit information and prerequisites
+        const prerequisites = await fetchAndCachePrerequisites(selectedUnitCode);
+        
         unitInfo.innerHTML = `
             <h2>Unit Information</h2>
             <p>Selected Unit: ${selectedUnitCode}</p>
-            <!-- You can add more unit information here -->
         `;
         
         prerequisitesList.innerHTML = `
             <h2>Prerequisites</h2>
             <ul>
-                ${data.prerequisites.map(prerequisite => `<li>${prerequisite}</li>`).join('')}
+                ${prerequisites.map(prerequisite => `<li>${prerequisite}</li>`).join('')}
             </ul>
         `;
     });
 });
 
+// Existing jQuery-based dropdown code
 document.addEventListener("DOMContentLoaded", function () {
     $('.dropdown-item').click(function () {
         var dropdownButton = $(this)
@@ -34,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .find('.dropdown-toggle');
         var selectedValue = $(this).attr('data-value');
         dropdownButton.text(selectedValue);
-        // Add logic to set this value in a hidden form field or use in other ways.
     });
 });
 
@@ -61,10 +88,23 @@ function removeSelect(element) {
     console.log("Selected Units: ", selectedUnits);
 }
 
+// Logic for the second page
 document.addEventListener("DOMContentLoaded", () => {
     const selectElements = document.querySelectorAll(".unit-select");
+  
     selectElements.forEach((select) => {
-        selectedUnits.push(select.value);
+        selectedUnits.push(select.value); // Initial selected units
+        
+        select.addEventListener('change', function() {
+            // Clear all existing highlights
+            selectElements.forEach((select) => {
+                select.style.boxShadow = '';
+            });
+            
+            // Re-check and highlight prerequisites and post-requisites
+            checkAndHighlightPrerequisitesAndPostreqs(this.value);
+        });
     });
 });
+
 
