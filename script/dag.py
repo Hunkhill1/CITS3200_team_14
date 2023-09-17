@@ -1,6 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import sqlite3
+import script.constants as constants
 
 
 def create_unit_graph():
@@ -9,7 +10,7 @@ def create_unit_graph():
     Returns:
         DiGraph:  A directed acyclic graph (DAG) of units and their prerequisites.
     """    
-    conn = sqlite3.connect('/home/long/Desktop/Professional Computing/CITS3200_team_14/database/degree_database.db')
+    conn = sqlite3.connect(constants.degree_db_address)
     cursor = conn.cursor()
 
     cursor.execute("SELECT unit_code, pre_requisite FROM UnitRelationship")

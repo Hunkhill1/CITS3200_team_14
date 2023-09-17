@@ -1,7 +1,8 @@
 import sqlite3
+import constants as constants
 
 # Connect to the database
-connection = sqlite3.connect('/home/long/Desktop/Professional Computing/CITS3200_team_14/database/degree_database.db')
+connection = sqlite3.connect(constants.degree_db_address)
 cursor = connection.cursor()
 
 # Insert sample data into the Unit table

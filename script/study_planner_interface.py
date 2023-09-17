@@ -4,25 +4,28 @@ import datetime
 
 from script.available_units import CanDo
 from script.database_interface import get_unit_semester
+import script.constants as constants
 
 
-# Create an SQLite database and a table to store study units
-conn = sqlite3.connect('/home/long/Desktop/Professional Computing/CITS3200_team_14/database/study_units.db')
-cursor = conn.cursor()
+# Function to create the database and the study_units table
+def create_database()->None:
+    """Create the SQLite database and the study_units table if they don't exist."""
+    conn = sqlite3.connect(constants.study_planner_db_address)
+    cursor = conn.cursor()
 
-# Create the study_units table if it doesn't exist
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS study_units (
-        id INTEGER PRIMARY KEY,
-        semester TEXT,
-        unit_1 TEXT,
-        unit_2 TEXT,
-        unit_3 TEXT,
-        unit_4 TEXT
-    )
-''')
-conn.commit()
-
+    # Create the study_units table if it doesn't exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS study_units (
+            id INTEGER PRIMARY KEY,
+            semester TEXT,
+            unit_1 TEXT,
+            unit_2 TEXT,
+            unit_3 TEXT,
+            unit_4 TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
 # Function to retrieve study units from the database
 def get_study_units()->List[str]:
     """ Retrieve study units from the database.
@@ -30,10 +33,12 @@ def get_study_units()->List[str]:
     Returns:
         List[str]:  A list of study units.
     """    
-    conn = sqlite3.connect('/home/long/Desktop/Professional Computing/CITS3200_team_14/database/study_units.db')
+    conn = sqlite3.connect(constants.study_planner_db_address)
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM study_units')
-    return cursor.fetchall()
+    cursor.execute('SELECT * FROM study_planner')
+    study_units = cursor.fetchall()
+    conn.close()
+    return study_units
     
 
 # Function to update the semester column in the database
@@ -42,6 +47,9 @@ def update_semester_column()->None:
     """    
     today = datetime.date.today()
     current_year = today.year  # Change this to the desired starting year
+    
+    conn = sqlite3.connect(constants.study_planner_db_address)
+    cursor = conn.cursor()
     
     # Add the semester column to the database if it doesn't exist      
     for semester in range(1, 7):
@@ -55,6 +63,7 @@ def update_semester_column()->None:
         if semester % 2 == 0:
             current_year += 1
     conn.commit()
+    conn.close()
 
 # Function to add a unit to the study matrix based on semester availability
 def add_unit_to_matrix(unit_code: str)->None:
@@ -71,6 +80,9 @@ def add_unit_to_matrix(unit_code: str)->None:
     
     semester = get_unit_semester(unit_code) 
     
+    conn = sqlite3.connect(constants.study_planner_db_address)
+    cursor = conn.cursor()
+    
     # Populate available_semesters with rows that match the given semester
     for index, row in enumerate(study_units):
         if row[1] == f"Semester {semester}, {datetime.date.today().year}":
@@ -82,7 +94,7 @@ def add_unit_to_matrix(unit_code: str)->None:
             for i in range(2, 6):
                 if not row[i]:
                     cursor.execute(f'''
-                        UPDATE study_units
+                        UPDATE study_planner
                         SET unit_{i - 1} = ?
                         WHERE id = ?
                     ''', (unit_code, row[0]))
@@ -95,7 +107,7 @@ def add_unit_to_matrix(unit_code: str)->None:
             for i in range(2, 6):
                 if not row[i]:
                     cursor.execute(f'''
-                        UPDATE study_units
+                        UPDATE study_planner
                         SET unit_{i - 1} = ?
                         WHERE id = ?
                     ''', (unit_code, row[0]))
@@ -108,7 +120,7 @@ def add_unit_to_matrix(unit_code: str)->None:
             for i in range(2, 6):
                 if not row[i]:
                     cursor.execute(f'''
-                        UPDATE study_units
+                        UPDATE study_planner
                         SET unit_{i - 1} = ?
                         WHERE id = ?
                     ''', (unit_code, row[0]))
@@ -118,28 +130,36 @@ def add_unit_to_matrix(unit_code: str)->None:
     # If no suitable semester is found, print a message
     print(f"Unit {unit_code} cannot be added for semester {semester}.")
     print("Matrix is full for this semester and future semesters of the same type. Cannot add more units.")
+    conn.close()
 
 # Function to drop the study_units table
 def drop_table()->None:
     """ Drop the study_units table.
-    """    
-    cursor.execute('DROP TABLE IF EXISTS study_units')
+    """
+    conn = sqlite3.connect(constants.study_planner_db_address)
+    cursor = conn.cursor()    
+    cursor.execute('DROP TABLE IF EXISTS study_planner')
     conn.commit()
     print("Table 'study_units' has been dropped.")
+    conn.close()
     
    
 # Function to clear all data from the study_units table
 def clear_table()->None:
-    """Clear all data from the study_units table.
-    """   
-    cursor.execute('DELETE FROM study_units')
+    """Clear all data from the study_planner table.
+    """
+    conn = sqlite3.connect(constants.study_planner_db_address)
+    cursor = conn.cursor()   
+    cursor.execute('DELETE FROM study_planner')
     conn.commit()
-    print("All data has been cleared from the 'study_units' table.")
+    print("All data has been cleared from the 'study_planner' table.")
+    # Close the database connection when done
+    conn.close()
 
 def run():
+    # Create the database and table
+    create_database()
     # Example usage:
     update_semester_column()
 run()
 
-# Close the database connection when done
-conn.close()

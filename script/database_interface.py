@@ -1,5 +1,6 @@
 import sqlite3
 from script.dag import create_unit_graph, highlight_path, visualize_graph
+import script.constants as constants
 
 
 def get_prerequisites(unit_code):
@@ -9,7 +10,7 @@ def get_prerequisites(unit_code):
     :return: A list of prerequisites.
     """
     # Connect to the database
-    connection = sqlite3.connect('/home/long/Desktop/Professional Computing/CITS3200_team_14/database/degree_database.db')
+    connection = sqlite3.connect(constants.degree_db_address)
     cursor = connection.cursor()
 
     # Query prerequisites based on unit code
@@ -45,7 +46,7 @@ def insert_unit_data() -> None:
         unit_data.append((unit_code, unit_name, semester, 'incomplete'))
 
     # Connect to the database
-    connection = sqlite3.connect('database/degree_database.db')
+    connection = sqlite3.connect(constants.degree_db_address)
     cursor = connection.cursor()
 
     # Insert unit data into the Unit table
@@ -69,7 +70,7 @@ def update_unit_status() -> None:
     new_status = input("Enter the new status: ")
 
     # Connect to the database
-    connection = sqlite3.connect('/home/long/Desktop/Professional Computing/CITS3200_team_14/database/degree_database.db')
+    connection = sqlite3.connect(constants.degree_db_address)
     cursor = connection.cursor()
 
     # Update the status of the unit
@@ -96,7 +97,7 @@ def get_unit_semester(unit_code:str)->int:
         int:  Semester of the unit
     """ 
     # Connect to the database
-    connection = sqlite3.connect('/home/long/Desktop/Professional Computing/CITS3200_team_14/database/degree_database.db')
+    connection = sqlite3.connect(constants.degree_db_address)
     cursor = connection.cursor()
 
     # Query the semester based on unit code
@@ -125,7 +126,7 @@ def insert_prerequisite() -> None:
     pre_requisite = input("Enter the prerequisite unit code: ")
 
     # Connect to the database
-    connection = sqlite3.connect('database/degree_database.db')
+    connection = sqlite3.connect(constants.degree_db_address)
     cursor = connection.cursor()
 
     # Insert the prerequisite into the UnitRelationship table

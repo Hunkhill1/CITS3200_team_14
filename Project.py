@@ -6,12 +6,13 @@ from app.forms import LoginForm
 from app.models import User
 from app import db
 from script.algo import algorithm
+import script.constants as constants
 
 
-app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
+app = Flask(__name__, template_folder=constants.template_folder_address, static_folder=constants.static_folder_address)
 app.config.from_object(Config)
 
-login = LoginManager(app)
+login = LoginManager(app) # type: ignore
 login.login_view = 'login'
 
 @login.user_loader

@@ -1,7 +1,8 @@
 import sqlite3
+import constants as constants
 
 # Create or connect to the database
-connection = sqlite3.connect('/home/long/Desktop/Professional Computing/CITS3200_team_14/database/degree_database.db')
+connection = sqlite3.connect(constants.degree_db_address)
 cursor = connection.cursor()
 
 # Create the Unit table
