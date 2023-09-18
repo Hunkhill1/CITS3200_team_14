@@ -63,8 +63,8 @@ def process_json_data():
         print(json.dumps(incomplete_units, indent=4))
         
         trimmed_incomplete_units = remove_string_from_list(incomplete_units, "Select unit")
-        trimmed_complete_units = remove_string_from_list(complete_units, "Select unit")
-        
+        trimmed_complete_units = remove_string_from_list(complete_units, "Select unit")    
+               
         algorithm(trimmed_complete_units, trimmed_incomplete_units)
 
         # Return a response if needed

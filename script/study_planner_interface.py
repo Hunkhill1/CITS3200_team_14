@@ -180,7 +180,7 @@ def add_unit_to_planner(unit_code: str) -> None:
         status_commited = False
         if semester == 12:
             # Check for the first empty slot in semester 1 in current year
-            for year in range(datetime.date.today().year, datetime.date.today().year + (int)(constants.number_of_semesters/2-1)):
+            for year in range(datetime.date.today().year, datetime.date.today().year + (int)(constants.number_of_semesters/2)):
                 for index, row in enumerate(study_units):
                     if row[1] == f"Semester 1, {year}":
                         for i in range(1, 6):
@@ -215,7 +215,7 @@ def add_unit_to_planner(unit_code: str) -> None:
 
         # If no suitable semester is found in the current year, check for future years
         if semester in [1, 2]:
-            for year in range(datetime.date.today().year, datetime.date.today().year + (int)(constants.number_of_semesters/2-1)):
+            for year in range(datetime.date.today().year, datetime.date.today().year + (int)(constants.number_of_semesters/2)):
                 next_available_semester = None
                 if semester == 1:
                     next_available_semester = get_next_available_semester("Semester 1", year, study_units)
