@@ -1,4 +1,3 @@
-<!-- staff_editing.html -->
 {% extends "base.html" %}
 
 {% block title %}
@@ -9,12 +8,43 @@ Staff Editing Page - Unit Planner
 <div class="container">
     <h1>Staff Editing Page</h1>
 
-    <!-- Test HTML content for staff editing page -->
-    <p>This is a test page for staff editing.</p>
+    <!-- Dropdown to select a unit -->
+    <div class="select-wrapper"> <!-- Wrap the label and select element in a div for styling -->
+        <label for="unitCode">Select a unit:</label>
+        <select id="unitCode" name="unit_code">
+            {% for row in data %}
+            <option value="{{ row[0] }}">{{ row[0] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button class="button" id="showPrerequisites">Show Prerequisites</button>
+
+
+    <!-- Unit Planner Display -->
+    <div class="unit-planner">
+        <div class="unit-info">
+            <h2>Unit Information</h2>
+            <!-- Information about the selected unit will be displayed here -->
+        </div>
+        <div class="prerequisites">
+            <h2>Prerequisites</h2>
+            <ul id="prerequisitesList">
+                <!-- Prerequisites will be added here dynamically -->
+            </ul>
+            <!-- 'Edit', 'Delete', and 'Add' options for each unit -->
+            <div class="unit-options">
+                <button class="button edit-button">Edit</button>
+                <button class="button delete-button">Delete</button>
+                <button class="button add-button">Add</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Log Out button -->
     <form method="POST" action="{{ url_for('logout') }}">
         <button type="submit" class="btn btn-danger">Log Out</button>
     </form>
 </div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}

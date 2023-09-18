@@ -8,14 +8,16 @@ Unit Planner - UWA
 <div class="container">
     <h1>Unit Planner</h1>
 
-    <!-- Dropdown to select a unit -->
-    <label for="unitCode">Select a unit:</label>
-    <select id="unitCode" name="unit_code">
-        {% for row in data %}
-        <option value="{{ row[0] }}">{{ row[0] }}</option>
-        {% endfor %}
-    </select>
+    <div class="select-wrapper"> <!-- Wrap the label and select element in a div for styling -->
+        <label for="unitCode">Select a unit:</label>
+        <select id="unitCode" name="unit_code">
+            {% for row in data %}
+            <option value="{{ row[0] }}">{{ row[0] }}</option>
+            {% endfor %}
+        </select>
+    </div>
     <button class="button" id="showPrerequisites">Show Prerequisites</button>
+
 
     <!-- Unit Planner Display -->
     <div class="unit-planner">
