@@ -211,14 +211,12 @@ def add_unit_to_planner(unit_code: str) -> None:
 
         # If no suitable semester is found in the current year, check for future years
         if semester in [1, 2]:
-            current_year = datetime.date.today().year
-            while True:
-                next_year = current_year + 1
+            for year in range(datetime.date.today().year, datetime.date.today().year + (int)(constants.number_of_semesters/2-1)):
                 next_available_semester = None
                 if semester == 1:
-                    next_available_semester = get_next_available_semester("Semester 1", next_year, study_units)
+                    next_available_semester = get_next_available_semester("Semester 1", year, study_units)
                 elif semester == 2:
-                    next_available_semester = get_next_available_semester("Semester 2", next_year, study_units)
+                    next_available_semester = get_next_available_semester("Semester 2", year, study_units)
 
                 if next_available_semester:
                     index, i, semester_type = next_available_semester                   
@@ -230,8 +228,6 @@ def add_unit_to_planner(unit_code: str) -> None:
                         ''', (unit_code, study_units[index][0]))
                         conn.commit()
                         return None  # Exit the function after adding the unit code
-
-                current_year = next_year
 
         # If no suitable semester is found, print a message
         print(f"Unit {unit_code} cannot be added for semester {semester}.")
