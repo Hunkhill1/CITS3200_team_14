@@ -1,0 +1,20 @@
+<!-- staff_editing.html -->
+{% extends "base.html" %}
+
+{% block title %}
+Staff Editing Page - Unit Planner
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Staff Editing Page</h1>
+
+    <!-- Test HTML content for staff editing page -->
+    <p>This is a test page for staff editing.</p>
+
+    <!-- Log Out button -->
+    <form method="POST" action="{{ url_for('logout') }}">
+        <button type="submit" class="btn btn-danger">Log Out</button>
+    </form>
+</div>
+{% endblock %}
