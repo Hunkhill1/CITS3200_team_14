@@ -83,7 +83,7 @@ label {
 }
 
 select {
-  border: solid #71f086;
+  border: solid green;
   background-color: #71f086;
   -webkit-appearance: none;
   width: 100%;
@@ -101,6 +101,7 @@ select {
   top: 0;
   right: 0;
   cursor: pointer;
+  background-color: rgba(0, 0, 0, 0);
 }
 /* Style for the individual options within the dropdown */
 .custom-select option:hover {
