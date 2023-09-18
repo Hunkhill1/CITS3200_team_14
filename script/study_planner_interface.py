@@ -11,14 +11,14 @@ def extract_unit_codes(study_units):
         study_units (List[Tuple]): A list of study units where each item is a tuple containing unit information.
 
     Returns:
-        set: A set of unit codes extracted from study_units.
+        List[str]: A list of unit codes extracted from study_units as strings.
     """
-    unit_codes = set()
+    unit_codes = []
 
     for row in study_units:
         for value in row[2:]:
             if isinstance(value, str) and not value.startswith('Semester '):
-                unit_codes.add(value)
+                unit_codes.append(str(value))
 
     return unit_codes
 
@@ -133,6 +133,9 @@ def add_unit_to_planner(unit_code: str) -> None:
     try:
         study_units = get_study_units()
         available_semesters = {}  # Dictionary to store available semesters and their row indices
+        
+        #summer GENG1000, GENG2000, GENG3000 units 
+        summer_units: list[str] = ['GENG1000', 'GENG2000', 'GENG3000']
 
         # Retrieve the semester of the unit
         semester = get_unit_semester(unit_code)
@@ -208,6 +211,7 @@ def add_unit_to_planner(unit_code: str) -> None:
                                         ''', (unit_code, row[0]))
                                         conn.commit()
                                         return None
+                                
 
         # If no suitable semester is found in the current year, check for future years
         if semester in [1, 2]:
@@ -219,15 +223,28 @@ def add_unit_to_planner(unit_code: str) -> None:
                     next_available_semester = get_next_available_semester("Semester 2", year, study_units)
 
                 if next_available_semester:
-                    index, i, semester_type = next_available_semester                   
-                    if all(prereq in completed_units for prereq in prerequisites) and check_prerequisite_completed(index+1, prerequisite_completion_dates):
-                        cursor.execute(f'''
-                            UPDATE study_units
-                            SET unit_{i - 1} = ?
-                            WHERE id = ?
-                        ''', (unit_code, study_units[index][0]))
-                        conn.commit()
-                        return None  # Exit the function after adding the unit code
+                    index, i, semester_type = next_available_semester  # Unpack the tuple                   
+                    if search_strings_in_list(summer_units, prerequisites) and check_summer_units_index(summer_units, index):
+                        temp_list = completed_units + summer_units
+                        if all(prereq in temp_list for prereq in prerequisites):
+                            cursor.execute(f'''
+                                UPDATE study_units
+                                SET unit_{i - 1} = ?
+                                WHERE id = ?
+                            ''', (unit_code, study_units[index][0]))
+                            conn.commit()
+                            return None  # Exit the function after adding the unit code
+                        
+                                     
+                    else :
+                        if all(prereq in completed_units for prereq in prerequisites) and check_prerequisite_completed(index+1, prerequisite_completion_dates):
+                            cursor.execute(f'''
+                                UPDATE study_units
+                                SET unit_{i - 1} = ?
+                                WHERE id = ?
+                            ''', (unit_code, study_units[index][0]))
+                            conn.commit()
+                            return None  # Exit the function after adding the unit code
 
         # If no suitable semester is found, print a message
         print(f"Unit {unit_code} cannot be added for semester {semester}.")
@@ -237,6 +254,28 @@ def add_unit_to_planner(unit_code: str) -> None:
     finally:
         if conn:
             conn.close()
+            
+def search_strings_in_list(list_to_search, strings_to_check):
+    for item in list_to_search:
+        for string_to_check in strings_to_check:
+            if string_to_check in item:
+                return True  # Found a match, so return True
+    
+    return False
+        
+            
+def check_summer_units_index(summer_units:list[str], semester):
+    
+    # find which summer is in the list
+    for unit in summer_units:
+        if unit == 'GENG1000':
+            return semester > 2
+        elif unit == 'GENG2000':
+            return semester > 4
+        elif unit == 'GENG3000':
+            return semester > 6
+    
+    
 
 
 # Function to drop the study_units table
