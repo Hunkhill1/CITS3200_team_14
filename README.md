@@ -40,12 +40,16 @@ Before running the project, ensure you have the following prerequisites installe
 ```
 
 ### Usage
+1. Export Project py File
 
-1. Run the Flask application:
+```shell
+export FLASK_APP=Project.py
+```
+
+2. Run the Flask application:
 ```shell
    flask run
 ```
 
-2. Open your web browser and navigate to http://localhost:5000 to access the Prerequisite Pathways Visualization Website.
-
-3. Follow the on-screen instructions to explore and visualize unit prerequisite pathways.
+3. Open your web browser and navigate to http://localhost:5000 to access the Prerequisite Pathways Visualization Website.
+4. Follow the on-screen instructions to explore and visualize unit prerequisite pathways.
