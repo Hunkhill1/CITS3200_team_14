@@ -176,29 +176,15 @@ def add_unit_to_planner(unit_code: str) -> None:
        # If no suitable cell is found in the current semester, check for future semesters of the same type
         status_commited = False
         if semester == 12:
-            # Check for the first empty slot in semester 1
-            for index, row in enumerate(study_units):
-                if row[1] == f"Semester 1, {datetime.date.today().year}":
-                    for i in range(1, 6):
-                        if not row[i] and check_prerequisite_completed(index+1, prerequisite_completion_dates):
-                            # Check if the prerequisites have been completed
-                            if all(prereq in completed_units for prereq in prerequisites):
-                                status_commited = True
-                                cursor.execute(f'''
-                                    UPDATE study_units
-                                    SET unit_{i - 1} = ?
-                                    WHERE id = ?
-                                ''', (unit_code, row[0]))
-                                conn.commit()
-                                return None
-                                
-            if status_commited == False:                
+            # Check for the first empty slot in semester 1 in current year
+            for year in range(datetime.date.today().year, datetime.date.today().year + (int)(constants.number_of_semesters/2-1)):
                 for index, row in enumerate(study_units):
-                    if row[1] == f"Semester 2, {datetime.date.today().year}":
+                    if row[1] == f"Semester 1, {year}":
                         for i in range(1, 6):
                             if not row[i] and check_prerequisite_completed(index+1, prerequisite_completion_dates):
                                 # Check if the prerequisites have been completed
                                 if all(prereq in completed_units for prereq in prerequisites):
+                                    status_commited = True
                                     cursor.execute(f'''
                                         UPDATE study_units
                                         SET unit_{i - 1} = ?
@@ -206,53 +192,22 @@ def add_unit_to_planner(unit_code: str) -> None:
                                     ''', (unit_code, row[0]))
                                     conn.commit()
                                     return None
-        else:
-            for index, row in enumerate(study_units):
-                if row[1].startswith(f"Semester {semester}"):
-                    for i in range(1, 6):
-                        if not row[i] and check_prerequisite_completed(index+1, prerequisite_completion_dates):
-                            # Check if the prerequisites have been completed
-                            if all(prereq in completed_units for prereq in prerequisites):
-                                cursor.execute(f'''
-                                    UPDATE study_units
-                                    SET unit_{i - 1} = ?
-                                    WHERE id = ?
-                                ''', (unit_code, row[0]))
-                                conn.commit()
-                                return None  # Exit the function after adding the unit code
-
-        # # If the unit is available in both semesters (semester 12)
-        # if semester == 12:
-        #     # Check for the first empty slot in semester 1
-        #     for index, row in enumerate(study_units):
-        #         if row[1] == f"Semester 1, {datetime.date.today().year}":
-        #             for i in range(2, 7):
-        #                 if not row[i] and check_prerequisite_completed(1, prerequisite_completion_dates):
-        #                     # Calculate the semester and year for placing the unit code
-        #                                                 # Check if the prerequisites have been completed
-        #                     if all(prereq in completed_units for prereq in prerequisites):
-        #                         cursor.execute(f'''
-        #                             UPDATE study_units
-        #                             SET unit_{i - 1} = ?
-        #                             WHERE id = ?
-        #                         ''', (unit_code, row[0]))
-        #                         conn.commit()
-        #                         return None  # Exit the function after adding the unit code
-
-        #     # If no suitable slot is found in semester 1, check for semester 2
-        #     for index, row in enumerate(study_units):
-        #         if row[1] == f"Semester 2, {datetime.date.today().year}":
-        #             for i in range(2, 7):
-        #                 if not row[i] and check_prerequisite_completed(2, prerequisite_completion_dates):
-        #                     # Check if the prerequisites have been completed
-        #                     if all(prereq in completed_units for prereq in prerequisites):
-        #                         cursor.execute(f'''
-        #                             UPDATE study_units
-        #                             SET unit_{i - 1} = ?
-        #                             WHERE id = ?
-        #                         ''', (unit_code, row[0]))
-        #                         conn.commit()
-        #                         return None  # Exit the function after adding the unit code
+                                
+                if status_commited == False:      
+                    # Check for the first empty slot in semester 2 in current year          
+                    for index, row in enumerate(study_units):
+                        if row[1] == f"Semester 2, {year}":
+                            for i in range(1, 6):
+                                if not row[i] and check_prerequisite_completed(index+1, prerequisite_completion_dates):
+                                    # Check if the prerequisites have been completed
+                                    if all(prereq in completed_units for prereq in prerequisites):
+                                        cursor.execute(f'''
+                                            UPDATE study_units
+                                            SET unit_{i - 1} = ?
+                                            WHERE id = ?
+                                        ''', (unit_code, row[0]))
+                                        conn.commit()
+                                        return None
 
         # If no suitable semester is found in the current year, check for future years
         if semester in [1, 2]:
@@ -267,7 +222,7 @@ def add_unit_to_planner(unit_code: str) -> None:
 
                 if next_available_semester:
                     index, i, semester_type = next_available_semester                   
-                    if all(prereq in completed_units for prereq in prerequisites) and check_prerequisite_completed(semester, prerequisite_completion_dates):
+                    if all(prereq in completed_units for prereq in prerequisites) and check_prerequisite_completed(index+1, prerequisite_completion_dates):
                         cursor.execute(f'''
                             UPDATE study_units
                             SET unit_{i - 1} = ?
