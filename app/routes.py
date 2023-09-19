@@ -4,6 +4,7 @@ from app.forms import LoginForm
 
 index = Blueprint('index', __name__)
 unit = Blueprint('unit', __name__)
+staff_editing_bp = Blueprint('staff_editing', __name__)
 
 @index.route('/')
 def index_route():
@@ -67,6 +68,7 @@ def planner_route():
     }
 
     return render_template('planner.html', default_plan=default_plan, all_units=units_from_database)
+
 
 
 

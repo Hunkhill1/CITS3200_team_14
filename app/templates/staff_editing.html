@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 
 {% block title %}
-Unit Planner - UWA
+Staff Editing Page - Unit Planner
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>Unit Planner</h1>
+    <h1>Staff Editing Page</h1>
 
+    <!-- Dropdown to select a unit -->
     <div class="select-wrapper"> <!-- Wrap the label and select element in a div for styling -->
         <label for="unitCode">Select a unit:</label>
         <select id="unitCode" name="unit_code">
@@ -26,13 +27,24 @@ Unit Planner - UWA
             <!-- Information about the selected unit will be displayed here -->
         </div>
         <div class="prerequisites">
+            <h2>Prerequisites</h2>
             <ul id="prerequisitesList">
                 <!-- Prerequisites will be added here dynamically -->
             </ul>
+            <!-- 'Edit', 'Delete', and 'Add' options for each unit -->
+            <div class="unit-options">
+                <button class="button edit-button">Edit</button>
+                <button class="button delete-button">Delete</button>
+                <button class="button add-button">Add</button>
+            </div>
         </div>
     </div>
+
+    <!-- Log Out button -->
+    <form method="POST" action="{{ url_for('logout') }}">
+        <button type="submit" class="btn btn-danger">Log Out</button>
+    </form>
 </div>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}
-
