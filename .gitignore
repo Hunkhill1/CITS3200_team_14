@@ -17,3 +17,19 @@ venv/bin/activate
 venv/pyvenv.cfg
 database/study_planner.db
 __pycache__/
+__pycache__/app.cpython-37.pyc
+__pycache__/*.pyc
+# Distribution / packaging
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
