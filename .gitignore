@@ -1,4 +1,4 @@
-__pycache__
+__pycache__/
 venv/
 /home/iash/University/CITS3200/CITS3200_team_14/venv
 venv/pyvenv.cfg
@@ -15,3 +15,5 @@ venv/bin/activate.fish
 venv/bin/activate.csh
 venv/bin/activate
 venv/pyvenv.cfg
+database/study_planner.db
+__pycache__/
