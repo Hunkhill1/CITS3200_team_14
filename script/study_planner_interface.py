@@ -314,6 +314,20 @@ def clear_table()->None:
     # Close the database connection when done
     conn.close()
     
+def calculate_current_points(completed_units: List[str]) -> int:
+    """ Calculate current points based on study units.
+
+    Args:
+        completed_units (List[str]):  List of completed units
+
+    Returns:
+        int:  Current points.
+    """    
+    current_points = 0
+    value_of_unit = 6
+    current_points = len(completed_units) * value_of_unit
+    return current_points  
+    
 def check_points(unit_code: str, current_points:int) -> bool:
     """ Check if the current points is greater than or equal to the unit points prerequisites.
 
