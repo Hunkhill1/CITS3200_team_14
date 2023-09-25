@@ -129,12 +129,16 @@ def get_next_available_semester(semester_type: str, year: int, study_units: List
 
 # Function to add a unit to the study matrix based on prerequisites and semester availability
 def add_unit_to_planner(unit_code: str) -> None:
+    """ Add a unit to the study matrix based on prerequisites and semester availability.
+
+    Args:
+        unit_code (str):  The unit code to add to the study matrix.
+    """    
     conn = None  # Initialize conn outside the try block
     try:
         study_units = get_study_units()
         available_semesters = {}  # Dictionary to store available semesters and their row indices
         
-        #summer GENG1000, GENG2000, GENG3000 units 
         summer_units: list[str] = ['GENG1000', 'GENG2000', 'GENG3000']
 
         # Retrieve the semester of the unit
@@ -264,20 +268,28 @@ def search_strings_in_list(list_to_search, strings_to_check):
     return False
         
             
-def check_summer_units_index(summer_units:list[str], semester):
-    
+def check_summer_units_index(summer_units:list[str], semester:int)->bool:
+    """Checks if the summer units are in the list and the current semester is greater than the completion semester of the summer unit.
+
+    Args:
+        summer_units (list[str]):  list of summer units
+        semester (int):  current semester
+
+    Returns:
+        bool:  If current semester is greater than the completion semester of the summer unit, return True. Otherwise, return False.
+    """   
     # find which summer is in the list
     for unit in summer_units:
-        if unit == 'GENG1000':
-            return semester > 2
-        elif unit == 'GENG2000':
-            return semester > 4
-        elif unit == 'GENG3000':
-            return semester > 6
+        if unit == 'GENG1000' and semester > 2:
+            return True
+        elif unit == 'GENG2000' and semester > 4:
+            return True
+        elif unit == 'GENG3000' and semester > 6:
+            return True
+        
+    return False
     
     
-
-
 # Function to drop the study_units table
 def drop_table()->None:
     """ Drop the study_units table.
@@ -301,6 +313,68 @@ def clear_table()->None:
     print("All data has been cleared from the 'study_units' table.")
     # Close the database connection when done
     conn.close()
+    
+def check_points(unit_code: str, current_points:int) -> bool:
+    """ Check if the current points is greater than or equal to the unit points prerequisites.
+
+    Args:
+        unit_code (str):  Unit code to check for unit points prerequisites
+        current_points (int):  Current points to check for unit points prerequisites
+
+    Returns:
+        bool:  True if current points is greater than or equal to the unit points prerequisites, False otherwise.
+    """    
+    unit_points = get_unit_points_prerequisites(unit_code)
+    
+    if unit_points == -1:
+        return False
+    else :
+        if current_points >= unit_points:
+            return True
+        else:
+            return False
+    
+def get_unit_points_prerequisites(unit_code:str)->int:
+    """ Get unit points prerequisites for a given unit code.
+
+    Args:
+        unit_code (str):  Unit code to check for unit points prerequisites
+
+    Returns:
+        int: Unit points prerequisites for a given unit code
+    """ 
+    connection = None  # Initialize connection outside the try block
+    try:
+        # Connect to the database
+        connection = sqlite3.connect(constants.degree_db_address)
+        cursor = connection.cursor()
+
+        # Query to retrieve unit points prerequisites for a given unit code
+        query = """
+        SELECT U.unit_points_required
+        FROM Unit U
+        WHERE U.code = ?
+        """
+        
+        # Execute the query with the provided unit code
+        cursor.execute(query, (unit_code,))
+        
+        # Fetch the result (unit_points_required)
+        result = cursor.fetchone()
+
+        if result:
+            unit_points_prerequisites = int(result[0])  # Convert to integer
+            return unit_points_prerequisites
+        else:
+            return -1  # Unit not found or no unit points prerequisites
+
+    except sqlite3.Error as e:
+        print("Database error:", e)
+        return -1
+    finally:
+        # Close the database connection
+        if connection:
+            connection.close()
 
 def run():
     # Create the database and table
