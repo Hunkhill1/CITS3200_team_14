@@ -43,9 +43,9 @@ unit_data = [
     ('GENG3402', 'Control Engineering',  2, 0),
 ]
 
-# Define an SQL query to insert data into the Unit table
+# Define an SQL query to insert data into the Unit table (without the "status" column)
 insert_unit_query = """
-INSERT INTO Unit (code, name, semester, unit_points_required, status) VALUES (?, ?, ?, ?, 'incomplete')
+INSERT INTO Unit (code, name, semester, unit_points_required) VALUES (?, ?, ?, ?)
 """
 
 # Execute the insert_unit_query using executemany() to insert multiple rows of data

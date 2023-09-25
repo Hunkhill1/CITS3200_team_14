@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Unit (
     code TEXT PRIMARY KEY, 
     name TEXT,
     unit_points_required INTEGER,
-    semester INTEGER,
+    semester INTEGER
 );
 """
 cursor.execute(create_unit_table_query)
