@@ -7,45 +7,45 @@ cursor = connection.cursor()
 
 # Insert sample data into the Unit table
 unit_data = [
-    # Unit name, unit code, semester
+    # Unit name, unit code, semester, unit_points
     # Year 1 Semester 1
-    ('MATH1011', 'Multivariable Calculus',  12),
-    ('GENG1010', 'Introduction to Engineering',  12),
-    ('PHYS1001', 'Physics for Scientists & Engineers',  12),
-    ('CITS2401', 'Computer Analysis & Visualisation', 12),
+    ('MATH1011', 'Multivariable Calculus',  12, 0),
+    ('GENG1010', 'Introduction to Engineering',  12, 0),
+    ('PHYS1001', 'Physics for Scientists & Engineers',  12, 0),
+    ('CITS2401', 'Computer Analysis & Visualisation', 12, 0),
     # Year 1 Semester 2
-    ('MATH1012', 'Mathematical Theory & Methods',  12),
-    ('ENSC1004', 'Engineering Materials',  2),
-    ('ENSC2004', 'Engineering Mechanics',  12),
-    ('GENG1101', 'Engineering Drawings',  2),
+    ('MATH1012', 'Mathematical Theory & Methods',  12, 0),
+    ('ENSC1004', 'Engineering Materials',  2, 0),
+    ('ENSC2004', 'Engineering Mechanics',  12, 0),
+    ('GENG1101', 'Engineering Drawings',  2, 0),
     # Year 2 Semester 1
-    ('GENG2003', 'Fluid Mechanics',  1),
-    ('GENG2004', 'Solid Mechanics',  1),
-    ('MECH2002', 'Engineering Materials 2',  1),
-    ('ENSC2003', 'Eng. Electrical Fundamentals',  12),
+    ('GENG2003', 'Fluid Mechanics',  1, 0),
+    ('GENG2004', 'Solid Mechanics',  1, 0),
+    ('MECH2002', 'Engineering Materials 2',  1, 0),
+    ('ENSC2003', 'Eng. Electrical Fundamentals',  12, 0),
     # Year 2 Semester 2
-    ('MATH3023', 'Adv. Mathematics Applications',  2),
-    ('MECH2004', 'Engineering Dynamics',  2),
-    ('MECH3024', 'Engineering Thermodynamics',  2),
+    ('MATH3023', 'Adv. Mathematics Applications',  2, 0),
+    ('MECH2004', 'Engineering Dynamics',  2, 0),
+    ('MECH3024', 'Engineering Thermodynamics',  2, 0),
     # Year 3 Semester 1
-    ('MECH3002', 'Manufacturing', 1),
-    ('MECH4429', 'Applied Eng. Thermodynamics',  1),
+    ('MECH3002', 'Manufacturing', 1, 0),
+    ('MECH4429', 'Applied Eng. Thermodynamics',  1, 0),
     # Year 3 Semester 2
-    ('GENG3405', 'Numerical Methods & Modelling',  2),
-    ('MECH3001', 'Mechanisms & Machines',  2),
-    ('MECH3424', 'Measurement & Instrumentation',  2),
-    ('MECH4502', 'Analysis and Design of Machine Components',  2),
+    ('GENG3405', 'Numerical Methods & Modelling',  2, 0),
+    ('MECH3001', 'Mechanisms & Machines',  2, 0),
+    ('MECH3424', 'Measurement & Instrumentation',  2, 0),
+    ('MECH4502', 'Analysis and Design of Machine Components',  2, 0),
     # Year 4 Semester 1
-    ('MECH5551', 'Mechanical Eng Design Project 1',  1),
-    ('MECH4426', 'Dynamics, Vibration & Sound',  1),
+    ('MECH5551', 'Mechanical Eng Design Project 1',  1, 0),
+    ('MECH4426', 'Dynamics, Vibration & Sound',  1, 0),
     # Year 4 Semester 2
-    ('GENG5507', 'Risk, Reliability and Safety',  12),
-    ('GENG3402', 'Control Engineering',  2),
+    ('GENG5507', 'Risk, Reliability and Safety',  12, 120),  # GENG5507 has 120 unit points
+    ('GENG3402', 'Control Engineering',  2, 0),
 ]
 
 # Define an SQL query to insert data into the Unit table
 insert_unit_query = """
-INSERT INTO Unit (code, name, semester, status) VALUES (?, ?, ?,'incomplete')
+INSERT INTO Unit (code, name, semester, unit_points_required, status) VALUES (?, ?, ?, ?, 'incomplete')
 """
 
 # Execute the insert_unit_query using executemany() to insert multiple rows of data

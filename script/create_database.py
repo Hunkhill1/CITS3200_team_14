@@ -10,9 +10,8 @@ create_unit_table_query = """
 CREATE TABLE IF NOT EXISTS Unit (
     code TEXT PRIMARY KEY, 
     name TEXT,
-    unit_points INTEGER,  -- New column for unit points
+    unit_points_required INTEGER,
     semester INTEGER,
-    status TEXT DEFAULT 'incomplete'
 );
 """
 cursor.execute(create_unit_table_query)
@@ -24,7 +23,6 @@ CREATE TABLE IF NOT EXISTS UnitRelationship (
     pre_requisite TEXT,
     FOREIGN KEY (unit_code) REFERENCES Unit (code),
     FOREIGN KEY (pre_requisite) REFERENCES Unit (code),
-    unit_points_required INTEGER,  -- New column for unit points required as a prerequisite
     PRIMARY KEY (unit_code, pre_requisite)
 );
 """
