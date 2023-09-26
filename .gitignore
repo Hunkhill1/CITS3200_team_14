@@ -15,10 +15,13 @@ venv/bin/activate.fish
 venv/bin/activate.csh
 venv/bin/activate
 venv/pyvenv.cfg
+venv/
 database/study_planner.db
 __pycache__/
 __pycache__/app.cpython-37.pyc
 __pycache__/*.pyc
+app/__pycache__/
+app/*.pyc
 # Distribution / packaging
 bin/
 build/

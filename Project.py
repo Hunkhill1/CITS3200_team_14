@@ -76,8 +76,10 @@ def process_json_data():
         
         trimmed_incomplete_units = remove_string_from_list(incomplete_units, "Select unit")
         trimmed_complete_units = remove_string_from_list(complete_units, "Select unit")    
+
+        start_sem = 3
                
-        algorithm(trimmed_complete_units, trimmed_incomplete_units)
+        algorithm(trimmed_complete_units, trimmed_incomplete_units, start_sem)
 
         # Return a response if needed
         response_data = {'message': 'Data received successfully'}

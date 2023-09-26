@@ -145,6 +145,21 @@ def insert_prerequisite() -> None:
     print(f"Prerequisite {pre_requisite} added for unit {unit_code}.")
 
 
+def get_all_units() -> list[str]:
+    """ Get all units from the database
+
+    Returns:
+        list[str]:  List of units
+    """    
+    conn = sqlite3.connect(constants.degree_db_address)
+    cursor = conn.cursor()
+    # Fetch data from the Unit table
+    cursor.execute("SELECT code, name, semester FROM Unit")
+    data_from_database = cursor.fetchall()
+    # Close the database connection
+    conn.close()
+    return data_from_database
+
 def visualize_prerequisites(G) -> None:
     """Visualize the prerequisites path for a unit.
 
