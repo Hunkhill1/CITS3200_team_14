@@ -9,48 +9,23 @@ unit = Blueprint('unit', __name__)
 staff_editing_bp = Blueprint('staff_editing', __name__)
 
 @index.route('/')
-def index_route():
-    # Connect to the database
-    # conn = sqlite3.connect(constants.degree_db_address)
-    # cursor = conn.cursor()
-
-    # # Fetch data from the Unit table
-    # cursor.execute("SELECT code, name, semester, status FROM Unit")
-    # data_from_database = cursor.fetchall()
-
-    # # Close the database connection
-    # conn.close()
-    
+def index_route():   
     data_from_database = database_interface.get_all_units()
-
     # Pass the fetched data to the template for rendering
     return render_template('index.html', data=data_from_database)
 
 @unit.route('/<unit_code>')
 def unit_route(unit_code):
-    # Connect to the database
-    conn = sqlite3.connect(constants.degree_db_address)
-    cursor = conn.cursor()
-
-    # Fetch prerequisites for the specified unit
-    cursor.execute("SELECT pre_requisite FROM UnitRelationship WHERE unit_code=?", (unit_code,))
-    prerequisites = [row[0] for row in cursor.fetchall()]
-
-    # Close the database connection
-    conn.close()
+    # Fetch the unit from the database   
+    prerequisites = database_interface.get_prerequisites(unit_code)
 
     # Return prerequisites as JSON
     return jsonify(prerequisites=prerequisites)
 
 @index.route('/planner')
 def planner_route():
-    # Connect to the database
-    # conn = sqlite3.connect(constants.degree_db_address)
-    # cursor = conn.cursor()
-    # cursor.execute("SELECT code, name, semester, status FROM Unit")
     units_from_database =  database_interface.get_all_units()
-    # conn.close()
-
+    
     # Define the default plan
     default_plan = {
         'year_1': {

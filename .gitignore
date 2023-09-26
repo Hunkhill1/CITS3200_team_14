@@ -19,6 +19,7 @@ database/study_planner.db
 __pycache__/
 __pycache__/app.cpython-37.pyc
 __pycache__/*.pyc
+app/__pycache__/
 # Distribution / packaging
 bin/
 build/
