@@ -1,5 +1,7 @@
 // Dictionary to cache fetched prerequisites for each unit code
 const fetchedPrerequisites = {};
+const selectedUnits = [];
+const unselectedUnits = [];
 
 // Fetch and cache prerequisites
 async function fetchAndCachePrerequisites(unitCode) {
@@ -67,9 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-const selectedUnits = [];
-const unselectedUnits = [];
-
 function removeSelect(element) {
     const selectElement = element.previousElementSibling;
     const value = selectElement.value;
@@ -87,10 +86,8 @@ function removeSelect(element) {
     }
     
     // Push the removed unit into the unselectedUnits array
-    unselectedUnits.push(removedValue);
-    
-    // Push the removed unit into the unselectedUnits array
-    unselectedUnits.push(removedValue);
+    unselectedUnits.push(value);
+
     
     selectElement.disabled = false;
 
