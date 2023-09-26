@@ -1,7 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import sqlite3
-import constants as constants
+import script.constants as constants
 
 
 def create_unit_graph():

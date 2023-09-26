@@ -1,6 +1,7 @@
 import sqlite3
-from dag import create_unit_graph, highlight_path, visualize_graph
-import constants as constants
+from script.dag import create_unit_graph, highlight_path, visualize_graph
+import script.constants as constants
+
 
 def get_prerequisites(unit_code:str)->list[str]:
     """ Get the prerequisites for a unit

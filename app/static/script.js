@@ -51,6 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 ${prerequisites.map(prerequisite => `<li>${prerequisite}</li>`).join('')}
             </ul>
         `;
+    
+    
     });
 });
 
@@ -66,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const selectedUnits = [];
+const unselectedUnits = [];
 
 function removeSelect(element) {
     const selectElement = element.previousElementSibling;
@@ -83,10 +86,57 @@ function removeSelect(element) {
         selectElement.style.backgroundColor = '#ffcccc';
     }
     
+    // Push the removed unit into the unselectedUnits array
+    unselectedUnits.push(removedValue);
+    
+    // Push the removed unit into the unselectedUnits array
+    unselectedUnits.push(removedValue);
+    
     selectElement.disabled = false;
 
     console.log("Selected Units: ", selectedUnits);
+    console.log("Unselected Units: ", unselectedUnits);
+
+   
 }
+document.addEventListener("DOMContentLoaded", () => {
+    // Add an event listener to the submit button
+    const submitButton = document.querySelector('.submit-button button');
+    submitButton.addEventListener('click', () => {
+        // Create a JSON object with unit codes and statuses
+        const unitStatuses = {};
+
+        // Populate the JSON object with selected units as "complete"
+        for (const unit of selectedUnits) {
+            unitStatuses[unit] = "complete";
+        }
+
+        // Populate the JSON object with unselected units as "incomplete"
+        for (const unit of unselectedUnits) {
+            unitStatuses[unit] = "incomplete";
+        }
+
+        // Send the JSON data to the Python script using fetch
+        fetch('/process_json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(unitStatuses),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response from the Python script if needed
+            console.log('Response from Python script:', data);
+        })
+        .catch(error => {
+            console.error('Error sending data to Python script:', error);
+        });
+
+        // Find unselected units by comparing with all possible unit values
+    });
+});
+
 
 // Logic for the second page
 document.addEventListener("DOMContentLoaded", () => {

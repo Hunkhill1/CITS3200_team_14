@@ -29,6 +29,7 @@ h2 {
   border: 1px solid #007bff;
   padding: 10px;
   background-color: #007bff;
+  color: white;
 }
 
 label {
@@ -38,8 +39,8 @@ label {
 
 .select-wrapper {
   display: flex;
-  align-items: center;
-  margin-bottom: 20px;
+  flex-direction: column; /* Display label and select vertically */
+  margin-bottom: 17px; /* Add margin between elements */
 }
 
 .button {
@@ -125,6 +126,7 @@ select {
 }
 
 label {
+  font-size: 17px;
   font-weight: bold;
 }
 
