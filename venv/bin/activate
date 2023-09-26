@@ -38,11 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-<<<<<<< HEAD
 VIRTUAL_ENV="/Users/EthanWilson/Desktop/UNI/3.2/CITS3200/Project/venv"
-=======
-VIRTUAL_ENV="/home/iash/University/CITS3200/CITS3200_team_14/venv"
->>>>>>> origin/Optimiser_BE
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

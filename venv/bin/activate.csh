@@ -8,11 +8,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-<<<<<<< HEAD
 setenv VIRTUAL_ENV "/Users/EthanWilson/Desktop/UNI/3.2/CITS3200/Project/venv"
-=======
-setenv VIRTUAL_ENV "/home/iash/University/CITS3200/CITS3200_team_14/venv"
->>>>>>> origin/Optimiser_BE
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"
