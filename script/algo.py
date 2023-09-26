@@ -1,8 +1,8 @@
 from script.study_planner_interface import add_unit_to_planner
 from script.available_units import CanDo
-from script.constants import completed_units as global_completed_units  # Alias the global variable
 
-def algorithm(completed_units_list: list[str], incomplete_units: list[str]) -> None:
+
+def algorithm(completed_units_list: list[str], incomplete_units: list[str], start_sem:int) -> None:
     """ Algorithm to add units to the study plan matrix
 
     Args:
@@ -10,19 +10,16 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str]) -> N
         incomplete_units (list[str]): list of uncompleted unit codes
     """
 
-    global global_completed_units  # Declare the global variable
-
-    global_completed_units = completed_units_list  # Update the global variable
-    print(f'Completed Units in algorithm: {global_completed_units}')
+    print(f'Completed Units in algorithm: {completed_units_list}')
     # Step 1: Add completed units to the study planner
-    for unit in global_completed_units:
+    for unit in completed_units_list:
         add_unit_to_planner(unit)
 
     while True:
         units_to_add: list[str] = []  # Temporary list for units to add in this iteration
 
         # First Iteration
-        post_req = CanDo(global_completed_units, incomplete_units)
+        post_req = CanDo(completed_units_list, incomplete_units)
         for unit in post_req:
             units_to_add.append(unit)
 
@@ -31,10 +28,10 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str]) -> N
             add_unit_to_planner(unit)
 
         # Update global_completed_units with units from this iteration
-        global_completed_units += units_to_add
+        completed_units_list += units_to_add
 
         # Create a new list of remaining incomplete units
-        remaining_units = [unit for unit in incomplete_units if unit not in global_completed_units]
+        remaining_units = [unit for unit in incomplete_units if unit not in completed_units_list]
 
         # Check if there are no more units to add
         if not remaining_units:
