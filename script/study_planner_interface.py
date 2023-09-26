@@ -128,12 +128,13 @@ def get_next_available_semester(semester_type: str, year: int, study_units: List
     return None 
 
 # Function to add a unit to the study matrix based on prerequisites and semester availability
-def add_unit_to_planner(unit_code: str) -> None:
+def add_unit_to_planner(unit_code: str,status:str, start_sem:int) -> None:
     """ Add a unit to the study matrix based on prerequisites and semester availability.
 
     Args:
         unit_code (str):  The unit code to add to the study matrix.
     """    
+    
     conn = None  # Initialize conn outside the try block
     try:
         study_units = get_study_units()
@@ -160,6 +161,14 @@ def add_unit_to_planner(unit_code: str) -> None:
             prerequisite_completion_dates[prereq] = indexes
 
         # Populate available_semesters with rows that match the given semester
+
+        # if start_sem%2 == 1:
+        #     semester = 1
+        # else:
+        #     semester = 2
+            
+        # year = start_sem//2 + datetime.date.today().year
+
         for index, row in enumerate(study_units):
             if row[1] == f"Semester {semester}, {datetime.date.today().year}":
                 available_semesters[index] = row
