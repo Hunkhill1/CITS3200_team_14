@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, jsonify, flash, redirect
 import sqlite3
 from app.forms import LoginForm
 import script.constants as constants
+import script.database_interface as database_interface
 
 index = Blueprint('index', __name__)
 unit = Blueprint('unit', __name__)
@@ -10,15 +11,17 @@ staff_editing_bp = Blueprint('staff_editing', __name__)
 @index.route('/')
 def index_route():
     # Connect to the database
-    conn = sqlite3.connect(constants.degree_db_address)
-    cursor = conn.cursor()
+    # conn = sqlite3.connect(constants.degree_db_address)
+    # cursor = conn.cursor()
 
-    # Fetch data from the Unit table
-    cursor.execute("SELECT code, name, semester, status FROM Unit")
-    data_from_database = cursor.fetchall()
+    # # Fetch data from the Unit table
+    # cursor.execute("SELECT code, name, semester, status FROM Unit")
+    # data_from_database = cursor.fetchall()
 
-    # Close the database connection
-    conn.close()
+    # # Close the database connection
+    # conn.close()
+    
+    data_from_database = database_interface.get_all_units()
 
     # Pass the fetched data to the template for rendering
     return render_template('index.html', data=data_from_database)
@@ -42,11 +45,11 @@ def unit_route(unit_code):
 @index.route('/planner')
 def planner_route():
     # Connect to the database
-    conn = sqlite3.connect(constants.degree_db_address)
-    cursor = conn.cursor()
-    cursor.execute("SELECT code, name, semester, status FROM Unit")
-    units_from_database = cursor.fetchall()
-    conn.close()
+    # conn = sqlite3.connect(constants.degree_db_address)
+    # cursor = conn.cursor()
+    # cursor.execute("SELECT code, name, semester, status FROM Unit")
+    units_from_database =  database_interface.get_all_units()
+    # conn.close()
 
     # Define the default plan
     default_plan = {
