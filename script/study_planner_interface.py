@@ -300,6 +300,9 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                 # Check if the prerequisites have been completed
                 if all(prereq in completed_units for prereq in prerequisites):
                     for i in range(1, 6): # 2,3,4,5,6
+                        
+                        
+                        # if current semester >>> start_sem
                         if not row[i] and check_prerequisite_completed(row[0], prerequisite_completion_dates):
                             # Calculate the semester and year for placing the unit code
                             cursor.execute(f'''
@@ -343,7 +346,7 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                                         cursor.execute(f'''
                                             UPDATE study_units
                                             SET unit_{i - 1} = ?
-                                            WHERE id = ?
+                                 `           WHERE id = ?
                                         ''', (unit_code, row[0]))
                                         conn.commit()
                                         return None
@@ -364,7 +367,7 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                                     ''', (unit_code, row[0]))
                                     conn.commit()
                                     return None
-                                
+               # SEMESTER 2 HERE                  
                 if status_commited == False:      
                     # Check for the first empty slot in semester 2 in current year          
                     for index, row in enumerate(study_units):
@@ -386,7 +389,7 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
         # If no suitable semester is found in the current year, check for future years
         if semester in [1, 2]:
             if start_sem%2 == 1:
-             current_year = datetime.date.today().year + start_sem//2
+             current_year = datetime.date.today().year + start_sem//2 
              for year in range(current_year, current_year + (int)(constants.number_of_semesters/2)):
                 next_available_semester = None
                 if semester == 1:

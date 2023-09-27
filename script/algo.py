@@ -9,7 +9,7 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str], star
         completed_units_list (list[str]): list of completed unit codes
         incomplete_units (list[str]): list of uncompleted unit codes
     """
-
+    # Rearrange compelteed units in joshs heuristic order
     print(f'Completed Units in algorithm: {completed_units_list}')
     # Step 1: Add completed units to the study planner
     for unit in completed_units_list:
