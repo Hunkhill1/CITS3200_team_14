@@ -271,6 +271,7 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
     try:
         study_units = get_study_units()
         available_semesters = {}  # Dictionary to store available semesters and their row indices
+        current_year = datetime.date.today().year + start_sem//2
         
         summer_units: list[str] = ['GENG1000', 'GENG2000', 'GENG3000']
         # Retrieve the semester of the unit
@@ -291,8 +292,16 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                         indexes.append(index)
             prerequisite_completion_dates[prereq] = indexes
         for index, row in enumerate(study_units):
-            if row[1] == f"Semester {semester}, {datetime.date.today().year}":
+            if start_sem % 2 == 1:
+             if row[1] == f"Semester {semester}, {current_year}":
                 available_semesters[index] = row
+            else:
+                if semester == 1:
+                 if row[1] == f"Semester {semester}, {current_year}":
+                  available_semesters[index] = row
+                else:
+                    if row[1] == f"Semester {semester}, {current_year-1}":
+                     available_semesters[index] = row
 
         # Check if there are available semesters
         if available_semesters:
@@ -318,7 +327,6 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
         if semester == 12:
             # Check for the first empty slot in semester 1 in current year
             if start_sem%2 == 1:
-             current_year = datetime.date.today().year + start_sem//2
              for year in range(current_year, current_year+ (int)(constants.number_of_semesters/2)):
                 for index, row in enumerate(study_units):
                     if row[1] == f"Semester 1, {year}":
@@ -351,7 +359,6 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                                         conn.commit()
                                         return None
             else: 
-             current_year = datetime.date.today().year + start_sem//2
              for year in range(current_year, current_year+ (int)(constants.number_of_semesters/2)):
                 for index, row in enumerate(study_units):
                     if row[1] == f"Semester 1, {year}":
@@ -389,7 +396,6 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
         # If no suitable semester is found in the current year, check for future years
         if semester in [1, 2]:
             if start_sem%2 == 1:
-             current_year = datetime.date.today().year + start_sem//2 
              for year in range(current_year, current_year + (int)(constants.number_of_semesters/2)):
                 next_available_semester = None
                 if semester == 1:
@@ -421,7 +427,6 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                             conn.commit()
                             return None  # Exit the function after adding the unit code
             else: 
-             current_year = datetime.date.today().year + start_sem//2
              for year in range(current_year, current_year + (int)(constants.number_of_semesters/2)):
                 next_available_semester = None
                 if semester == 1:
