@@ -133,3 +133,62 @@ label {
 .error-text {
   color: red;
 }
+
+
+/* Add this to your CSS or inside a <style> block in your template */
+.legend-container {
+  position: relative;
+  text-align: right;
+  margin: 10px;
+}
+
+.legend-button {
+  cursor: pointer;
+  font-size: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.legend {
+  display: none;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.close-legend {
+  cursor: pointer;
+  float: right;
+}
+
+
+
+* Color-coded legend styles */
+.legend-box {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+  border-radius: 2px;
+}
+
+.legend-pass {
+  border: 2px solid green;
+}
+
+.legend-fail {
+  border: 2px solid red;
+}
+
+.legend-prerequisite {
+  border: 2px solid yellow;
+}
+
+.legend-post-requisite {
+  border: 2px solid blue;
+}

@@ -157,4 +157,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// script.js
 
+function toggleLegend() {
+    var legend = document.getElementById("legend");
+    if (legend.style.display === "none" || legend.style.display === "") {
+        legend.style.display = "block";
+    } else {
+        legend.style.display = "none";
+    }
+}
+
+function closeLegend() {
+    var legend = document.getElementById("legend");
+    legend.style.display = "none";
+}
