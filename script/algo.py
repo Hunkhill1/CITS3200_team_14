@@ -1,4 +1,4 @@
-from script.study_planner_interface import add_unit_to_planner
+from script.study_planner_interface import add_completed_unit_to_planner, add_incompleted_unit_to_planner
 from script.available_units import CanDo
 
 
@@ -13,7 +13,7 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str], star
     print(f'Completed Units in algorithm: {completed_units_list}')
     # Step 1: Add completed units to the study planner
     for unit in completed_units_list:
-        add_unit_to_planner(unit,"Complete",start_sem)
+        add_completed_unit_to_planner(unit)
 
     while True:
         units_to_add: list[str] = []  # Temporary list for units to add in this iteration
@@ -25,7 +25,7 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str], star
 
         # Add units from the first iteration to the study planner
         for unit in units_to_add:
-            add_unit_to_planner(unit,"Incomplete",start_sem)
+            add_incompleted_unit_to_planner(unit,start_sem)
 
         # Update global_completed_units with units from this iteration
         completed_units_list += units_to_add
