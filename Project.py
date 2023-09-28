@@ -12,7 +12,7 @@ import json
 
 app = Flask(__name__, template_folder=constants.template_folder_address, static_folder=constants.static_folder_address)
 app.config.from_object(Config)
-
+app.secret_key = 'your_secret_key'
 login = LoginManager(app) # type: ignore
 login.login_view = 'login'
 
