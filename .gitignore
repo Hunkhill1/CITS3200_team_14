@@ -3,6 +3,7 @@ venv/
 /home/iash/University/CITS3200/CITS3200_team_14/venv
 venv/pyvenv.cfg
 .gitignore
+venv/bin
 venv/bin/activate.csh
 venv/bin/Activate.ps1
 venv/bin/flask
@@ -15,6 +16,7 @@ venv/bin/activate.fish
 venv/bin/activate.csh
 venv/bin/activate
 venv/pyvenv.cfg
+venv/lib
 database/study_planner.db
 __pycache__/
 __pycache__/app.cpython-37.pyc
@@ -33,3 +35,5 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+*.pyc
+
