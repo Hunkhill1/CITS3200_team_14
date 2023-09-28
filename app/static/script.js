@@ -21,6 +21,12 @@ async function checkAndHighlightPrerequisitesAndPostreqs(selectedUnitCode) {
     selectElements.forEach(async (select) => {
         const unitCode = select.value;
 
+        select.style.fontWeight = '';
+
+        if (unitCode === selectedUnitCode) {
+            select.style.fontWeight = 'bold';
+        }
+
         if (prerequisites.includes(unitCode)) {
             select.style.boxShadow = '0 0 2rem orange';
         }
@@ -135,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// Logic for the second page
 document.addEventListener("DOMContentLoaded", () => {
     const selectElements = document.querySelectorAll(".unit-select");
   
