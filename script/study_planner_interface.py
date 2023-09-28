@@ -122,7 +122,7 @@ def get_next_available_semester(semester_type: str, year: int, study_units: List
                     return (index, i, f"{semester_type}, {year}")
     return None 
 
-def update_study_unit(conn, unit_id:int, cell:int, unit_code:str):
+def update_study_unit(unit_id:int, cell:int, unit_code:str):
     """
     Update the study unit in the database with the given unit code.
 
@@ -134,12 +134,14 @@ def update_study_unit(conn, unit_id:int, cell:int, unit_code:str):
         unit_code (str): The unit code to add.
     """
     try:
+        conn = sqlite3.connect(constants.study_planner_db_address)
         cursor = conn.cursor()
         cursor.execute(f'''
             UPDATE study_units
             SET unit_{cell - 1} = ?
             WHERE id = ? ''', (unit_code, unit_id))
         conn.commit()
+        conn.close()
     except sqlite3.Error as e:
         print(f"Error updating study unit: {e}")
 
@@ -169,6 +171,30 @@ def get_prerequisite_completion_dates(study_units:List[str], prerequisites:List[
     
     return prerequisite_completion_dates
 
+
+def find_available_semesters(study_units:List[str], semester:int):
+    """
+    Find available semesters in the study_units list.
+
+    Args:
+        study_units (List[str]): List of study unit rows.
+        semester (int): The semester to search for (e.g., 1, 2).
+
+    Returns:
+        Dict[int, List]: A dictionary where keys are row indices and
+        values are study unit rows for available semesters.
+    """
+    available_semesters = {}
+
+    for index, row in enumerate(study_units):
+        current_year = datetime.date.today().year
+        semester_str = f"Semester {semester}, {current_year}"
+
+        if row[1] == semester_str:
+            available_semesters[index] = row
+
+    return available_semesters
+
 def add_completed_unit_to_planner(unit_code: str) -> None:
     """ Add a unit to the study matrix based on prerequisites and semester availability.
 
@@ -178,42 +204,26 @@ def add_completed_unit_to_planner(unit_code: str) -> None:
     
     conn = None  # Initialize conn outside the try block
     try:
-        study_units = get_study_units()
-        available_semesters = {}  # Dictionary to store available semesters and their row indices
+        # conn = sqlite3.connect(constants.study_planner_db_address)
+        # cursor = conn.cursor()
         
-        #summer_units: list[str] = ['GENG1000', 'GENG2000', 'GENG3000']
-
-        # Retrieve the semester of the unit
+        study_units = get_study_units()       
         semester = get_unit_semester(unit_code)
-
-        conn = sqlite3.connect(constants.study_planner_db_address)
-        cursor = conn.cursor()
-
         completed_units = extract_unit_codes(study_units)
         prerequisites = get_prerequisites(unit_code)
         prerequisite_completion_dates = get_prerequisite_completion_dates(study_units, prerequisites)
-        
-        for index, row in enumerate(study_units):
-            if row[1] == f"Semester {semester}, {datetime.date.today().year}":
-                available_semesters[index] = row
+        available_semesters = find_available_semesters(study_units, semester)
 
         # Check if there are available semesters
         if available_semesters:
             for index, row in available_semesters.items():
+                semester_to_be_updated:int = int(row[0])
                 # Check if the prerequisites have been completed
                 if all(prereq in completed_units for prereq in prerequisites):
-                    for i in range(1, 6): # 2,3,4,5,6
-                        if not row[i] and check_prerequisite_completed(row[0], prerequisite_completion_dates):
-                            # Calculate the semester and year for placing the unit code
-                            #update_study_unit(conn, row[0],i, unit_code)
-                            semester_to_be_updated:int = int(row[0])
-                            cursor.execute(f'''
-                                UPDATE study_units
-                                SET unit_{i - 1} = ?
-                                WHERE id = ?
-                            ''', (unit_code, semester_to_be_updated))   
-                            conn.commit()
-                            return None  # Exit the function after adding the unit code
+                    for i in range(1, 6):
+                        if not row[i] and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates):
+                            update_study_unit(semester_to_be_updated,i, unit_code)                      
+                            return None # Exit the function after adding the unit code
 
        # If no suitable cell is found in the current semester, check for future semesters of the same type
         status_commited = False
@@ -228,14 +238,13 @@ def add_completed_unit_to_planner(unit_code: str) -> None:
                                 if all(prereq in completed_units for prereq in prerequisites):
                                     status_commited = True
                                     semester_to_be_updated:int = int(row[0])
-                                    # print("unit code = ", unit_code)
-                                    # print("row[0] = ",row[0])
-                                    cursor.execute(f'''
-                                        UPDATE study_units
-                                        SET unit_{i - 1} = ?
-                                        WHERE id = ?
-                                    ''', (unit_code, semester_to_be_updated))
-                                    conn.commit()
+                                    update_study_unit(semester_to_be_updated,i, unit_code)    
+                                    # cursor.execute(f'''
+                                    #     UPDATE study_units
+                                    #     SET unit_{i - 1} = ?
+                                    #     WHERE id = ?
+                                    # ''', (unit_code, semester_to_be_updated))
+                                    # conn.commit()
                                     # update_study_unit(conn, int(row[0]),i, unit_code)
                                     return None
                                 
@@ -248,12 +257,13 @@ def add_completed_unit_to_planner(unit_code: str) -> None:
                                     # Check if the prerequisites have been completed
                                     if all(prereq in completed_units for prereq in prerequisites):
                                         semester_to_be_updated:int = int(row[0])
-                                        cursor.execute(f'''
-                                            UPDATE study_units
-                                            SET unit_{i - 1} = ?
-                                            WHERE id = ?
-                                        ''', (unit_code, semester_to_be_updated))
-                                        conn.commit()
+                                        update_study_unit(semester_to_be_updated,i, unit_code)  
+                                        # cursor.execute(f'''
+                                        #     UPDATE study_units
+                                        #     SET unit_{i - 1} = ?
+                                        #     WHERE id = ?
+                                        # ''', (unit_code, semester_to_be_updated))
+                                        # conn.commit()
                                         return None
                                 
 
@@ -272,24 +282,26 @@ def add_completed_unit_to_planner(unit_code: str) -> None:
                         temp_list = completed_units + constants.summer_units
                         if all(prereq in temp_list for prereq in prerequisites):
                             semester_to_be_updated:int = int(study_units[index][0])
-                            cursor.execute(f'''
-                                UPDATE study_units
-                                SET unit_{i - 1} = ?
-                                WHERE id = ?
-                            ''', (unit_code, semester_to_be_updated))
-                            conn.commit()
+                            update_study_unit(semester_to_be_updated,i, unit_code)  
+                            # cursor.execute(f'''
+                            #     UPDATE study_units
+                            #     SET unit_{i - 1} = ?
+                            #     WHERE id = ?
+                            # ''', (unit_code, semester_to_be_updated))
+                            # conn.commit()
                             return None  # Exit the function after adding the unit code
                         
                                      
                     else :
                         if all(prereq in completed_units for prereq in prerequisites) and check_prerequisite_completed(index+1, prerequisite_completion_dates):
                             semester_to_be_updated:int = int(study_units[index][0])
-                            cursor.execute(f'''
-                                UPDATE study_units
-                                SET unit_{i - 1} = ?
-                                WHERE id = ?
-                            ''', (unit_code, semester_to_be_updated))
-                            conn.commit()
+                            update_study_unit(semester_to_be_updated,i, unit_code) 
+                            # cursor.execute(f'''
+                            #     UPDATE study_units
+                            #     SET unit_{i - 1} = ?
+                            #     WHERE id = ?
+                            # ''', (unit_code, semester_to_be_updated))
+                            # conn.commit()
                             return None  # Exit the function after adding the unit code
 
         # If no suitable semester is found, print a message
