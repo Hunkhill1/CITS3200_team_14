@@ -143,13 +143,12 @@ def update_study_unit(conn, unit_id:int, cell:int, unit_code:str):
     except sqlite3.Error as e:
         print(f"Error updating study unit: {e}")
 
-
-def get_prerequisite_completion_dates(study_units, prerequisites):
+def get_prerequisite_completion_dates(study_units:List[str], prerequisites:List[str]):
     """
     Get prerequisite completion dates for each prerequisite unit.
 
     Args:
-        study_units (List[List]): List of study unit rows.
+        study_units (List[str]): List of study unit rows.
         prerequisites (List[str]): List of prerequisite unit codes.
 
     Returns:
@@ -182,7 +181,7 @@ def add_completed_unit_to_planner(unit_code: str) -> None:
         study_units = get_study_units()
         available_semesters = {}  # Dictionary to store available semesters and their row indices
         
-        summer_units: list[str] = ['GENG1000', 'GENG2000', 'GENG3000']
+        #summer_units: list[str] = ['GENG1000', 'GENG2000', 'GENG3000']
 
         # Retrieve the semester of the unit
         semester = get_unit_semester(unit_code)
@@ -269,8 +268,8 @@ def add_completed_unit_to_planner(unit_code: str) -> None:
 
                 if next_available_semester:
                     index, i, semester_type = next_available_semester  # Unpack the tuple                   
-                    if search_strings_in_list(summer_units, prerequisites) and check_summer_units_index(summer_units, index):
-                        temp_list = completed_units + summer_units
+                    if search_strings_in_list(constants.summer_units, prerequisites) and check_summer_units_index(constants.summer_units, index):
+                        temp_list = completed_units + constants.summer_units
                         if all(prereq in temp_list for prereq in prerequisites):
                             semester_to_be_updated:int = int(study_units[index][0])
                             cursor.execute(f'''
@@ -316,7 +315,6 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
         available_semesters = {}  # Dictionary to store available semesters and their row indices
         current_year = datetime.date.today().year + start_sem//2
         
-        summer_units: list[str] = ['GENG1000', 'GENG2000', 'GENG3000']
         # Retrieve the semester of the unit
         semester = get_unit_semester(unit_code)
 
@@ -448,8 +446,8 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
 
                 if next_available_semester:
                     index, i, semester_type = next_available_semester  # Unpack the tuple                   
-                    if search_strings_in_list(summer_units, prerequisites) and check_summer_units_index(summer_units, index):
-                        temp_list = completed_units + summer_units
+                    if search_strings_in_list(constants.summer_units, prerequisites) and check_summer_units_index(constants.summer_units, index):
+                        temp_list = completed_units + constants.summer_units
                         if all(prereq in temp_list for prereq in prerequisites):
                             cursor.execute(f'''
                                 UPDATE study_units
@@ -479,8 +477,8 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
 
                 if next_available_semester:
                     index, i, semester_type = next_available_semester  # Unpack the tuple                   
-                    if search_strings_in_list(summer_units, prerequisites) and check_summer_units_index(summer_units, index):
-                        temp_list = completed_units + summer_units
+                    if search_strings_in_list(constants.summer_units, prerequisites) and check_summer_units_index(constants.summer_units, index):
+                        temp_list = completed_units + constants.summer_units
                         if all(prereq in temp_list for prereq in prerequisites):
                             cursor.execute(f'''
                                 UPDATE study_units

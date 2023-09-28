@@ -4,6 +4,5 @@ static_folder_address = 'app/static'
 template_folder_address = 'app/templates'
 number_of_semesters = 8
 start_sem =3 # Sem 1 2024
-
-completed_units: list[str] = []  # Initialize an empty list
+summer_units: list[str] = ['GENG1000', 'GENG2000', 'GENG3000']
 
