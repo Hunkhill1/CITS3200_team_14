@@ -161,7 +161,6 @@ def get_prerequisite_completion_dates(study_units:List[str], prerequisites:List[
     
     for prereq in prerequisites:
         indexes = []
-        
         for index, row in enumerate(study_units):
             for i in range(1, 6):
                 if row[i] == prereq:
@@ -172,7 +171,7 @@ def get_prerequisite_completion_dates(study_units:List[str], prerequisites:List[
     return prerequisite_completion_dates
 
 
-def find_available_semesters(study_units:List[str], semester:int):
+def find_available_semesters(study_units:List[str], semester:int,unit_type:str,start_sem:int):
     """
     Find available semesters in the study_units list.
 
@@ -185,13 +184,26 @@ def find_available_semesters(study_units:List[str], semester:int):
         values are study unit rows for available semesters.
     """
     available_semesters = {}
+    current_year = datetime.date.today().year
+    if unit_type == 'completed':
+        for index, row in enumerate(study_units):
 
-    for index, row in enumerate(study_units):
-        current_year = datetime.date.today().year
-        semester_str = f"Semester {semester}, {current_year}"
+            semester_str = f"Semester {semester}, {current_year}"
 
-        if row[1] == semester_str:
-            available_semesters[index] = row
+            if row[1] == semester_str:
+                available_semesters[index] = row
+    else:
+        for index, row in enumerate(study_units):
+            if start_sem % 2 == 1:
+             if row[1] == f"Semester {semester}, {current_year}":
+                available_semesters[index] = row
+            else:
+                if semester == 1:
+                 if row[1] == f"Semester {semester}, {current_year}":
+                  available_semesters[index] = row
+                else:
+                    if row[1] == f"Semester {semester}, {current_year-1}":
+                     available_semesters[index] = row
 
     return available_semesters
 
@@ -209,7 +221,7 @@ def add_completed_unit_to_planner(unit_code: str) -> None:
         completed_units = extract_unit_codes(study_units)
         prerequisites = get_prerequisites(unit_code)
         prerequisite_completion_dates = get_prerequisite_completion_dates(study_units, prerequisites)
-        available_semesters = find_available_semesters(study_units, semester)
+        available_semesters = find_available_semesters(study_units, semester,'completed',0)
         first_year_of_degree = datetime.date.today().year
 
         # Check if there are available semesters
@@ -292,38 +304,18 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
     conn = None  # Initialize conn outside the try block
     try:
         study_units = get_study_units()
-        available_semesters = {}  # Dictionary to store available semesters and their row indices
-        current_year = datetime.date.today().year + start_sem//2
-        
+         # Dictionary to store available semesters and their row indices
+        first_year_of_degree = datetime.date.today().year
+        current_year = first_year_of_degree + start_sem//2
         # Retrieve the semester of the unit
         semester = get_unit_semester(unit_code)
-
         conn = sqlite3.connect(constants.study_planner_db_address)
         cursor = conn.cursor()
-
+        available_semesters = find_available_semesters(study_units,semester,'incompleted',start_sem)
         completed_units = extract_unit_codes(study_units)
         prerequisites = get_prerequisites(unit_code)
+        prerequisite_completion_dates = get_prerequisite_completion_dates(study_units, prerequisites)
         
-        prerequisite_completion_dates: Dict[str, List[int]] = {}
-        for prereq in prerequisites:
-            indexes = []
-            for index, row in enumerate(study_units):
-                for i in range(1, 6):
-                    if row[i] == prereq:
-                        indexes.append(index)
-            prerequisite_completion_dates[prereq] = indexes
-        for index, row in enumerate(study_units):
-            if start_sem % 2 == 1:
-             if row[1] == f"Semester {semester}, {current_year}":
-                available_semesters[index] = row
-            else:
-                if semester == 1:
-                 if row[1] == f"Semester {semester}, {current_year}":
-                  available_semesters[index] = row
-                else:
-                    if row[1] == f"Semester {semester}, {current_year-1}":
-                     available_semesters[index] = row
-
         # Check if there are available semesters
         if available_semesters:
             for index, row in available_semesters.items():
