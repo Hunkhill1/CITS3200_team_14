@@ -84,3 +84,4 @@ docs/_build/
 
 # PyBuilder
 target/
+database/study_planner.db

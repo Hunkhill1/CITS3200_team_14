@@ -69,7 +69,9 @@ def process_json_data():
                 incomplete_units.append(unit_code)
        
         trimmed_incomplete_units = remove_string_from_list(incomplete_units, "Select unit")
-        trimmed_complete_units = remove_string_from_list(complete_units, "Select unit")    
+        trimmed_complete_units = remove_string_from_list(complete_units, "Select unit") 
+        print(f"Trimmed incomplete units: {trimmed_incomplete_units}")
+        print(f"Trimmed complete units: {trimmed_complete_units}")   
 
         start_sem = constants.start_sem
                
