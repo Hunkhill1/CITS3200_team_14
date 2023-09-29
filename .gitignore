@@ -36,3 +36,10 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+__pycache__/config.cpython-310.pyc
+__pycache__/config.cpython-310.pyc
+__pycache__/Project.cpython-310.pyc
+app/__pycache__/__init__.cpython-310.pyc
+app/__pycache__/forms.cpython-310.pyc
+app/__pycache__/models.cpython-310.pyc
+app/__pycache__/routes.cpython-310.pyc
