@@ -52,6 +52,6 @@ def planner_route():
 @index.route('/fetch-database')
 def fetch_database_route():
     new_plan = study_planner_interface.fetch_database_as_plan()
-    print (new_plan)
+    #print (new_plan)
     return jsonify(new_plan=new_plan)
 
