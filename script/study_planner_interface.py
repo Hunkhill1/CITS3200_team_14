@@ -576,19 +576,19 @@ def update_null_values(start_semester: int) -> None:
         if semester < start_semester:
             # Update NULL values in this row to "Fail"
             values_to_update = [constants.fail_str if value is None else value for value in row[2:]]
-        else:
+
             # Update NULL values in this row to "BROADENING"
-            values_to_update = [constants.broading_str if value is None else value for value in row[2:]]
+            #values_to_update = [constants.broading_str if value is None else value for value in row[2:]]
 
         # Update the row in the database
-        update_query = f'''
-            UPDATE study_units
-            SET {", ".join([f"{column} = ?" for column in column_names])}
-            WHERE id = ?
-        '''
-        cursor.execute(update_query, (*values_to_update, row[0]))
+            update_query = f'''
+                UPDATE study_units
+                SET {", ".join([f"{column} = ?" for column in column_names])}
+                WHERE id = ?
+            '''
+            cursor.execute(update_query, (*values_to_update, row[0]))
+            conn.commit()
 
-    conn.commit()
     conn.close()
 
 def fetch_database_as_plan() -> dict:

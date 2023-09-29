@@ -20,6 +20,7 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str], star
         # First Iteration
         post_req = CanDo(completed_units_list, incomplete_units)
         for unit in post_req:
+            if check_points(unit):
                 units_to_add.append(unit)
 
         # Add units from the first iteration to the study planner
