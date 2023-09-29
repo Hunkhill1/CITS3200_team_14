@@ -5,7 +5,7 @@ from app.routes import index, unit
 from app.forms import LoginForm
 from app.models import User
 from app import db
-from script.algo import algorithm, remove_string_from_list
+from script.algo import algorithm, remove_string_from_list, clean_list
 import script.constants as constants
 import json
 
@@ -68,14 +68,14 @@ def process_json_data():
             elif status == 'incomplete':
                 incomplete_units.append(unit_code)
        
-        trimmed_incomplete_units = remove_string_from_list(incomplete_units, "Select unit")
-        trimmed_complete_units = remove_string_from_list(complete_units, "Select unit") 
-        print(f"Trimmed incomplete units: {trimmed_incomplete_units}")
-        print(f"Trimmed complete units: {trimmed_complete_units}")   
+        filtered_incomplete_units = clean_list(incomplete_units)
+        filtered_complete_units = clean_list(complete_units) 
+        print(f"Trimmed incomplete units: {filtered_incomplete_units}")
+        print(f"Trimmed complete units: {filtered_complete_units}")   
 
         start_sem = constants.start_sem
                
-        algorithm(trimmed_complete_units, trimmed_incomplete_units, start_sem)
+        algorithm(filtered_complete_units, filtered_incomplete_units, start_sem)
 
         # Return a response if needed
         response_data = {'message': 'Data received successfully'}
