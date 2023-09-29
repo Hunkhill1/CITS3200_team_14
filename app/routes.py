@@ -35,15 +35,15 @@ def planner_route():
         },
         'year_2': {
             'semester_1': ['GENG2003', 'GENG2004', 'MECH2002', 'ENSC2003'],
-            'semester_2': ['MATH3023', 'MECH2004', 'MECH3024', 'Select unit'],
+            'semester_2': ['MATH3023', 'MECH2004', 'MECH3024', 'BROADENING'],
         },
         'year_3': {
-            'semester_1': ['MECH3002', 'MECH4429', 'Select unit', 'Select unit'],
+            'semester_1': ['MECH3002', 'MECH4429', 'BROADENING', 'BROADENING'],
             'semester_2': ['GENG3405', 'MECH3001', 'MECH3424', 'MECH4502'],
         },
         'year_4': {
-            'semester_1': ['MECH5551', 'MECH4426', 'Select unit', 'Select unit'],
-            'semester_2': ['GENG5507', 'GENG3402', 'Select unit', 'Select unit'],
+            'semester_1': ['MECH5551', 'MECH4426', 'OPTION', 'BROADENING'],
+            'semester_2': ['GENG5507', 'GENG3402', 'OPTION', 'OPTION'],
         }
     }
 

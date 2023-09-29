@@ -1,28 +1,9 @@
-__pycache__/
-venv/
-*.py[cod]
-*.so
-*.dylib
-*.egg-info
-dist/
-build/
-*.egg
-*.egg-info
-*.pyc
-*.pyo
-*.pyd
-*.swp
-*.bak
-*.cache
-*.log
-*.vscode
-*.DS_Store
-*.idea
-*.iml
-
 database/study_planner.db
 database/study_planner.db-journal
 app/__pycache__/
+app/migrations/__pycache__/
+app/static/__pycache__/
+.vscode/
 
 
 .gitignore
@@ -37,7 +18,7 @@ settings.py
 *.so
 # Distribution / packaging
 .Python
-env/
+venv/
 build/
 develop-eggs/
 dist/
@@ -84,4 +65,4 @@ docs/_build/
 
 # PyBuilder
 target/
-database/study_planner.db
+

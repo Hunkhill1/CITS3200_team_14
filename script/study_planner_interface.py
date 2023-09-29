@@ -147,7 +147,7 @@ def update_study_unit(unit_id:int, cell:int, unit_code:str):
     except sqlite3.Error as e:
         print(f"Error updating study unit: {e}")
 
-def get_prerequisite_completion_dates(study_units:List[str], prerequisites:List[str]):
+def get_prerequisite_completion_dates(study_units:List[str], prerequisites:List[str])->Dict[str, List[int]]:
     """
     Get prerequisite completion dates for each prerequisite unit.
 
@@ -171,7 +171,6 @@ def get_prerequisite_completion_dates(study_units:List[str], prerequisites:List[
         prerequisite_completion_dates[prereq] = indexes
     
     return prerequisite_completion_dates
-
 
 def find_available_semesters(study_units:List[str], semester:int,unit_type:str,start_sem:int,current_year:int)-> Dict[int, List[str]]:
     """ Find available semesters for a given unit.
@@ -289,7 +288,6 @@ def add_completed_unit_to_planner(unit_code: str) -> None:
     finally:
         if conn:
             conn.close()
-
 
 def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
     """ Add a unit to the study matrix based on prerequisites and semester availability.
@@ -438,8 +436,7 @@ def search_strings_in_list(List_A:List[str], List_B:List[str])->bool:
                 return True  # Found a match, so return True
     
     return False
-        
-            
+                   
 def check_summer_units_index(summer_units:list[str], semester:int)->bool:
     """Checks if the summer units are in the list and the current semester is greater than the completion semester of the summer unit.
 
@@ -461,8 +458,6 @@ def check_summer_units_index(summer_units:list[str], semester:int)->bool:
         
     return False
     
-    
-# Function to drop the study_units table
 def drop_table()->None:
     """ Drop the study_units table.
     """
@@ -473,8 +468,6 @@ def drop_table()->None:
     print("Table 'study_units' has been dropped.")
     conn.close()
     
-   
-# Function to clear all data from the study_units table
 def clear_table()->None:
     """Clear all data from the study_units table.
     """
@@ -598,7 +591,6 @@ def update_null_values(start_semester: int) -> None:
 
     conn.commit()
     conn.close()
-
 
 def fetch_database_as_plan() -> dict:
     """Fetch the contents of the study_units table and return them in a structured dictionary format."""
