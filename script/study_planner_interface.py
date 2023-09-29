@@ -306,7 +306,7 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
         completed_units = extract_unit_codes(study_units)
         prerequisites = get_prerequisites(unit_code)
         prerequisite_completion_dates = get_prerequisite_completion_dates(study_units, prerequisites)
-        
+        current_unit_points = calculate_current_points()
         # Check if there are available semesters
         if available_semesters:
             for index, row in available_semesters.items():
@@ -314,7 +314,7 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                     for cell_index in range(1, 6): 
                         # if current semester >>> start_sem
                         semester_to_be_updated:int = index+1
-                        if not row[cell_index] and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates):
+                        if not row[cell_index] and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates) and check_points(unit_code):
                             update_study_unit(semester_to_be_updated,cell_index, unit_code)
                             return None  # Exit the function after adding the unit code
 
@@ -328,7 +328,7 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                     semester_to_be_updated:int = index+1
                     if row[1] == f"Semester 1, {year}":
                         for cell_index in range(1, 6):
-                            if not row[cell_index] and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates):
+                            if not row[cell_index] and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates) and check_points(unit_code):
                                 if all(prereq in completed_units for prereq in prerequisites):
                                     status_commited = True
                                     update_study_unit(semester_to_be_updated,cell_index, unit_code)
@@ -340,7 +340,7 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                         semester_to_be_updated:int = index+1
                         if row[1] == f"Semester 2, {year}":
                             for cell_index in range(1, 6):
-                                if not row[cell_index] and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates):
+                                if not row[cell_index] and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates) and check_points(unit_code):
                                     if all(prereq in completed_units for prereq in prerequisites):
                                         update_study_unit(semester_to_be_updated,cell_index, unit_code)
                                         return None
@@ -351,7 +351,7 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                     semester_to_be_updated:int = index+1
                     if row[1] == f"Semester 1, {year}":
                         for cell_index in range(1, 6):
-                            if not row[cell_index] and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates):
+                            if not row[cell_index] and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates) and check_points(unit_code):
                                 if all(prereq in completed_units for prereq in prerequisites):
                                     status_commited = True
                                     update_study_unit(semester_to_be_updated,cell_index, unit_code)
@@ -363,7 +363,7 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                         semester_to_be_updated:int = index+1
                         if row[1] == f"Semester 2, {year-1}":
                             for cell_index in range(1, 6):
-                                if not row[cell_index] and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates):
+                                if not row[cell_index] and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates) and check_points(unit_code):
                                     if all(prereq in completed_units for prereq in prerequisites):
                                         update_study_unit(semester_to_be_updated,cell_index, unit_code)
                                         return None
@@ -383,11 +383,11 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                     semester_to_be_updated:int = index+1                
                     if search_strings_in_list(constants.summer_units, prerequisites) and check_summer_units_index(constants.summer_units, index): #what does index here mean, previous summer semester?
                         temp_list = completed_units + constants.summer_units
-                        if all(prereq in temp_list for prereq in prerequisites):
+                        if all(prereq in temp_list for prereq in prerequisites) and check_points(unit_code):
                             update_study_unit(semester_to_be_updated,cell_index, unit_code)
                             return None                
                     else :
-                        if all(prereq in completed_units for prereq in prerequisites) and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates):
+                        if all(prereq in completed_units for prereq in prerequisites) and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates) and check_points(unit_code):
                             update_study_unit(semester_to_be_updated,cell_index, unit_code)
                             return None  
             else: 
@@ -403,11 +403,11 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
                     semester_to_be_updated:int = index+1              
                     if search_strings_in_list(constants.summer_units, prerequisites) and check_summer_units_index(constants.summer_units, index):
                         temp_list = completed_units + constants.summer_units
-                        if all(prereq in temp_list for prereq in prerequisites):
+                        if all(prereq in temp_list for prereq in prerequisites) and check_points(unit_code):
                             update_study_unit(semester_to_be_updated,cell_index, unit_code)
                             return None         
                     else :
-                        if all(prereq in completed_units for prereq in prerequisites) and check_prerequisite_completed(index+1, prerequisite_completion_dates):
+                        if all(prereq in completed_units for prereq in prerequisites) and check_prerequisite_completed(semester_to_be_updated, prerequisite_completion_dates) and check_points(unit_code):
                             update_study_unit(semester_to_be_updated,cell_index, unit_code)
                             return None     
 
@@ -479,20 +479,19 @@ def clear_table()->None:
     # Close the database connection when done
     conn.close()
     
-def calculate_current_points(completed_units: List[str]) -> int:
+def calculate_current_points() -> int:
     """ Calculate current points based on study units.
-
-    Args:
-        completed_units (List[str]):  List of completed units
 
     Returns:
         int:  Current points.
-    """    
+    """
+    study_units = get_study_units()
+    number_of_complete = len(extract_unit_codes(study_units))      
     current_points = 0
-    current_points = len(completed_units) * constants.points_per_unit
+    current_points = number_of_complete * constants.points_per_unit
     return current_points   
     
-def check_points(unit_code: str, current_points:int) -> bool:
+def check_points(unit_code: str) -> bool:
     """ Check if the current points is greater than or equal to the unit points prerequisites.
 
     Args:
@@ -503,7 +502,7 @@ def check_points(unit_code: str, current_points:int) -> bool:
         bool:  True if current points is greater than or equal to the unit points prerequisites, False otherwise.
     """    
     unit_points = get_unit_points_prerequisites(unit_code)
-    
+    current_points = calculate_current_points()
     if unit_points == -1:
         return False
     if unit_points == 0 or current_points >= unit_points:
