@@ -21,6 +21,12 @@ async function checkAndHighlightPrerequisitesAndPostreqs(selectedUnitCode) {
     selectElements.forEach(async (select) => {
         const unitCode = select.value;
 
+        select.style.fontWeight = '';
+
+        if (unitCode === selectedUnitCode) {
+            select.style.fontWeight = 'bold';
+        }
+
         if (prerequisites.includes(unitCode)) {
             select.style.boxShadow = '0 0 2rem orange';
         }
@@ -77,12 +83,12 @@ function removeSelect(element) {
 
     if (index === -1) {
         selectedUnits.push(value);
-        selectElement.style.borderColor = 'green';
-        selectElement.style.backgroundColor = '#71f086';
-    } else {
-        selectedUnits.splice(index, 1);
         selectElement.style.borderColor = 'red';
         selectElement.style.backgroundColor = '#ffcccc';
+    } else {
+        selectedUnits.splice(index, 1);
+        selectElement.style.borderColor = 'green';
+        selectElement.style.backgroundColor = '#71f086';
     }
     
     // Push the removed unit into the unselectedUnits array
@@ -104,12 +110,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const unitStatuses = {};
 
         // Populate the JSON object with selected units as "complete"
-        for (const unit of selectedUnits) {
+        for (const unit of unselectedUnits) {
             unitStatuses[unit] = "complete";
         }
 
         // Populate the JSON object with unselected units as "incomplete"
-        for (const unit of unselectedUnits) {
+        for (const unit of selectedUnits) {
             unitStatuses[unit] = "incomplete";
         }
 
@@ -135,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// Logic for the second page
 document.addEventListener("DOMContentLoaded", () => {
     const selectElements = document.querySelectorAll(".unit-select");
   
@@ -154,4 +159,42 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+$('#submit-button').click(function(e) {
+    e.preventDefault(); // Prevent the default form submission
+    
+    setTimeout(function() {
+        $.ajax({
+            url: '/fetch-database',
+            type: 'GET',
+            success: function(data) {
+                updatePlanner(data.new_plan);
+            },
+            error: function(error) {
+                console.error('Error fetching the new plan', error);
+            }
+        });
+    }, 2000); // 2000 milliseconds (2 seconds) delay
+});
+
+function updatePlanner(newPlan) {
+    for (const [yearKey, semesters] of Object.entries(newPlan)) {
+        for (const [semesterKey, units] of Object.entries(semesters)) {
+            units.forEach((unit, index) => {
+                // Extract year and semester number from the keys
+                const year = yearKey.split('_')[1];
+                const semester = semesterKey.split('_')[1];
+                const unitNum = index + 1; // index is 0-based, unitNum is 1-based
+                
+                // Construct the ID of the select element
+                const selectId = `unit${unitNum}_year${year}_semester${semester}`;
+                
+                // Find the select element by ID and update its value
+                const selectElement = document.getElementById(selectId);
+                if (selectElement) {
+                    selectElement.value = unit;
+                }
+            });
+        }
+    }
+}
 

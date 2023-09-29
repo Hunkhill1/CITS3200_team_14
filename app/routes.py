@@ -3,6 +3,7 @@ import sqlite3
 from app.forms import LoginForm
 import script.constants as constants
 import script.database_interface as database_interface
+import script.study_planner_interface as study_planner_interface 
 
 index = Blueprint('index', __name__)
 unit = Blueprint('unit', __name__)
@@ -48,10 +49,9 @@ def planner_route():
 
     return render_template('planner.html', default_plan=default_plan, all_units=units_from_database)
 
-
-
-
-
-
-
+@index.route('/fetch-database')
+def fetch_database_route():
+    new_plan = study_planner_interface.fetch_database_as_plan()
+    print (new_plan)
+    return jsonify(new_plan=new_plan)
 

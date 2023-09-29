@@ -600,6 +600,36 @@ def update_null_values(start_semester: int) -> None:
     conn.close()
 
 
+def fetch_database_as_plan() -> dict:
+    """Fetch the contents of the study_units table and return them in a structured dictionary format."""
+    conn = sqlite3.connect(constants.study_planner_db_address)
+    cursor = conn.cursor()
+    new_plan = {}
+    try:
+        cursor.execute('SELECT * FROM study_units')
+        study_units = cursor.fetchall()
+        
+        for row_index, row in enumerate(study_units, start=1):
+            year = (row_index + 1) // 2
+            semester = 1 if row_index % 2 != 0 else 2  # Odd row number is semester 1, even is semester 2
+            
+            year_key = f'year_{year}'
+            semester_key = f'semester_{semester}'
+            
+            if year_key not in new_plan:
+                new_plan[year_key] = {'semester_1': [], 'semester_2': []}
+            
+            # Assuming the units are from index 2 to 5 inclusive in the row
+            units = [unit if unit is not None else 'None' for unit in row[2:6]]  # Replace None with 'None'
+            new_plan[year_key][semester_key].extend(units)
+                
+    except sqlite3.Error as e:
+        print(f"Error fetching data from the database: {e}")
+    finally:
+        conn.close()
+    
+    return new_plan
+
 def run():
     # Create the database and table
     create_database()
