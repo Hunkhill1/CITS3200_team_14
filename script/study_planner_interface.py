@@ -496,8 +496,7 @@ def calculate_current_points(completed_units: List[str]) -> int:
         int:  Current points.
     """    
     current_points = 0
-    value_of_unit = 6
-    current_points = len(completed_units) * value_of_unit
+    current_points = len(completed_units) * constants.points_per_unit
     return current_points   
     
 def check_points(unit_code: str, current_points:int) -> bool:
@@ -514,11 +513,9 @@ def check_points(unit_code: str, current_points:int) -> bool:
     
     if unit_points == -1:
         return False
-    else :
-        if current_points >= unit_points:
-            return True
-        else:
-            return False
+    if unit_points == 0 or current_points >= unit_points:
+        return True
+    return False
     
 def get_unit_points_prerequisites(unit_code:str)->int:
     """ Get unit points prerequisites for a given unit code.
@@ -552,7 +549,7 @@ def get_unit_points_prerequisites(unit_code:str)->int:
             unit_points_prerequisites = int(result[0])  # Convert to integer
             return unit_points_prerequisites
         else:
-            return -1  # Unit not found or no unit points prerequisites
+            return -1  # Unit not found
 
     except sqlite3.Error as e:
         print("Database error:", e)
