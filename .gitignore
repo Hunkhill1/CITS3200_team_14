@@ -1,9 +1,30 @@
 __pycache__/
 venv/
-/venv/
+*.py[cod]
+*.so
+*.dylib
+*.egg-info
+dist/
+build/
+*.egg
+*.egg-info
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.bak
+*.cache
+*.log
+*.vscode
+*.DS_Store
+*.idea
+*.iml
 
-/home/iash/University/CITS3200/CITS3200_team_14/venv
-venv/pyvenv.cfg
+database/study_planner.db
+database/study_planner.db-journal
+app/__pycache__/
+
+
 .gitignore
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -14,8 +35,6 @@ media/
 settings.py
 # C extensions
 *.so
-CITS3200_team_14/venv/
-/home/iash/University/CITS3200/CITS3200_team_14/.gitignore
 # Distribution / packaging
 .Python
 env/
