@@ -67,13 +67,7 @@ def process_json_data():
                 complete_units.append(unit_code)
             elif status == 'incomplete':
                 incomplete_units.append(unit_code)
-
-        # Pretty-print the lists of complete and incomplete units
-        print("Complete Units:")
-        print(json.dumps(complete_units, indent=4))
-        print("Incomplete Units:")
-        print(json.dumps(incomplete_units, indent=4))
-        
+       
         trimmed_incomplete_units = remove_string_from_list(incomplete_units, "Select unit")
         trimmed_complete_units = remove_string_from_list(complete_units, "Select unit")    
 
