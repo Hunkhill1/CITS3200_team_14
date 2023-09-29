@@ -64,8 +64,7 @@ def clean_list(input_list:list[str])->list[str]:
         list[str]:  The list with all occurrences of the specified string removed.
     """    
     temp_list_1 = remove_string_from_list(input_list, constants.select_unit_str)
-    temp_list_2 = remove_string_from_list(temp_list_1, constants.broading_str)
-    temp_list_3 = remove_string_from_list(temp_list_2, constants.option_str)
-    return temp_list_3
+    temp_list_2 = remove_string_from_list(temp_list_1, constants.option_str)
+    return temp_list_2
         
 

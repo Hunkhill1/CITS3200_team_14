@@ -55,6 +55,12 @@ unit_data = [
     ('GENG5514', 'Finite Element Method',  1, 120, 5),  # "Group B" with unit_points = 120
     ('MECH4428', 'Degradation of Materials',  1, 96, 5),  # "Group B" with unit_points = 96
     
+    # BROADENING
+    ('BROAD001', 'BROADENING',  12, 0, 2),
+    ('BROAD002', 'BROADENING',  12, 0, 2),
+    ('BROAD003', 'BROADENING',  12, 0, 2),
+    ('BROAD004', 'BROADENING',  12, 0, 2),
+    
 ]
 
 # Define an SQL query to insert data into the Unit table (with category_id)
