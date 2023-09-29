@@ -559,6 +559,47 @@ def get_unit_points_prerequisites(unit_code:str)->int:
         if connection:
             connection.close()
 
+def update_null_values(start_semester: int) -> None:
+    """Update null values in rows based on the semester in the study_units table.
+
+    Args:
+        start_semester (int): The semester before which to update null values to "Fail".
+    """
+    conn = sqlite3.connect(constants.study_planner_db_address)
+    cursor = conn.cursor()
+
+    # Get the list of column names to update (unit_1, unit_2, unit_3, unit_4)
+    column_names = [f"unit_{i}" for i in range(1, 5)]
+
+    # Fetch all rows from the study_units table
+    cursor.execute('SELECT * FROM study_units')
+    rows = cursor.fetchall()
+
+    # Iterate through rows and update null values
+    for row in rows:
+        semester = row[0]  # Assuming semester is in the second column (index 1)
+        values_to_update = []
+
+        # Check if the semester is before the start semester
+        if semester < start_semester:
+            # Update NULL values in this row to "Fail"
+            values_to_update = [constants.fail_str if value is None else value for value in row[2:]]
+        else:
+            # Update NULL values in this row to "BROADENING"
+            values_to_update = [constants.broading_str if value is None else value for value in row[2:]]
+
+        # Update the row in the database
+        update_query = f'''
+            UPDATE study_units
+            SET {", ".join([f"{column} = ?" for column in column_names])}
+            WHERE id = ?
+        '''
+        cursor.execute(update_query, (*values_to_update, row[0]))
+
+    conn.commit()
+    conn.close()
+
+
 def run():
     # Create the database and table
     create_database()

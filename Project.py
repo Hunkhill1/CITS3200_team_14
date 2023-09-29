@@ -54,8 +54,8 @@ def process_json_data():
         json_data = request.get_json()
         
         # Process the JSON data as needed
-        print("Received JSON data:")
-        print(json.dumps(json_data, indent=4))  # Pretty-print JSON data
+        # print("Received JSON data:")
+        # print(json.dumps(json_data, indent=4))  # Pretty-print JSON data
 
         # Initialize lists to store complete and incomplete units
         complete_units = []

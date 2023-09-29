@@ -1,4 +1,4 @@
-from script.study_planner_interface import add_completed_unit_to_planner, add_incompleted_unit_to_planner
+from script.study_planner_interface import add_completed_unit_to_planner, add_incompleted_unit_to_planner, update_null_values
 from script.available_units import CanDo
 
 
@@ -10,7 +10,7 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str], star
         incomplete_units (list[str]): list of uncompleted unit codes
     """
     # Rearrange compelteed units in joshs heuristic order
-    print(f'Completed Units in algorithm: {completed_units_list}')
+    
     # Step 1: Add completed units to the study planner
     for unit in completed_units_list:
         add_completed_unit_to_planner(unit)
@@ -39,6 +39,8 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str], star
 
         # Set incomplete_units to the remaining units for the next iteration
         incomplete_units = remaining_units
+        
+    update_null_values(start_sem)
 
         
 def remove_string_from_list(input_list:list[str], string_to_remove:str)->list[str]:
