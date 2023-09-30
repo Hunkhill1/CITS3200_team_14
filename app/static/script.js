@@ -157,4 +157,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// User manual toggle
+document.addEventListener("DOMContentLoaded", () => {
+    const questionButton = document.getElementById("questionButton");
+    const userManual = document.getElementById("userManual");
+    const closeManualButton = document.getElementById("closeManualButton");
+
+    // Function to toggle user manual visibility
+    function toggleUserManual() {
+        if (userManual.style.display === "block") {
+            userManual.style.display = "none";
+        } else {
+            userManual.style.display = "block";
+        }
+    }
+
+    questionButton.addEventListener("click", toggleUserManual);
+    closeManualButton.addEventListener("click", toggleUserManual);
+});
+
 
