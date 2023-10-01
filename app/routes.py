@@ -48,7 +48,7 @@ def planner_route():
     units_from_database = cursor.fetchall()
     conn.close()
 
-    # Define the default plan
+    # Define the default plan for semester 1
     default_plan = {
         'year_1': {
             'semester_1': ['MATH1011', 'GENG1010', 'PHYS1001', 'CITS2401'],
@@ -72,6 +72,13 @@ def planner_route():
 
 @index.route('/planner2')
 def planner2_route():
+    # Connect to the database
+    conn = sqlite3.connect(constants.degree_db_address)
+    cursor = conn.cursor()
+    cursor.execute("SELECT code, name, semester, status FROM Unit")
+    units_from_database = cursor.fetchall()
+    conn.close()
+
     # Define the same default plan for semester 2 start
     default_plan = {
         'year_1': {
@@ -93,10 +100,3 @@ def planner2_route():
     }
 
     return render_template('planner2.html', default_plan=default_plan)
-
-
-
-
-
-
-
