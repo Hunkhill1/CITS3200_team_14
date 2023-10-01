@@ -192,3 +192,42 @@ label {
 .legend-post-requisite {
   border: 2px solid blue;
 }
+
+
+/* Center the welcome text */
+.welcome-heading {
+  text-align: center;
+  font-size: 24px; /* Make the welcome text larger */
+  margin-top: 20px; /* Add margin for spacing */
+}
+
+/* Style for the welcome text */
+.welcome-text {
+  font-size: 18px; /* Make the welcome text larger */
+  margin-bottom: 20px; /* Add margin for spacing */
+}
+
+/* Define styles for status boxes */
+.status-box {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.green-box {
+  background-color: green;
+}
+
+.red-box {
+  background-color: red;
+}
+
+/* Define styles for highlighting text */
+.highlight-blue {
+  color: blue;
+}
+
+.highlight-orange {
+  color: orange;
+}

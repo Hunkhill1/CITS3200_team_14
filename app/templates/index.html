@@ -1,38 +1,34 @@
 {% extends "base.html" %}
 
 {% block title %}
-Unit Planner - UWA
+User Guide - UWA
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>Unit Planner</h1>
+    <h1 class="welcome-heading">Welcome to the Unit Planner User Guide</h1>
 
-    <div class="select-wrapper"> <!-- Wrap the label and select element in a div for styling -->
-        <label for="unitCode">Select a unit:</label>
-        <select id="unitCode" name="unit_code">
-            {% for row in data %}
-            <option value="{{ row[0] }}">{{ row[0] }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <button class="button" id="showPrerequisites">Show Prerequisites</button>
+    <p class="welcome-text">This user guide will help you make the most out of our Unit Planner website. Here, we'll explain how to use the website effectively to plan your academic journey.</p>
 
+    <h2 class="section-heading">Getting Started</h2>
+    <p>When you visit our Unit Planner, you'll see a list of available units. Each unit is represented by a box with colors indicating its status:</p>
+    <ul>
+        <li><span class="status-box green-box"></span> - This indicates a completed unit.</li>
+        <li><span class="status-box red-box"></span> - This indicates an incomplete unit.</li>
+    </ul>
 
-    <!-- Unit Planner Display -->
-    <div class="unit-planner">
-        <div class="unit-info">
-            <h2>Unit Information</h2>
-            <!-- Information about the selected unit will be displayed here -->
-        </div>
-        <div class="prerequisites">
-            <ul id="prerequisitesList">
-                <!-- Prerequisites will be added here dynamically -->
-            </ul>
-        </div>
-    </div>
+    <p>You can change the status of a unit by clicking on the "x" mark inside the box. Toggle between completed and incomplete as needed.</p>
+
+    <h2 class="section-heading">Prerequisites and Post-requisites</h2>
+    <p>Some units have prerequisites, which are units that you must complete before taking the current unit. These prerequisites are highlighted in <span class="highlight-blue">blue</span>.</p>
+    <p>Post-requisites are units that require the current unit as a prerequisite. These are highlighted in <span class="highlight-orange">orange</span>.</p>
+
+    <p>Understanding prerequisites and post-requisites is essential for planning your academic path effectively.</p>
+
+    <h2 class="section-heading">Optimizing Your Plan</h2>
+    <p>Our Unit Planner helps you optimize your study plan to graduate in the quickest time possible. By marking completed and incomplete units and understanding prerequisites, you can efficiently plan your academic journey.</p>
+
+    <!-- Add any additional content, explanations, or screenshots as needed -->
+
 </div>
-
-<script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}
-
