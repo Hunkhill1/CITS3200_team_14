@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Bachelor of Engineering</h1>
+    <h1>Bachelor of Engineering ebebeb}</h1>
     <div class="container text-center">
 
         <div class="question-toggle">
@@ -17,16 +17,14 @@
             </div>
         </div>
 
-        <!-- Dropdown munu for starting year -->
+        <!-- Dropdown munu for starting semester -->
         <div class="dropdown-container">
-            <label for="startYear">Select starting Year:</label>
-            <select id="startYear" class="start-year-dropdown">
-                <option value="year1">Year 1</option>
-                <option value="year2">Year 2</option>
-                <option value="year3">Year 3</option>
-                <option value="year4">Year 4</option>
+            <label for="startSemester">Select Start Semester:</label>
+            <select id="startSemester" class="start-semester-dropdown">
+                <option value="semester1">Semester 1</option>
+                <option value="semester2">Semester 2</option>
             </select>
-            <button id="updateYear" class="update-button">Update Years</button>
+            <button id="updateSemesters" class="update-button">Update Semesters</button>
         </div>
 
         {% for year in range(1, 5) %}
