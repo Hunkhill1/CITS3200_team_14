@@ -104,18 +104,25 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add an event listener to the submit button
   const submitButton = document.querySelector(".submit-button button");
   submitButton.addEventListener("click", () => {
-    // Create a JSON object with unit codes and statuses
+    // Create a JSON object with unit codes, statuses, and starting year/semester
     const unitStatuses = {};
 
-        // Populate the JSON object with selected units as "complete"
-        for (const unit of unselectedUnits) {
-            unitStatuses[unit] = "complete";
-        }
+    // Get the selected starting year and semester
+    const startYearSelect = document.getElementById('startYear');
+    const selectedStartYearSemester = startYearSelect.value;
 
-        // Populate the JSON object with unselected units as "incomplete"
-        for (const unit of selectedUnits) {
-            unitStatuses[unit] = "incomplete";
-        }
+    // Include the selected starting year and semester in the JSON object
+    unitStatuses.startYearSemester = selectedStartYearSemester;
+
+    // Populate the JSON object with selected units as "complete"
+    for (const unit of unselectedUnits) {
+        unitStatuses[unit] = "complete";
+    }
+
+    // Populate the JSON object with unselected units as "incomplete"
+    for (const unit of selectedUnits) {
+        unitStatuses[unit] = "incomplete";
+    }
 
     // Send the JSON data to the Python script using fetch
     fetch("/process_json", {
