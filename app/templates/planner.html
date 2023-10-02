@@ -1,24 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Bachelor of Engineering (S1)</h1>
+    <h1>Bachelor of Engineering</h1>
     <div class="container text-center">
-
-        <!-- Dropdown munu for starting semester -->
-        <div class="dropdown-container">
-            <label for="startYear">Select Starting Year and Semester:</label>
-            <select id="startSemester" class="start-semester-dropdown">
-                <option value="1" class="year-1">Year 1, Semester 1</option>
-                <option value="2" class="year-1">Year 1, Semester 2</option>
-                <option value="3" class="year-2">Year 2, Semester 1</option>
-                <option value="4" class="year-2">Year 2, Semester 2</option>
-                <option value="5" class="year-3">Year 3, Semester 1</option>
-                <option value="6" class="year-3">Year 3, Semester 2</option>
-                <option value="7" class="year-4">Year 4, Semester 1</option>
-                <option value="8" class="year-4">Year 4, Semester 2</option>
-            </select>
-            <button id="updateSemesters" class="update-button">Update</button>
-        </div>
         
         {% for year in range(1, 5) %}
         <div>
