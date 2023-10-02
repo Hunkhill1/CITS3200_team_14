@@ -5,14 +5,14 @@ from app.routes import index, unit
 from app.forms import LoginForm
 from app.models import User
 from app import db
-from script.algo import algorithm, remove_string_from_list
+from script.algo import algorithm, remove_string_from_list, clean_list
 import script.constants as constants
 import json
 
 
 app = Flask(__name__, template_folder=constants.template_folder_address, static_folder=constants.static_folder_address)
 app.config.from_object(Config)
-
+app.secret_key = 'your_secret_key'
 login = LoginManager(app) # type: ignore
 login.login_view = 'login'
 
@@ -54,8 +54,8 @@ def process_json_data():
         json_data = request.get_json()
         
         # Process the JSON data as needed
-        print("Received JSON data:")
-        print(json.dumps(json_data, indent=4))  # Pretty-print JSON data
+        # print("Received JSON data:")
+        # print(json.dumps(json_data, indent=4))  # Pretty-print JSON data
 
         # Initialize lists to store complete and incomplete units
         complete_units = []
@@ -67,17 +67,15 @@ def process_json_data():
                 complete_units.append(unit_code)
             elif status == 'incomplete':
                 incomplete_units.append(unit_code)
+       
+        filtered_incomplete_units = clean_list(incomplete_units)
+        filtered_complete_units = clean_list(complete_units) 
+        print(f"Trimmed incomplete units: {filtered_incomplete_units}")
+        print(f"Trimmed complete units: {filtered_complete_units}")   
 
-        # Pretty-print the lists of complete and incomplete units
-        print("Complete Units:")
-        print(json.dumps(complete_units, indent=4))
-        print("Incomplete Units:")
-        print(json.dumps(incomplete_units, indent=4))
-        
-        trimmed_incomplete_units = remove_string_from_list(incomplete_units, "Select unit")
-        trimmed_complete_units = remove_string_from_list(complete_units, "Select unit")    
+        start_sem = constants.start_sem
                
-        algorithm(trimmed_complete_units, trimmed_incomplete_units)
+        algorithm(filtered_complete_units, filtered_incomplete_units, start_sem)
 
         # Return a response if needed
         response_data = {'message': 'Data received successfully'}

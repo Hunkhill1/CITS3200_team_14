@@ -2,6 +2,8 @@
 const fetchedPrerequisites = {};
 const selectedUnits = [];
 const unselectedUnits = [];
+const selectedUnits = [];
+const unselectedUnits = [];
 
 // Fetch and cache prerequisites
 async function fetchAndCachePrerequisites(unitCode) {
@@ -15,11 +17,17 @@ async function fetchAndCachePrerequisites(unitCode) {
 
 // Check and highlight prerequisites
 async function checkAndHighlightPrerequisitesAndPostreqs(selectedUnitCode) {
-  const prerequisites = await fetchAndCachePrerequisites(selectedUnitCode);
+    const prerequisites = await fetchAndCachePrerequisites(selectedUnitCode);
+  
+    const selectElements = document.querySelectorAll(".unit-select");
+    selectElements.forEach(async (select) => {
+        const unitCode = select.value;
 
-  const selectElements = document.querySelectorAll(".unit-select");
-  selectElements.forEach(async (select) => {
-    const unitCode = select.value;
+        select.style.fontWeight = '';
+
+        if (unitCode === selectedUnitCode) {
+            select.style.fontWeight = 'bold';
+        }
 
     if (prerequisites.includes(unitCode)) {
       select.style.boxShadow = "0 0 2rem orange";
@@ -73,20 +81,21 @@ function removeSelect(element) {
 
   const index = selectedUnits.indexOf(value);
 
-  if (index === -1) {
-    selectedUnits.push(value);
-    selectElement.style.borderColor = "green";
-    selectElement.style.backgroundColor = "#71f086";
-  } else {
-    selectedUnits.splice(index, 1);
-    selectElement.style.borderColor = "red";
-    selectElement.style.backgroundColor = "#ffcccc";
-  }
+    if (index === -1) {
+        selectedUnits.push(value);
+        selectElement.style.borderColor = 'red';
+        selectElement.style.backgroundColor = '#ffcccc';
+    } else {
+        selectedUnits.splice(index, 1);
+        selectElement.style.borderColor = 'green';
+        selectElement.style.backgroundColor = '#71f086';
+    }
+    
+    // Push the removed unit into the unselectedUnits array
+    unselectedUnits.push(value);
 
-  // Push the removed unit into the unselectedUnits array
-  unselectedUnits.push(value);
-
-  selectElement.disabled = false;
+    
+    selectElement.disabled = false;
 
   console.log("Selected Units: ", selectedUnits);
   console.log("Unselected Units: ", unselectedUnits);
@@ -98,15 +107,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Create a JSON object with unit codes and statuses
     const unitStatuses = {};
 
-    // Populate the JSON object with selected units as "complete"
-    for (const unit of selectedUnits) {
-      unitStatuses[unit] = "complete";
-    }
+        // Populate the JSON object with selected units as "complete"
+        for (const unit of unselectedUnits) {
+            unitStatuses[unit] = "complete";
+        }
 
-    // Populate the JSON object with unselected units as "incomplete"
-    for (const unit of unselectedUnits) {
-      unitStatuses[unit] = "incomplete";
-    }
+        // Populate the JSON object with unselected units as "incomplete"
+        for (const unit of selectedUnits) {
+            unitStatuses[unit] = "incomplete";
+        }
 
     // Send the JSON data to the Python script using fetch
     fetch("/process_json", {
@@ -129,6 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
 // Logic for the second page
 document.addEventListener("DOMContentLoaded", () => {
   const selectElements = document.querySelectorAll(".unit-select");
@@ -147,3 +157,43 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+$('#submit-button').click(function(e) {
+    e.preventDefault(); // Prevent the default form submission
+    
+    setTimeout(function() {
+        $.ajax({
+            url: '/fetch-database',
+            type: 'GET',
+            success: function(data) {
+                updatePlanner(data.new_plan);
+            },
+            error: function(error) {
+                console.error('Error fetching the new plan', error);
+            }
+        });
+    }, 2000); // 2000 milliseconds (2 seconds) delay
+});
+
+function updatePlanner(newPlan) {
+    for (const [yearKey, semesters] of Object.entries(newPlan)) {
+        for (const [semesterKey, units] of Object.entries(semesters)) {
+            units.forEach((unit, index) => {
+                // Extract year and semester number from the keys
+                const year = yearKey.split('_')[1];
+                const semester = semesterKey.split('_')[1];
+                const unitNum = index + 1; // index is 0-based, unitNum is 1-based
+                
+                // Construct the ID of the select element
+                const selectId = `unit${unitNum}_year${year}_semester${semester}`;
+                
+                // Find the select element by ID and update its value
+                const selectElement = document.getElementById(selectId);
+                if (selectElement) {
+                    selectElement.value = unit;
+                }
+            });
+        }
+    }
+}
+

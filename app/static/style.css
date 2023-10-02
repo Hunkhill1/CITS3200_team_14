@@ -84,8 +84,8 @@ label {
 }
 
 select {
-  border: solid green;
-  background-color: #71f086;
+  border: solid red;
+  background-color: #ffcccc;
   -webkit-appearance: none;
   width: 100%;
   height: 100%;

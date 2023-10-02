@@ -5,47 +5,67 @@ import constants as constants
 connection = sqlite3.connect(constants.degree_db_address)
 cursor = connection.cursor()
 
-# Insert sample data into the Unit table
+# Insert sample data into the Unit table with the "core" category_id
 unit_data = [
-    # Unit name, unit code, semester
+    # Unit name, unit code, semester, unit_points, category_id (for "core")
     # Year 1 Semester 1
-    ('MATH1011', 'Multivariable Calculus',  12),
-    ('GENG1010', 'Introduction to Engineering',  12),
-    ('PHYS1001', 'Physics for Scientists & Engineers',  12),
-    ('CITS2401', 'Computer Analysis & Visualisation', 12),
+    ('MATH1011', 'Multivariable Calculus',  12, 0, 1),  # "core"
+    ('GENG1010', 'Introduction to Engineering',  12, 0, 1),  # "core"
+    ('PHYS1001', 'Physics for Scientists & Engineers',  12, 0, 1),  # "core"
+    ('CITS2401', 'Computer Analysis & Visualisation', 12, 0, 1),  # "core"
     # Year 1 Semester 2
-    ('MATH1012', 'Mathematical Theory & Methods',  12),
-    ('ENSC1004', 'Engineering Materials',  2),
-    ('ENSC2004', 'Engineering Mechanics',  12),
-    ('GENG1101', 'Engineering Drawings',  2),
+    ('MATH1012', 'Mathematical Theory & Methods',  12, 0, 1),  # "core"
+    ('ENSC1004', 'Engineering Materials',  2, 0, 1),  # "core"
+    ('ENSC2004', 'Engineering Mechanics',  12, 0, 1),  # "core"
+    ('GENG1101', 'Engineering Drawings',  2, 0, 1),  # "core"
     # Year 2 Semester 1
-    ('GENG2003', 'Fluid Mechanics',  1),
-    ('GENG2004', 'Solid Mechanics',  1),
-    ('MECH2002', 'Engineering Materials 2',  1),
-    ('ENSC2003', 'Eng. Electrical Fundamentals',  12),
+    ('GENG2003', 'Fluid Mechanics',  1, 0, 1),  # "core"
+    ('GENG2004', 'Solid Mechanics',  1, 0, 1),  # "core"
+    ('MECH2002', 'Engineering Materials 2',  1, 0, 1),  # "core"
+    ('ENSC2003', 'Eng. Electrical Fundamentals',  12, 0, 1),  # "core"
     # Year 2 Semester 2
-    ('MATH3023', 'Adv. Mathematics Applications',  2),
-    ('MECH2004', 'Engineering Dynamics',  2),
-    ('MECH3024', 'Engineering Thermodynamics',  2),
+    ('MATH3023', 'Adv. Mathematics Applications',  2, 0, 1),  # "core"
+    ('MECH2004', 'Engineering Dynamics',  2, 0, 1),  # "core"
+    ('MECH3024', 'Engineering Thermodynamics',  2, 0, 1),  # "core"
     # Year 3 Semester 1
-    ('MECH3002', 'Manufacturing', 1),
-    ('MECH4429', 'Applied Eng. Thermodynamics',  1),
+    ('MECH3002', 'Manufacturing', 1, 0, 1),  # "core"
+    ('MECH4429', 'Applied Eng. Thermodynamics',  1, 0, 1),  # "core"
     # Year 3 Semester 2
-    ('GENG3405', 'Numerical Methods & Modelling',  2),
-    ('MECH3001', 'Mechanisms & Machines',  2),
-    ('MECH3424', 'Measurement & Instrumentation',  2),
-    ('MECH4502', 'Analysis and Design of Machine Components',  2),
+    ('GENG3405', 'Numerical Methods & Modelling',  2, 0, 1),  # "core"
+    ('MECH3001', 'Mechanisms & Machines',  2, 0, 1),  # "core"
+    ('MECH3424', 'Measurement & Instrumentation',  2, 0, 1),  # "core"
+    ('MECH4502', 'Analysis and Design of Machine Components',  2, 0, 1),  # "core"
     # Year 4 Semester 1
-    ('MECH5551', 'Mechanical Eng Design Project 1',  1),
-    ('MECH4426', 'Dynamics, Vibration & Sound',  1),
+    ('MECH5551', 'Mechanical Eng Design Project 1',  1, 0, 1),  # "core"
+    ('MECH4426', 'Dynamics, Vibration & Sound',  1, 0, 1),  # "core"
     # Year 4 Semester 2
-    ('GENG5507', 'Risk, Reliability and Safety',  12),
-    ('GENG3402', 'Control Engineering',  2),
+    ('GENG5507', 'Risk, Reliability and Safety',  12, 120, 1),  # "core" with unit_points = 120
+    ('GENG3402', 'Control Engineering',  2, 0, 1),  # "core"
+    
+    #Group A
+    ('GENG4411', 'Engineering Research Project Part 1',  12, 144, 4),  # "Group A" with unit_points = 144
+    ('GENG4412', 'Engineering Research Project Part 2',  12, 0, 4),  # "Group A"
+    ('MECH5552', 'Mechanical Engineering Design Project',  2, 0, 4),  # "Group A"
+    
+    # Group B
+    ('GENG5504', 'Petroleum Engineering',  2, 0, 5),  # "Group B"
+    ('GENG5505', 'Project Management & Engineering Practice',  12, 120, 5),  # "Group B" with unit_points = 120
+    ('CHPR3405', 'Particle Technology',  1, 0, 5),  # "Group B"
+    ('MECH5504', 'Design and Failure Analysis of Materials',  2, 120, 5),  # "Group B" with unit_points = 120
+    ('GENG5514', 'Finite Element Method',  1, 120, 5),  # "Group B" with unit_points = 120
+    ('MECH4428', 'Degradation of Materials',  1, 96, 5),  # "Group B" with unit_points = 96
+    
+    # BROADENING
+    ('BROAD001', 'BROADENING',  12, 0, 2),
+    ('BROAD002', 'BROADENING',  12, 0, 2),
+    ('BROAD003', 'BROADENING',  12, 0, 2),
+    ('BROAD004', 'BROADENING',  12, 0, 2),
+    
 ]
 
-# Define an SQL query to insert data into the Unit table
+# Define an SQL query to insert data into the Unit table (with category_id)
 insert_unit_query = """
-INSERT INTO Unit (code, name, semester, status) VALUES (?, ?, ?,'incomplete')
+INSERT INTO Unit (code, name, semester, unit_points_required, category_id) VALUES (?, ?, ?, ?, ?)
 """
 
 # Execute the insert_unit_query using executemany() to insert multiple rows of data
@@ -104,6 +124,23 @@ unit_relationship_data = [
     # Year 4 Semester 2
     ("GENG3402", "MATH1011"),
     ("GENG3402", "MATH1012"),
+    
+    # Group A
+    ("GENG4411", "GENG3000"),
+    ("GENG4412", "GENG4411"),
+    ("MECH5552", "MECH5551"),
+    
+    # Group B
+    ("GENG5504", "MATH1011"),
+    ("GENG5504", "MATH1012"),
+    ("CHPR3405", "GENG2003"),
+    ("MECH5504", "MECH2002"),
+    ("MECH5504", "GENG2004"),
+    ("GENG5514", "GENG2003"),
+    ("GENG5514", "GENG2004"),
+    ("GENG5514", "GENG3405"),
+    ("MECH4428", "MECH2002"),
+    
 ]
 
 # Define an SQL query to insert data into the UnitRelationship table
