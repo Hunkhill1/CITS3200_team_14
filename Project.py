@@ -73,6 +73,10 @@ def process_json_data():
         print(json.dumps(complete_units, indent=4))
         print("Incomplete Units:")
         print(json.dumps(incomplete_units, indent=4))
+
+
+        start_year_semester = json_data["startYearSemester"]
+        print(start_year_semester)  
         
         trimmed_incomplete_units = remove_string_from_list(incomplete_units, "Select unit")
         trimmed_complete_units = remove_string_from_list(complete_units, "Select unit")    

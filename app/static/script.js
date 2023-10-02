@@ -103,8 +103,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add an event listener to the submit button
     const submitButton = document.querySelector('.submit-button button');
     submitButton.addEventListener('click', () => {
-        // Create a JSON object with unit codes and statuses
+        // Create a JSON object with unit codes, statuses, and starting year/semester
         const unitStatuses = {};
+        
+        // Get the selected starting year and semester
+        const startYearSelect = document.getElementById('startYear');
+        const selectedStartYearSemester = startYearSelect.value;
+        
+        // Include the selected starting year and semester in the JSON object
+        unitStatuses.startYearSemester = selectedStartYearSemester;
 
         // Populate the JSON object with selected units as "complete"
         for (const unit of selectedUnits) {
@@ -136,6 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Find unselected units by comparing with all possible unit values
     });
 });
+
 
 
 // Logic for the second page

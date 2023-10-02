@@ -19,14 +19,17 @@
 
         <!-- Dropdown munu for starting year -->
         <div class="dropdown-container">
-            <label for="startYear">Select Starting Year:</label>
+            <label for="startYear">Select Starting Year and Semester:</label>
             <select id="startYear" class="start-year-dropdown">
-                <option value="year1">Year 1</option>
-                <option value="year2">Year 2</option>
-                <option value="year3">Year 3</option>
-                <option value="year4">Year 4</option>
+                <option value="1">Year 1, Semester 1</option>
+                <option value="2">Year 1, Semester 2</option>
+                <option value="3">Year 2, Semester 1</option>
+                <option value="4">Year 2, Semester 2</option>
+                <option value="5">Year 3, Semester 1</option>
+                <option value="6">Year 3, Semester 2</option>
+                <option value="7">Year 4, Semester 1</option>
+                <option value="8">Year 4, Semester 2</option>
             </select>
-            <button id="updateYear" class="update-button">Update Years</button>
         </div>
 
         {% for year in range(1, 5) %}
