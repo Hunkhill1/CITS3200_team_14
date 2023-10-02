@@ -73,9 +73,17 @@ def process_json_data():
         print(f"Trimmed incomplete units: {filtered_incomplete_units}")
         print(f"Trimmed complete units: {filtered_complete_units}")   
 
-        start_sem = constants.start_sem
+        # Pretty-print the lists of complete and incomplete units
+        print("Complete Units:")
+        print(json.dumps(complete_units, indent=4))
+        print("Incomplete Units:")
+        print(json.dumps(incomplete_units, indent=4))
+
+
+        start_year_semester = json_data["startYearSemester"]
+        print(start_year_semester)   
                
-        algorithm(filtered_complete_units, filtered_incomplete_units, start_sem)
+        algorithm(filtered_incomplete_units, filtered_complete_units, start_year_semester)
 
         # Return a response if needed
         response_data = {'message': 'Data received successfully'}

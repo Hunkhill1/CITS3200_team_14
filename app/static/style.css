@@ -133,3 +133,61 @@ label {
 .error-text {
   color: red;
 }
+
+/* Add vertical margin above and below the dropdown container */
+.dropdown-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Add margin between the button and the content below it */
+.update-button {
+  margin-top: 10px;
+}
+
+/* Style for the question mark toggle button */
+.question-toggle {
+  position: absolute;
+  top: 95px; /* Adjust the top position as needed */
+  right: 80px; /* Adjust the right position as needed */
+}
+
+.question-toggle button {
+  background-color: transparent;
+  border-width: 2px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Style for the user manual */
+.user-manual {
+  display: none;
+  position: absolute;
+  top: 50px; /* Adjust the top position as needed */
+  right: 20px; /* Adjust the right position as needed */
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 9999; /* Ensure it's above other content */
+}
+
+/* Style for the close button */
+.close-manual-button {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+/* Style for the user manual header */
+.user-manual-header {
+  position: relative;
+}
+
+
+
