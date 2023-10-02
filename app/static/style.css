@@ -133,3 +133,15 @@ label {
 .error-text {
   color: red;
 }
+
+
+/* Add vertical margin above and below the dropdown container */
+.dropdown-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Add margin between the button and the content below it */
+.update-button {
+  margin-top: 10px;
+}
