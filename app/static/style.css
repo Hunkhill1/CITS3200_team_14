@@ -168,29 +168,33 @@ label {
 
 
 
-* Color-coded legend styles */
+/* Color-coded legend styles */
 .legend-box {
   display: inline-block;
   width: 12px;
   height: 12px;
   margin-right: 5px;
-  border-radius: 2px;
+  border: 2px solid black;
 }
 
 .legend-pass {
-  border: 2px solid green;
+  border: 7px solid green;
+  width: 20px;
 }
 
 .legend-fail {
-  border: 2px solid red;
+  border: 7px solid red;
+  width: 20px;
 }
 
 .legend-prerequisite {
-  border: 2px solid yellow;
+  border: 7px solid yellow;
+  width: 20px;
 }
 
 .legend-post-requisite {
-  border: 2px solid blue;
+  border: 7px solid blue;
+  width: 20px;
 }
 
 
@@ -230,4 +234,9 @@ label {
 
 .highlight-orange {
   color: orange;
+}
+
+select:focus {
+  border-color: black;
+  border-width: 3.5px; /* Adjust the value to make it thicker or thinner */
 }
