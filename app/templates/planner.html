@@ -4,32 +4,20 @@
     <h1>Bachelor of Engineering (S1)</h1>
     <div class="container text-center">
 
-        <div class="question-toggle">
-            <button id="questionButton">?</button>
-        </div>
-        <div id="userManualContainer" class="user-manual-container">
-            <div id="userManual" class="user-manual">
-                <div class="user-manual-header">
-                    <h2>User Manual</h2>
-                    <button id="closeManualButton" class="close-manual-button">×</button>
-                </div>
-                <p>This is the user manual content. Add your instructions here.</p>
-            </div>
-        </div>
-
-        <!-- Dropdown munu for starting year -->
+        <!-- Dropdown menu for starting year and semester -->
         <div class="dropdown-container">
             <label for="startYear">Select Starting Year and Semester:</label>
             <select id="startYear" class="start-year-dropdown">
-                <option value="1">Year 1, Semester 1</option>
-                <option value="2">Year 1, Semester 2</option>
-                <option value="3">Year 2, Semester 1</option>
-                <option value="4">Year 2, Semester 2</option>
-                <option value="5">Year 3, Semester 1</option>
-                <option value="6">Year 3, Semester 2</option>
-                <option value="7">Year 4, Semester 1</option>
-                <option value="8">Year 4, Semester 2</option>
+                <option value="1" class="year-1">Year 1, Semester 1</option>
+                <option value="2" class="year-1">Year 1, Semester 2</option>
+                <option value="3" class="year-2">Year 2, Semester 1</option>
+                <option value="4" class="year-2">Year 2, Semester 2</option>
+                <option value="5" class="year-3">Year 3, Semester 1</option>
+                <option value="6" class="year-3">Year 3, Semester 2</option>
+                <option value="7" class="year-4">Year 4, Semester 1</option>
+                <option value="8" class="year-4">Year 4, Semester 2</option>
             </select>
+            <button id="updateYear" class="update-button">Update</button>
         </div>
 
         {% for year in range(1, 5) %}
