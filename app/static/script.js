@@ -187,13 +187,19 @@ function updatePlanner(newPlan) {
               const year = yearKey.split('_')[1];
               const semester = semesterKey.split('_')[1];
               const unitNum = index + 1; // index is 0-based, unitNum is 1-based
-              // script.js
-
-          }
-          )
+              
+              // Construct the ID of the select element
+              const selectId = `unit${unitNum}_year${year}_semester${semester}`;
+              
+              // Find the select element by ID and update its value
+              const selectElement = document.getElementById(selectId);
+              if (selectElement) {
+                  selectElement.value = unit;
+              }
+          });
       }
-    }
   }
+}
 
 function toggleLegend() {
     var legend = document.getElementById("legend");
