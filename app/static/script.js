@@ -186,7 +186,17 @@ function updatePlanner(newPlan) {
                 const year = yearKey.split('_')[1];
                 const semester = semesterKey.split('_')[1];
                 const unitNum = index + 1; // index is 0-based, unitNum is 1-based
-                
+                // script.js
+
+function toggleLegend() {
+    var legend = document.getElementById("legend");
+    if (legend.style.display === "none" || legend.style.display === "") {
+        legend.style.display = "block";
+    } else {
+        legend.style.display = "none";
+    }
+}
+
                 // Construct the ID of the select element
                 const selectId = `unit${unitNum}_year${year}_semester${semester}`;
                 
@@ -200,3 +210,7 @@ function updatePlanner(newPlan) {
     }
 }
 
+function closeLegend() {
+    var legend = document.getElementById("legend");
+    legend.style.display = "none";
+}
