@@ -80,7 +80,7 @@ def process_json_data():
         print(json.dumps(incomplete_units, indent=4))
 
 
-        start_year_semester = json_data["startYearSemester"]
+        start_year_semester = int(json_data["startYearSemester"])
         print(start_year_semester)   
                
         algorithm(filtered_incomplete_units, filtered_complete_units, start_year_semester)
