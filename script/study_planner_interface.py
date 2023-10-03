@@ -138,7 +138,7 @@ def update_semester_column() -> None:
 
  
 
-def get_next_available_semester(semester_type: str, year: int, study_units: List[str])-> Union[Tuple[int, int], None]:
+def get_next_available_semester_complete(semester_type: str, year: int, study_units: List[str])-> Union[Tuple[int, int], None]:
     """ Get the next available semester in future years.
 
  
@@ -153,11 +153,35 @@ def get_next_available_semester(semester_type: str, year: int, study_units: List
     Returns:
         Union[Tuple[int, int], None]:  A tuple containing the semester available, cell index. Otherwise, None.
     """    
-    for semester, row in enumerate(study_units):
+    for index, row in enumerate(study_units):
+        semester_to_be_updated:int = index+1
         if row[1].startswith(f"{semester_type}, {year}"):
             for cell_index in range(2, 6):
                 if not row[cell_index]:
-                    return (semester, cell_index)
+                    return (semester_to_be_updated, cell_index)
+    return None
+
+def get_next_available_semester_incomplete(semester_type: str, year: int, study_units: List[str])-> Union[Tuple[int, int], None]:
+    """ Get the next available semester in future years.
+
+ 
+
+    Args:
+        semester_type (str):  The type of semester to check for.
+        year (int):  The year to start checking from.
+        study_units (List[str]):  The list of study units.
+
+ 
+
+    Returns:
+        Union[Tuple[int, int], None]:  A tuple containing the semester available, cell index. Otherwise, None.
+    """    
+    for index, row in enumerate(study_units):
+        semester_to_be_updated:int = index
+        if row[1].startswith(f"{semester_type}, {year}"):
+            for cell_index in range(2, 6):
+                if not row[cell_index]:
+                    return (semester_to_be_updated, cell_index)
     return None
 
  
@@ -326,9 +350,9 @@ def add_completed_unit_to_planner(unit_code: str) -> None:
             for year in range(first_year_of_degree, first_year_of_degree + (int)(constants.number_of_semesters/2)):
                 next_available_semester = None
                 if semester == 1:
-                    next_available_semester = get_next_available_semester("Semester 1", year, study_units)
+                    next_available_semester = get_next_available_semester_complete("Semester 1", year, study_units)
                 elif semester == 2:
-                    next_available_semester = get_next_available_semester("Semester 2", year, study_units)
+                    next_available_semester = get_next_available_semester_complete("Semester 2", year, study_units)
 
  
 
@@ -448,9 +472,9 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
              for year in range(current_year, current_year + (int)(constants.number_of_semesters/2)):
                 next_available_semester = None
                 if semester == 1:
-                    next_available_semester = get_next_available_semester("Semester 1", year, study_units)
+                    next_available_semester = get_next_available_semester_incomplete("Semester 1", year, study_units)
                 elif semester == 2:
-                    next_available_semester = get_next_available_semester("Semester 2", year, study_units)
+                    next_available_semester = get_next_available_semester_incomplete("Semester 2", year, study_units)
 
  
 
@@ -470,9 +494,9 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
              for year in range(current_year, current_year + (int)(constants.number_of_semesters/2)):
                 next_available_semester = None
                 if semester == 1:
-                    next_available_semester = get_next_available_semester("Semester 1", year, study_units)
+                    next_available_semester = get_next_available_semester_incomplete("Semester 1", year, study_units)
                 elif semester == 2:
-                    next_available_semester = get_next_available_semester("Semester 2", year-1, study_units)
+                    next_available_semester = get_next_available_semester_incomplete("Semester 2", year-1, study_units)
 
  
 

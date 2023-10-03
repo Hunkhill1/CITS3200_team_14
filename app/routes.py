@@ -63,7 +63,7 @@ def planner2_route():
     # Define the same default plan for semester 2 start
     default_plan = {
         'year_1': {
-            'semester_1': ['', '', '', ''],
+            'semester_1': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
             'semester_2': ['CITS2401', 'MATH1011', 'ENSC1004', 'GENG1010'],
         },
         'year_2': {
