@@ -44,7 +44,7 @@ label {
 }
 
 .button {
-  background-color: #007bff;
+  background-color: #5579C6;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -106,7 +106,7 @@ select {
 }
 /* Style for the individual options within the dropdown */
 .custom-select option:hover {
-  background-color: #007bff; /* Blue on hover for individual options */
+  background-color: #5579C6; /* Blue on hover for individual options */
   color: #fff; /* White text on hover for individual options */
 }
 

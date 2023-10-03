@@ -85,8 +85,8 @@ function removeSelect(element) {
         selectElement.style.backgroundColor = '#ffcccc';
     } else {
         selectedUnits.splice(index, 1);
-        selectElement.style.borderColor = 'green';
-        selectElement.style.backgroundColor = '#71f086';
+        selectElement.style.borderColor = 'blue';
+        selectElement.style.backgroundColor = '#87CEEB';
     }
     
     // Push the removed unit into the unselectedUnits array
