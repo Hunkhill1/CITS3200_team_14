@@ -221,12 +221,12 @@ label {
 
 .green-box {
   background-color: #87CEEB;
-  border-color: blue;
+  border: 2px solid blue;
 }
 
 .red-box {
   background-color: #ffcccc;
-  border-color: red;
+  border: 2px solid red;
 }
 
 /* Define styles for highlighting text */

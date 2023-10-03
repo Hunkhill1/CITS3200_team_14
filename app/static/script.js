@@ -143,6 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
 document.addEventListener("DOMContentLoaded", () => {
   const selectElements = document.querySelectorAll(".unit-select");
 
@@ -179,14 +180,20 @@ $('#submit-button').click(function(e) {
 });
 
 function updatePlanner(newPlan) {
-    for (const [yearKey, semesters] of Object.entries(newPlan)) {
-        for (const [semesterKey, units] of Object.entries(semesters)) {
-            units.forEach((unit, index) => {
-                // Extract year and semester number from the keys
-                const year = yearKey.split('_')[1];
-                const semester = semesterKey.split('_')[1];
-                const unitNum = index + 1; // index is 0-based, unitNum is 1-based
-                // script.js
+  for (const [yearKey, semesters] of Object.entries(newPlan)) {
+      for (const [semesterKey, units] of Object.entries(semesters)) {
+          units.forEach((unit, index) => {
+              // Extract year and semester number from the keys
+              const year = yearKey.split('_')[1];
+              const semester = semesterKey.split('_')[1];
+              const unitNum = index + 1; // index is 0-based, unitNum is 1-based
+              // script.js
+
+          }
+          )
+      }
+    }
+  }
 
 function toggleLegend() {
     var legend = document.getElementById("legend");
@@ -194,19 +201,6 @@ function toggleLegend() {
         legend.style.display = "block";
     } else {
         legend.style.display = "none";
-    }
-}
-
-                // Construct the ID of the select element
-                const selectId = `unit${unitNum}_year${year}_semester${semester}`;
-                
-                // Find the select element by ID and update its value
-                const selectElement = document.getElementById(selectId);
-                if (selectElement) {
-                    selectElement.value = unit;
-                }
-            });
-        }
     }
 }
 
