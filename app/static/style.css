@@ -178,12 +178,12 @@ label {
 }
 
 .legend-pass {
-  border: 7px solid green;
+  border: 7px solid #87CEEB;
   width: 20px;
 }
 
 .legend-fail {
-  border: 7px solid red;
+  border: 7px solid #ffcccc;
   width: 20px;
 }
 
@@ -220,11 +220,13 @@ label {
 }
 
 .green-box {
-  background-color: green;
+  background-color: #87CEEB;
+  border-color: blue;
 }
 
 .red-box {
-  background-color: red;
+  background-color: #ffcccc;
+  border-color: red;
 }
 
 /* Define styles for highlighting text */
