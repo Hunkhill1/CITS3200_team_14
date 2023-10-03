@@ -56,10 +56,10 @@ unit_data = [
     ('MECH4428', 'Degradation of Materials',  1, 96, 5),  # "Group B" with unit_points = 96
     
     # BROADENING
-    ('BROAD001', 'BROADENING',  12, 0, 2),
-    ('BROAD002', 'BROADENING',  12, 0, 2),
-    ('BROAD003', 'BROADENING',  12, 0, 2),
-    ('BROAD004', 'BROADENING',  12, 0, 2),
+    ('BROAD001', 'BROADENING',  2, 0, 2),
+    ('BROAD002', 'BROADENING',  1, 0, 2),
+    ('BROAD003', 'BROADENING',  1, 0, 2),
+    ('BROAD004', 'BROADENING',  1, 0, 2),
     
 ]
 

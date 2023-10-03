@@ -13,12 +13,17 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str], star
     
     # Step 1: Add completed units to the study planner
     for unit in completed_units_list:
+        
         add_completed_unit_to_planner(unit)
     while True:
+        
         units_to_add: list[str] = []  # Temporary list for units to add in this iteration
 
         # First Iteration
+       
         post_req = CanDo(completed_units_list, incomplete_units)
+       
+
         for unit in post_req:
             if check_points(unit):
                 units_to_add.append(unit)

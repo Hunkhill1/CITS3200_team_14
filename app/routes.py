@@ -55,3 +55,29 @@ def fetch_database_route():
     #print (new_plan)
     return jsonify(new_plan=new_plan)
 
+@index.route('/planner2')
+def planner2_route():
+    # Connect to the database
+    units_from_database =  database_interface.get_all_units()
+
+    # Define the same default plan for semester 2 start
+    default_plan = {
+        'year_1': {
+            'semester_1': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
+            'semester_2': ['CITS2401', 'MATH1011', 'ENSC1004', 'GENG1010'],
+        },
+        'year_2': {
+            'semester_1': ['ENSC2004', 'MATH1012', 'PHYS1001', 'MECH2002'],
+            'semester_2': ['GENG3405', 'MECH2004', 'GENG1101', 'MATH3023'],
+        },
+        'year_3': {
+            'semester_1': ['GENG2003', 'MECH3002', 'ENSC2003', 'GENG2004'],
+            'semester_2': ['MECH3001', 'MECH3424', 'MECH3024', 'MECH4502'],
+        },
+        'year_4': {
+            'semester_1': ['GENG5507', 'MECH5551', 'BROAD001', 'BROAD002'],
+            'semester_2': ['GENG3402', 'BROAD003', 'OPTION', 'OPTION'],
+        }
+    }
+
+    return render_template('planner2.html', default_plan=default_plan, all_units=units_from_database)

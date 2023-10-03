@@ -2,8 +2,6 @@
 const fetchedPrerequisites = {};
 const selectedUnits = [];
 const unselectedUnits = [];
-const selectedUnits = [];
-const unselectedUnits = [];
 
 // Fetch and cache prerequisites
 async function fetchAndCachePrerequisites(unitCode) {
@@ -23,20 +21,20 @@ async function checkAndHighlightPrerequisitesAndPostreqs(selectedUnitCode) {
     selectElements.forEach(async (select) => {
         const unitCode = select.value;
 
-        select.style.fontWeight = '';
+      select.style.fontWeight = '';
 
-        if (unitCode === selectedUnitCode) {
-            select.style.fontWeight = 'bold';
-        }
+      if (unitCode === selectedUnitCode) {
+          select.style.fontWeight = 'bold';
+      }
 
-    if (prerequisites.includes(unitCode)) {
-      select.style.boxShadow = "0 0 2rem orange";
-    }
+      if (prerequisites.includes(unitCode)) {
+          select.style.boxShadow = '0 0 2rem orange';
+      }
 
-    const postreqsForUnit = await fetchAndCachePrerequisites(unitCode);
-    if (postreqsForUnit.includes(selectedUnitCode)) {
-      select.style.boxShadow = "0 0 2rem blue";
-    }
+      const postreqsForUnit = await fetchAndCachePrerequisites(unitCode);
+      if (postreqsForUnit.includes(selectedUnitCode)) {
+          select.style.boxShadow = '0 0 2rem blue';
+      }
   });
 }
 
@@ -104,18 +102,25 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add an event listener to the submit button
   const submitButton = document.querySelector(".submit-button button");
   submitButton.addEventListener("click", () => {
-    // Create a JSON object with unit codes and statuses
+    // Create a JSON object with unit codes, statuses, and starting year/semester
     const unitStatuses = {};
+        
+        // Get the selected starting year and semester
+        const startYearSelect = document.getElementById('startYear');
+        const selectedStartYearSemester = startYearSelect.value;
+        
+        // Include the selected starting year and semester in the JSON object
+        unitStatuses.startYearSemester = selectedStartYearSemester;
 
-        // Populate the JSON object with selected units as "complete"
-        for (const unit of unselectedUnits) {
-            unitStatuses[unit] = "complete";
-        }
+    // Populate the JSON object with selected units as "complete"
+    for (const unit of selectedUnits) {
+      unitStatuses[unit] = "complete";
+    }
 
-        // Populate the JSON object with unselected units as "incomplete"
-        for (const unit of selectedUnits) {
-            unitStatuses[unit] = "incomplete";
-        }
+    // Populate the JSON object with unselected units as "incomplete"
+    for (const unit of unselectedUnits) {
+      unitStatuses[unit] = "incomplete";
+    }
 
     // Send the JSON data to the Python script using fetch
     fetch("/process_json", {
@@ -138,8 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
-// Logic for the second page
 document.addEventListener("DOMContentLoaded", () => {
   const selectElements = document.querySelectorAll(".unit-select");
 
