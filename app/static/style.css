@@ -44,7 +44,7 @@ label {
 }
 
 .button {
-  background-color: #007bff;
+  background-color: #5579C6;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -84,8 +84,8 @@ label {
 }
 
 select {
-  border: solid green;
-  background-color: #71f086;
+  border: solid red;
+  background-color: #ffcccc;
   -webkit-appearance: none;
   width: 100%;
   height: 100%;
@@ -106,7 +106,7 @@ select {
 }
 /* Style for the individual options within the dropdown */
 .custom-select option:hover {
-  background-color: #007bff; /* Blue on hover for individual options */
+  background-color: #5579C6; /* Blue on hover for individual options */
   color: #fff; /* White text on hover for individual options */
 }
 
@@ -133,3 +133,170 @@ label {
 .error-text {
   color: red;
 }
+
+
+/* Add this to your CSS or inside a <style> block in your template */
+.legend-container {
+  position: relative;
+  text-align: right;
+  margin: 10px;
+}
+
+.legend-button {
+  cursor: pointer;
+  font-size: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.legend {
+  display: none;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.close-legend {
+  cursor: pointer;
+  float: right;
+}
+
+
+
+/* Color-coded legend styles */
+.legend-box {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+  border: 2px solid black;
+}
+
+.legend-pass {
+  border: 7px solid #87CEEB;
+  width: 20px;
+}
+
+.legend-fail {
+  border: 7px solid #ffcccc;
+  width: 20px;
+}
+
+.legend-prerequisite {
+  border: 7px solid orange;
+  width: 20px;
+}
+
+.legend-post-requisite {
+  border: 7px solid blue;
+  width: 20px;
+}
+
+
+/* Center the welcome text */
+.welcome-heading {
+  text-align: center;
+  font-size: 24px; /* Make the welcome text larger */
+  margin-top: 20px; /* Add margin for spacing */
+}
+
+/* Style for the welcome text */
+.welcome-text {
+  font-size: 18px; /* Make the welcome text larger */
+  margin-bottom: 20px; /* Add margin for spacing */
+}
+
+/* Define styles for status boxes */
+.status-box {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.green-box {
+  background-color: #87CEEB;
+  border: 2px solid blue;
+}
+
+.red-box {
+  background-color: #ffcccc;
+  border: 2px solid red;
+}
+
+/* Define styles for highlighting text */
+.highlight-blue {
+  color: blue;
+}
+
+.highlight-orange {
+  color: orange;
+}
+
+select:focus {
+  border-color: black;
+  border-width: 3.5px; /* Adjust the value to make it thicker or thinner */
+}
+
+/* Add vertical margin above and below the dropdown container */
+.dropdown-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Add margin between the button and the content below it */
+.update-button {
+  margin-top: 10px;
+}
+
+/* Style for the question mark toggle button */
+.question-toggle {
+  position: absolute;
+  top: 95px; /* Adjust the top position as needed */
+  right: 80px; /* Adjust the right position as needed */
+}
+
+.question-toggle button {
+  background-color: transparent;
+  border-width: 2px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Style for the user manual */
+.user-manual {
+  display: none;
+  position: absolute;
+  top: 50px; /* Adjust the top position as needed */
+  right: 20px; /* Adjust the right position as needed */
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 9999; /* Ensure it's above other content */
+}
+
+/* Style for the close button */
+.close-manual-button {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+/* Style for the user manual header */
+.user-manual-header {
+  position: relative;
+}
+
+
+

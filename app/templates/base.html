@@ -27,8 +27,21 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('login') }}">Login</a>
                         </li>
+
+                        <!-- Previous nav planner -->
+                        
+                        <!-- 
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('planner') }}">Planner</a>
+                        </li>
+                        -->
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="plannerDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Planner</a>
+                            <div class="dropdown-menu" aria-labelledby="plannerDropdown">
+                                <a class="dropdown-item" href="{{ url_for('index.planner_route') }}">Semester 1</a>
+                                <a class="dropdown-item" href="{{ url_for('index.planner2_route') }}">Semester 2</a>
+                            </div>
                         </li>
                     </ul>
                   </div>
