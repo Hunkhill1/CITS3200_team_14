@@ -298,5 +298,13 @@ select:focus {
   position: relative;
 }
 
+/* Increase the font size and make the text bold for the welcome-heading */
+.welcome-heading {
+  text-align: center;
+  font-size: 45px; /* Adjust the font size to your preference */
+  font-weight: bold; /* Make the text bold */
+  margin-top: 10px; /* Add margin for spacing */
+  margin-bottom: 35px;
+}
 
 
