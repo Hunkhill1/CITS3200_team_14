@@ -45,6 +45,7 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str], star
         # Set incomplete_units to the remaining units for the next iteration
         incomplete_units = remaining_units
         
+    add_extra_year()        
     update_null_values(start_sem)
 
         

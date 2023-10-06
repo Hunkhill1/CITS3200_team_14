@@ -761,7 +761,35 @@ def fetch_database_as_plan() -> dict:
         print(f"Error fetching data from the database: {e}")
     return new_plan
 
- 
+def add_extra_year() -> None:
+    """Add an extra year to the study plan."""
+    
+    conn = sqlite3.connect(constants.study_planner_db_address)
+    cursor = conn.cursor()
+
+    # Get the current year and semester from the last entry in the database
+    cursor.execute('SELECT semester FROM study_units ORDER BY id DESC LIMIT 1')
+    last_entry = cursor.fetchone()
+    if last_entry:
+        last_semester, last_year = last_entry[0].split(", ")
+        last_year = int(last_year)
+        if "Semester 1" in last_semester:
+            next_semesters = [("Semester 2", last_year), ("Semester 1", last_year + 1)]
+        else:
+            next_semesters = [("Semester 1", last_year + 1), ("Semester 2", last_year + 1)]
+    else:
+        # Default values if the table is empty
+        next_semesters = [("Semester 1", 2023), ("Semester 2", 2023)]
+
+    # Insert the next two semesters into the database
+    for semester_name, year in next_semesters:
+        cursor.execute('''
+            INSERT INTO study_units (semester)
+            VALUES (?)
+        ''', (f"{semester_name}, {year}",))
+
+    conn.commit()
+    conn.close()
 
 def run():
     # Create the database and table
