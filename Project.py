@@ -8,7 +8,6 @@ from app import db
 from script.algo import algorithm, remove_string_from_list, clean_list
 import script.constants as constants
 import json
-import os
 
 
 app = Flask(__name__, template_folder=constants.template_folder_address, static_folder=constants.static_folder_address)
@@ -94,8 +93,6 @@ def process_json_data():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-port = int(os.environ.get('PORT', 5000))
-app.run(host='0.0.0.0', port=port)
 
 if __name__ == '__main__':
     app.run(debug=True)
