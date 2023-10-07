@@ -518,6 +518,8 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
         # If no suitable semester is found, print a message
         print(f"Unit {unit_code} cannot be added for semester {semester}.")
         print("Matrix is full for this semester and future semesters of the same type. Cannot add more units.")
+        add_extra_year()
+        add_incompleted_unit_to_planner(unit_code, start_sem)
     except sqlite3.Error as e:
         print(f"Error adding unit to planner: {e}")
     finally:
