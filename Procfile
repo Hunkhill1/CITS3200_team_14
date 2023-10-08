@@ -1,1 +1,1 @@
-web: gunicorn Project:create_app()
+web: gunicorn wsgi:Project
