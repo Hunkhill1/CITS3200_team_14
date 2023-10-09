@@ -77,6 +77,10 @@ def planner2_route():
         'year_4': {
             'semester_1': ['GENG5507', 'MECH5551', 'BROAD001', 'BROAD002'],
             'semester_2': ['GENG3402', 'BROAD003', 'OPTION', 'OPTION'],
+        },
+        'year_5': {
+            'semester_1': ['BROAD004', 'MECH4426', 'OPTION', 'MECH4429'],
+            'semester_2': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
         }
     }
 

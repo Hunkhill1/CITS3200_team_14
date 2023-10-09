@@ -77,27 +77,29 @@ function removeSelect(element) {
   const selectElement = element.previousElementSibling;
   const value = selectElement.value;
 
-  const index = selectedUnits.indexOf(value);
+  const selectedIndex = selectedUnits.indexOf(value);
+  const unselectedIndex = unselectedUnits.indexOf(value);
 
-    if (index === -1) {
-        selectedUnits.push(value);
-        selectElement.style.borderColor = 'red';
-        selectElement.style.backgroundColor = '#ffcccc';
-    } else {
-        selectedUnits.splice(index, 1);
-        selectElement.style.borderColor = 'blue';
-        selectElement.style.backgroundColor = '#87CEEB';
+  if (selectedIndex === -1) {
+    selectedUnits.push(value);
+    if (unselectedIndex !== -1) {
+      unselectedUnits.splice(unselectedIndex, 1);
     }
-    
-    // Push the removed unit into the unselectedUnits array
+    selectElement.style.borderColor = 'red';
+    selectElement.style.backgroundColor = '#ffcccc';
+  } else {
+    selectedUnits.splice(selectedIndex, 1);
     unselectedUnits.push(value);
+    selectElement.style.borderColor = 'blue';
+    selectElement.style.backgroundColor = '#87CEEB';
+  }
 
-    
-    selectElement.disabled = false;
+  selectElement.disabled = false;
 
   console.log("Selected Units: ", selectedUnits);
   console.log("Unselected Units: ", unselectedUnits);
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   // Add an event listener to the submit button
   const submitButton = document.querySelector(".submit-button button");
