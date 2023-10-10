@@ -17,23 +17,23 @@
         <div id="legend-button" class="legend-button" onclick="toggleLegend()">&#63;</div>
     </div>
     
-    <div class="container text-center">
-
-        <!-- Dropdown menu for starting year and semester -->
-        <div class="dropdown-container">
-            <label for="startYear">Select Starting Year and Semester:</label>
-            <select id="startYear" class="start-year-dropdown">
-                <option value="1" class="year-1">Year 1, Semester 1</option>
-                <option value="2" class="year-1">Year 1, Semester 2</option>
-                <option value="3" class="year-2">Year 2, Semester 1</option>
-                <option value="4" class="year-2">Year 2, Semester 2</option>
-                <option value="5" class="year-3">Year 3, Semester 1</option>
-                <option value="6" class="year-3">Year 3, Semester 2</option>
-                <option value="7" class="year-4">Year 4, Semester 1</option>
-                <option value="8" class="year-4">Year 4, Semester 2</option>
-            </select>
-            <button id="updateYear" class="update-button">Update</button>
-        </div>
+    <table id="data-table">
+        <tr>
+            <th>Semester</th>
+            <th id="unit-1">Unit 1</th>
+            <th id="unit-2">Unit 2</th>
+            <th id="unit-3">Unit 3</th>
+            <th id="unit-4">Unit 4</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+        </tr>
+        {% endfor %}
 
         {% for year in years %}
         <div>
@@ -75,9 +75,6 @@
         </div>
         {% endfor %}
         
-        <!-- Submit Button -->
-        <div class="submit-button">
-            <button type="submit" class="button" id="submit-button">Submit</button>
-        </div>
+        
     </div>
 {% endblock content %}

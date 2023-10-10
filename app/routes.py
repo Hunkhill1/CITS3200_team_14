@@ -25,8 +25,8 @@ def unit_route(unit_code):
 
 @index.route('/planner')
 def planner_route():
-    units_from_database =  database_interface.get_all_units()
-    
+    units_from_database = database_interface.get_all_units()
+
     # Define the default plan
     default_plan = {
         'year_1': {
@@ -47,13 +47,15 @@ def planner_route():
         }
     }
 
-    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database)
+    years = [year_key.split('_')[1] for year_key in default_plan.keys()]
+
+    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, years=years)
 
 @index.route('/fetch-database')
 def fetch_database_route():
     new_plan = study_planner_interface.fetch_database_as_plan()
-    #print (new_plan)
     return jsonify(new_plan=new_plan)
+
 
 @index.route('/planner2')
 def planner2_route():
@@ -81,3 +83,20 @@ def planner2_route():
     }
 
     return render_template('planner2.html', default_plan=default_plan, all_units=units_from_database)
+
+
+@index.route('/planner_submit')
+def planner_submit():
+    # Connect to the database
+    conn = sqlite3.connect('database/study_planner.db')
+    cursor = conn.cursor()
+
+    # Execute a query to fetch the required columns from the database
+    cursor.execute("SELECT semester, unit_1, unit_2, unit_3, unit_4 FROM study_units")
+    data = cursor.fetchall()
+
+    # Close the database connection
+    conn.close()
+
+    # Pass the data to the HTML template
+    return render_template('planner_submit.html', data=data)

@@ -171,6 +171,7 @@ $('#submit-button').click(function(e) {
             type: 'GET',
             success: function(data) {
                 updatePlanner(data.new_plan);
+                window.location.href = '/planner_submit';
             },
             error: function(error) {
                 console.error('Error fetching the new plan', error);
