@@ -69,10 +69,10 @@
                                         {% endif %}
                                     {% endfor %}
                                 </select>
+                                <span class="close-icon" onclick="removeSelect(this)">&#10006;</span>
                                 <div class="form-check">
                                     <input class="form-check-input check-prereq-btn" type="radio" name="prereqOption" id="checkPrereq{{ unit_num }}_year{{ year }}_semester{{ semester }}" data-unit-id="unit{{ unit_num }}_year{{ year }}_semester{{ semester }}">
                                 </div>                                
-                                <span class="close-icon" onclick="removeSelect(this)">&#10006;</span>
                             </div>
                         </td>
                         {% endfor %}
