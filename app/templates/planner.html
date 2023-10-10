@@ -2,24 +2,19 @@
 
 {% block content %}
     <h1>Bachelor of Engineering (S1)</h1>
-
     <div id="legend-container" class="legend-container">
         <div id="legend" class="legend">
+            <span class="close-legend" onclick="closeLegend()">&#10006;</span>
             <h2>Legend</h2>
             <p style="text-align: center;">If you have failed a unit, mark it as incomplete.</p>
             <div class="legend-box legend-pass"></div>Unit complete
             <div class="legend-box legend-fail"></div>Unit incomplete
             <div class="legend-box legend-prerequisite"></div>Prerequisite
             <div class="legend-box legend-post-requisite"></div>Post-Requisite
-            <!-- Add more content as needed -->
-            <span class="close-legend" onclick="closeLegend()">&#10006;</span>
         </div>
         <div id="legend-button" class="legend-button" onclick="toggleLegend()">&#63;</div>
     </div>
-    
     <div class="container text-center">
-
-        <!-- Dropdown menu for starting year and semester -->
         <div class="dropdown-container">
             <label for="startYear">Select Starting Year and Semester:</label>
             <select id="startYear" class="start-year-dropdown">
@@ -33,7 +28,6 @@
                 <option value="8" class="year-4">Year 4, Semester 2</option>
             </select>
         </div>
-
         {% for year in range(1, 5) %}
         <div>
             <h2>Year {{ year }}</h2>
@@ -79,8 +73,6 @@
             {% endfor %}
         </div>
         {% endfor %}
-        
-        <!-- Submit Button -->
         <div class="submit-button">
             <button type="submit" class="button" id="submit-button">Submit</button>
         </div>
