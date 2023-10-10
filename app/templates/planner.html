@@ -9,6 +9,12 @@
             <p style="text-align: center;">If you have failed a unit, mark it as incomplete.</p>
             <div class="legend-box legend-pass"></div>Unit complete
             <div class="legend-box legend-fail"></div>Unit incomplete
+            <div class="form-check">
+                <input class="form-check-input check-prereq-btn" type="radio" name="prereqOption" id="checkPrereq{{ unit_num }}_year{{ year }}_semester{{ semester }}" data-unit-id="unit{{ unit_num }}_year{{ year }}_semester{{ semester }}">
+                <label class="form-check-label" for="exampleRadios1">
+                    Check Pre and Post-Requisite 
+                </label>
+            </div>  
             <div class="legend-box legend-prerequisite"></div>Prerequisite
             <div class="legend-box legend-post-requisite"></div>Post-Requisite
         </div>
@@ -63,6 +69,9 @@
                                         {% endif %}
                                     {% endfor %}
                                 </select>
+                                <div class="form-check">
+                                    <input class="form-check-input check-prereq-btn" type="radio" name="prereqOption" id="checkPrereq{{ unit_num }}_year{{ year }}_semester{{ semester }}" data-unit-id="unit{{ unit_num }}_year{{ year }}_semester{{ semester }}">
+                                </div>                                
                                 <span class="close-icon" onclick="removeSelect(this)">&#10006;</span>
                             </div>
                         </td>

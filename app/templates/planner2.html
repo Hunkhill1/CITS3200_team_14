@@ -28,7 +28,6 @@
                 <option value="8">Year 4, Semester 2</option>
             </select>
         </div>
-        
         {% for year in range(1, 6) %}
         <div>
             <h2>Year {{ year }}</h2>
@@ -64,6 +63,9 @@
                                         {% endif %}
                                     {% endfor %}
                                 </select>
+                                <div class="form-check">
+                                    <input class="form-check-input check-prereq-btn" type="radio" name="prereqOption" id="checkPrereq{{ unit_num }}_year{{ year }}_semester{{ semester }}" data-unit-id="unit{{ unit_num }}_year{{ year }}_semester{{ semester }}">
+                                </div>  
                                 <span class="close-icon" onclick="removeSelect(this)">&#10006;</span>
                             </div>
                         </td>

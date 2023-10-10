@@ -21,12 +21,6 @@ async function checkAndHighlightPrerequisitesAndPostreqs(selectedUnitCode) {
     selectElements.forEach(async (select) => {
         const unitCode = select.value;
 
-      select.style.fontWeight = '';
-
-      if (unitCode === selectedUnitCode) {
-          select.style.fontWeight = 'bold';
-      }
-
       if (prerequisites.includes(unitCode)) {
           select.style.boxShadow = '0 0 2rem orange';
       }
@@ -37,6 +31,49 @@ async function checkAndHighlightPrerequisitesAndPostreqs(selectedUnitCode) {
       }
   });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const checkPrereqButtons = document.querySelectorAll(".check-prereq-btn");
+
+  let lastChecked = null;
+
+  checkPrereqButtons.forEach((button) => {
+      button.addEventListener("change", async function() {
+          const unitSelectId = this.getAttribute("data-unit-id");
+          const unitSelect = document.getElementById(unitSelectId);
+          const selectedUnitCode = unitSelect.value;
+
+          const selectElements = document.querySelectorAll(".unit-select");
+          selectElements.forEach((select) => {
+              select.style.boxShadow = "";
+          });
+
+          if (this.checked) {
+              if (lastChecked === this) {
+                  this.checked = false;
+                  lastChecked = null;
+              } else {
+                  lastChecked = this;
+                  await checkAndHighlightPrerequisitesAndPostreqs(selectedUnitCode);
+              }
+          } else {
+              lastChecked = null;
+          }
+      });
+
+      button.addEventListener("click", function() {
+          if (button === lastChecked) {
+              button.checked = false;
+              lastChecked = null;
+
+              const selectElements = document.querySelectorAll(".unit-select");
+              selectElements.forEach((select) => {
+                  select.style.boxShadow = "";
+              });
+          }
+      });
+  });
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   const unitCodeDropdown = document.getElementById("unitCode");
