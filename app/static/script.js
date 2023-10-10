@@ -214,3 +214,6 @@ function closeLegend() {
     var legend = document.getElementById("legend");
     legend.style.display = "none";
 }
+
+
+

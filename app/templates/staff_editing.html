@@ -9,35 +9,30 @@ Staff Editing Page - Unit Planner
     <h1>Staff Editing Page</h1>
 
     <!-- Dropdown to select a unit -->
-    <div class="select-wrapper"> <!-- Wrap the label and select element in a div for styling -->
+    <div class="select-wrapper">
         <label for="unitCode">Select a unit:</label>
         <select id="unitCode" name="unit_code">
-            {% for row in data %}
-            <option value="{{ row[0] }}">{{ row[0] }}</option>
+            {% for unit in units %}
+            <option value="{{ unit[0] }}">{{ unit[0] }}</option>
             {% endfor %}
         </select>
     </div>
-    <button class="button" id="showPrerequisites">Show Prerequisites</button>
+    <button class="button" id="showUnitInfo">Show Unit Info</button>
 
+    <!-- Unit Information Display -->
+    <div class="unit-info">
+        <h2>Unit Information</h2>
+        <p><strong>Unit Code:</strong> <span id="unitCodePlaceholder"></span></p>
+        <p><strong>Name:</strong> <span id="unitNamePlaceholder"></span></p>
+        <p><strong>Unit Points Required:</strong> <span id="unitPointsPlaceholder"></span></p>
+        <p><strong>Semester:</strong> <span id="semesterPlaceholder"></span></p>
+        <p><strong>Category ID:</strong> <span id="categoryIdPlaceholder"></span></p>
+    </div>
 
-    <!-- Unit Planner Display -->
-    <div class="unit-planner">
-        <div class="unit-info">
-            <h2>Unit Information</h2>
-            <!-- Information about the selected unit will be displayed here -->
-        </div>
-        <div class="prerequisites">
-            <h2>Prerequisites</h2>
-            <ul id="prerequisitesList">
-                <!-- Prerequisites will be added here dynamically -->
-            </ul>
-            <!-- 'Edit', 'Delete', and 'Add' options for each unit -->
-            <div class="unit-options">
-                <button class="button edit-button">Edit</button>
-                <button class="button delete-button">Delete</button>
-                <button class="button add-button">Add</button>
-            </div>
-        </div>
+    <!-- Placeholder buttons for Edit and Add -->
+    <div class="unit-options">
+        <button class="button edit-button" id="editUnitButton">Edit</button>
+        <button class="button add-button" id="addUnitButton">Add</button>
     </div>
 
     <!-- Log Out button -->
@@ -46,5 +41,29 @@ Staff Editing Page - Unit Planner
     </form>
 </div>
 
-<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script>
+    var unitsData = JSON.parse('{{ units | tojson | safe }}');
+    
+    function updateUnitInfo() {
+        // Get the selected unit code from the dropdown
+        var selectedUnitCode = document.getElementById("unitCode").value;
+
+        // Find the selected unit in the unitsData array
+        var selectedUnit = unitsData.find(function(unit) {
+            return unit[0] === selectedUnitCode;
+        });
+
+        if (selectedUnit) {
+            // Update the placeholders with the unit details
+            document.getElementById("unitCodePlaceholder").textContent = selectedUnit[0];
+            document.getElementById("unitNamePlaceholder").textContent = selectedUnit[1];
+            document.getElementById("unitPointsPlaceholder").textContent = selectedUnit[2];
+            document.getElementById("semesterPlaceholder").textContent = selectedUnit[3];
+            document.getElementById("categoryIdPlaceholder").textContent = selectedUnit[4];
+        }
+    }
+
+    document.getElementById("showUnitInfo").addEventListener("click", updateUnitInfo);
+</script>
+
 {% endblock %}

@@ -8,6 +8,9 @@ from app import db
 from script.algo import algorithm, remove_string_from_list, clean_list
 import script.constants as constants
 import json
+import script.database_interface as database_interface
+import script.constants as constants
+
 
 
 app = Flask(__name__, template_folder=constants.template_folder_address, static_folder=constants.static_folder_address)
@@ -46,7 +49,9 @@ def planner():
 
 @app.route('/staff_editing')
 def staff_editing():
-    return render_template('staff_editing.html', title='Staff Editing Page')
+    units = database_interface.get_all_units()
+    print(units)  # Debug: Print units to console
+    return render_template('staff_editing.html', units=units)
 
 @app.route('/process_json', methods=['POST'])
 def process_json_data():
