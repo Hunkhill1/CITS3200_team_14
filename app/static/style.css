@@ -140,6 +140,7 @@ label {
 
 .legend-button {
   cursor: pointer;
+  border: 1.5px solid black;
   font-size: 20px;
   position: absolute;
   top: auto;
@@ -283,10 +284,25 @@ select:focus {
   position: relative;
 }
 
+.welcome-heading {
+  text-align: center;
+  font-size: 45px; 
+  font-weight: bold; 
+  margin-top: 10px; 
+  margin-bottom: 35px;
+}
 .start-year-dropdown{
   background-color: #87CEEB;
   border: 2px solid blue;
   -webkit-appearance: button ;
+}
+
+.welcome-heading {
+  text-align: center;
+  font-size: 45px; 
+  font-weight: bold; 
+  margin-top: 10px; 
+  margin-bottom: 35px;
 }
 
 .SU {
