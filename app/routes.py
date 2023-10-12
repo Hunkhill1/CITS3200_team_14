@@ -81,3 +81,5 @@ def planner2_route():
     }
 
     return render_template('planner2.html', default_plan=default_plan, all_units=units_from_database)
+
+#GET GUNICORN WORKING ON LOCALHOST
