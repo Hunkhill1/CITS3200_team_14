@@ -26,7 +26,6 @@ def unit_route(unit_code):
 @index.route('/planner')
 def planner_route():
     units_from_database =  database_interface.get_all_units()
-    
     # Define the default plan
     default_plan = {
         'year_1': {
@@ -46,12 +45,13 @@ def planner_route():
             'semester_2': ['GENG5507', 'GENG3402', 'OPTION', 'OPTION'],
         }
     }
-
-    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database)
+    num_years = len(default_plan)
+    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
 
 @index.route('/fetch-database')
 def fetch_database_route():
     new_plan = study_planner_interface.fetch_database_as_plan()
+    print(new_plan)
     #print (new_plan)
     return jsonify(new_plan=new_plan)
 

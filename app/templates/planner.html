@@ -34,7 +34,7 @@
                 <option value="8" class="year-4">Year 4, Semester 2</option>
             </select>
         </div>
-        {% for year in range(1, 5) %}
+        {% for year in range(1, num_years + 1) %}
         <div>
             <h2>Year {{ year }}</h2>
             {% if year == 1 %}
