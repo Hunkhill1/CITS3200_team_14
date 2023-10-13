@@ -2,15 +2,15 @@ import sqlite3
 import script.constants as constants
 
 
-def get_prerequisites(unit_code:str)->list[str]:
-    """ Get the prerequisites for a unit
+def get_prerequisites(unit_code: str) -> list[str]:
+    """Get the prerequisites for a unit
 
     Args:
         unit_code (str):  Unit code to search for
 
     Returns:
         list[str]:  List of prerequisites for the unit
-    """    
+    """
     # Connect to the database
     connection = sqlite3.connect(constants.degree_db_address)
     cursor = connection.cursor()
@@ -21,7 +21,7 @@ def get_prerequisites(unit_code:str)->list[str]:
     FROM UnitRelationship
     WHERE unit_code = ?
     """
-    
+
     cursor.execute(query, (unit_code,))
     prerequisites = [row[0] for row in cursor.fetchall()]
 
@@ -46,15 +46,15 @@ def insert_unit_data(unit_data: list[tuple]) -> None:
         cursor.executemany(insert_unit_query, unit_data)
 
 
-def get_unit_semester(unit_code:str)->int:
-    """ Get the semester of a unit
+def get_unit_semester(unit_code: str) -> int:
+    """Get the semester of a unit
 
     Args:
         unit_code (str):  Unit code to search for
 
     Returns:
         int:  Semester of the unit
-    """ 
+    """
     # Connect to the database
     connection = sqlite3.connect(constants.degree_db_address)
     cursor = connection.cursor()
@@ -77,6 +77,7 @@ def get_unit_semester(unit_code:str)->int:
     else:
         raise Exception("Unit not found in the database")
 
+
 def insert_prerequisite(unit_code: str, pre_requisite: str) -> None:
     """Insert a prerequisite for a unit into the database.
 
@@ -96,14 +97,14 @@ def insert_prerequisite(unit_code: str, pre_requisite: str) -> None:
 
 
 def get_all_units() -> list[str]:
-    """ Get all units from the database
+    """Get all units from the database
 
     Returns:
         list[str]:  List of units
-    """    
+    """
     conn = sqlite3.connect(constants.degree_db_address)
     cursor = conn.cursor()
-    cursor.execute("SELECT code, name, semester FROM Unit")
+    cursor.execute("SELECT code, name, unit_points_required, semester, category_id FROM Unit")
     data_from_database = cursor.fetchall()
     conn.close()
     return data_from_database
