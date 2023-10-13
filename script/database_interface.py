@@ -108,3 +108,17 @@ def get_all_units() -> list[str]:
     data_from_database = cursor.fetchall()
     conn.close()
     return data_from_database
+
+
+# def get_all_units_everything() -> list[str]:
+#     """Get all units from the database
+
+#     Returns:
+#         list[str]:  List of units
+#     """
+#     conn = sqlite3.connect(constants.degree_db_address)
+#     cursor = conn.cursor()
+#     cursor.execute("SELECT code, name, unit_points_required, semester, category_id FROM Unit")
+#     data_from_database = cursor.fetchall()
+#     conn.close()
+#     return data_from_database

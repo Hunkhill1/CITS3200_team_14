@@ -50,6 +50,8 @@ def planner():
 @app.route('/staff_editing')
 def staff_editing():
     units = database_interface.get_all_units()
+    # units = database_interface.get_all_units_everything()
+
     print(units)  # Debug: Print units to console
     return render_template('staff_editing.html', units=units)
 
@@ -99,6 +101,15 @@ def process_json_data():
         return jsonify(response_data), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+
+@app.route('/process_unit_edit', methods=['POST'])
+def process_unit_edit():
+    # Process the form data and update the database
+    # ...
+
+    # Redirect to the staff editing page after processing
+    return redirect(url_for('staff_editing'))
 
 
 if __name__ == '__main__':

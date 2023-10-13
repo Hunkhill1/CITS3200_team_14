@@ -92,6 +92,7 @@ Staff Editing Page - Unit Planner
 {% endblock %}
 
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
     var unitsData = JSON.parse('{{ units | tojson | safe }}');
 
     // Log the units data to the console as an arra
@@ -117,6 +118,9 @@ Staff Editing Page - Unit Planner
     }
 
     document.getElementById("showUnitInfo").addEventListener("click", updateUnitInfo);
+
+
+});
 </script>
 
 {% endblock %}

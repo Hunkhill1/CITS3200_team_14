@@ -9,7 +9,7 @@ Edit Unit - Unit Planner
     <h1>Edit Unit Information</h1>
 
     <!-- Edit form for unit information -->
-    <form id="editUnitForm">
+    <form id="editUnitForm" action="{{ url_for('process_unit_edit') }}" method="POST">
         <label for="unitCode">Unit Code:</label>
         <input type="text" id="editUnitCode" name="unitCode" disabled>
         <br> <!-- Add line breaks here -->
