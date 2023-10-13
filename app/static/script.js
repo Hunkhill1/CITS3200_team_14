@@ -211,14 +211,14 @@ $('#submit-button').click(function(e) {
           url: '/fetch-database',
           type: 'GET',
           success: function(data) {
-              if (Object.keys(data.new_plan).length > 4) {
-                  updateYearsAndSemesters(data.num_years, data.new_plan, data.all_units, () => {
-                      // This will be called after the DOM is updated
-                      updatePlanner(data.new_plan);
-                  });
-              } else {
-                updatePlanner(data.new_plan);
-              }
+              // First call to updatePlanner
+              updatePlanner(data.new_plan);
+
+              // Call to updateYearsAndSemesters
+              updateYearsAndSemesters(data.num_years, data.new_plan, data.all_units, () => {
+                  // Second call to updatePlanner inside the callback to ensure it runs after updateYearsAndSemesters
+                  updatePlanner(data.new_plan);
+              });
           },
           error: function(error) {
               console.error('Error fetching the new plan', error);
