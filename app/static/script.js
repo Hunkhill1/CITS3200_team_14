@@ -211,7 +211,7 @@ $('#submit-button').click(function(e) {
           url: '/fetch-database',
           type: 'GET',
           success: function(data) {
-              updateYearsAndSemesters(data.num_years, data.new_plan, () => {
+              updateYearsAndSemesters(data.num_years, data.new_plan, data.all_units, () => {
                   // This will be called after the DOM is updated
                   updatePlanner(data.new_plan);
               });
@@ -242,18 +242,14 @@ function updatePlanner(newPlan) {
   }
 }
 
-function updateYearsAndSemesters(numYears, newPlan) {
+function updateYearsAndSemesters(numYears, newPlan, all_units) {
   const container = document.querySelector('.container.text-center');
   const submitButton = document.querySelector('.submit-button');
-  // Find the existing number of years
   const existingYears = container.querySelectorAll('h2').length;
-
   let content = "";
 
-  // Iterate only over the new years
   for (let year = existingYears + 1; year <= numYears; year++) {
       content += `<div><h2>Year ${year}</h2>`;
-
       for (let semester = 1; semester <= 2; semester++) {
           content += `
               <div class="semester">
@@ -266,30 +262,40 @@ function updateYearsAndSemesters(numYears, newPlan) {
                           <th>Unit 4</th>
                       </tr>
                       <tr>`;
-          
-          for (let unit_num = 1; unit_num <= 4; unit_num++) {
-            const selectId = `unit${unit_num}_year${year}_semester${semester}`;
-            
-            // Get the unit code for this unit number from new_plan
-            const unitCode = newPlan[`year_${year}`][`semester_${semester}`][unit_num - 1];
-            
-            content += `
-                  <td>
-                      <div class="select-wrapper">
-                          <select name="unit${unit_num}_${year}_${semester}" id="${selectId}" class="unit-select">
 
-                          </select>
-                          <span class="close-icon" onclick="removeSelect(this)">&#10006;</span>
-                          <div class="form-check">
-                              <input class="form-check-input check-prereq-btn" type="radio" name="prereqOption" id="checkPrereq${unit_num}_year${year}_semester${semester}" data-unit-id="${selectId}">
-                          </div>                                
-                      </div>
-                  </td>`;
+          for (let unit_num = 1; unit_num <= 4; unit_num++) {
+              const selectId = `unit${unit_num}_year${year}_semester${semester}`;
+              const unitCode = newPlan[`year_${year}`][`semester_${semester}`][unit_num - 1];
+
+              content += `
+  <td>
+      <div class="select-wrapper">
+          <select name="unit${unit_num}_${year}_${semester}" id="${selectId}" class="unit-select">`;
+              
+          // Add the selected unit as the first option
+          content += `<option value="${unitCode}" selected>${unitCode}</option>`;
+
+          for (const unit of all_units) {
+              const currentUnitCode = unit[0];
+              const unitSemester = unit[2]; 
+
+              // Applying the condition from your template in JavaScript
+              if (currentUnitCode !== unitCode && (unitSemester === semester || unitSemester === 12)) {
+                  content += `<option value="${currentUnitCode}">${currentUnitCode}</option>`;
+              }
           }
-          content += `
-                      </tr>
-                  </table>
-              </div>`;
+          
+          content += `</select>
+                      <span class="close-icon" onclick="removeSelect(this)">&#10006;</span>
+                      <div class="form-check">
+                          <input class="form-check-input check-prereq-btn" type="radio" name="prereqOption" id="checkPrereq${unit_num}_year${year}_semester${semester}" data-unit-id="${selectId}">
+                      </div>                                
+                  </div>
+              </td>`;
+
+          }
+
+          content += `</tr></table></div>`;
       }
       content += '</div>';
   }

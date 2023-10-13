@@ -52,7 +52,8 @@ def planner_route():
 def fetch_database_route():
     new_plan = study_planner_interface.fetch_database_as_plan()
     num_years = len(new_plan)
-    return jsonify(new_plan=new_plan, num_years=num_years)
+    units_from_database =  database_interface.get_all_units()
+    return jsonify(new_plan=new_plan, num_years=num_years, all_units=units_from_database)
 
 @index.route('/planner2')
 def planner2_route():
