@@ -211,10 +211,14 @@ $('#submit-button').click(function(e) {
           url: '/fetch-database',
           type: 'GET',
           success: function(data) {
-              updateYearsAndSemesters(data.num_years, data.new_plan, data.all_units, () => {
-                  // This will be called after the DOM is updated
-                  updatePlanner(data.new_plan);
-              });
+              if (Object.keys(data.new_plan).length > 4) {
+                  updateYearsAndSemesters(data.num_years, data.new_plan, data.all_units, () => {
+                      // This will be called after the DOM is updated
+                      updatePlanner(data.new_plan);
+                  });
+              } else {
+                updatePlanner(data.new_plan);
+              }
           },
           error: function(error) {
               console.error('Error fetching the new plan', error);
@@ -246,6 +250,7 @@ function updateYearsAndSemesters(numYears, newPlan, all_units) {
   const container = document.querySelector('.container.text-center');
   const submitButton = document.querySelector('.submit-button');
   const existingYears = container.querySelectorAll('h2').length;
+
   let content = "";
 
   for (let year = existingYears + 1; year <= numYears; year++) {
@@ -284,7 +289,7 @@ function updateYearsAndSemesters(numYears, newPlan, all_units) {
                   content += `<option value="${currentUnitCode}">${currentUnitCode}</option>`;
               }
           }
-          
+
           content += `</select>
                       <span class="close-icon" onclick="removeSelect(this)">&#10006;</span>
                       <div class="form-check">
