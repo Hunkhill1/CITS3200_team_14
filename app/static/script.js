@@ -216,4 +216,46 @@ function closeLegend() {
 }
 
 
+// Function to handle the edit button click
+var unitsData = JSON.parse('{{ units | tojson | safe }}');
 
+function updateUnitInfo() {
+    var selectedUnitCode = document.getElementById("unitCode").value;
+    var selectedUnit = unitsData.find(function(unit) {
+        return unit[0] === selectedUnitCode;
+    });
+
+    if (selectedUnit) {
+        document.getElementById("unitCodePlaceholder").textContent = selectedUnit[0];
+        document.getElementById("unitNamePlaceholder").textContent = selectedUnit[1];
+        document.getElementById("unitPointsPlaceholder").textContent = selectedUnit[2];
+        document.getElementById("semesterPlaceholder").textContent = selectedUnit[3];
+        document.getElementById("categoryIdPlaceholder").textContent = selectedUnit[4];
+    }
+}
+
+function editAndSaveUnit() {
+    var editedCode = document.getElementById("editUnitCode").value;
+    var editedName = document.getElementById("editUnitName").value;
+    var editedPoints = document.getElementById("editUnitPoints").value;
+    var editedSemester = document.getElementById("editUnitSemester").value;
+    var editedCategory = document.getElementById("editUnitCategory").value;
+
+    var selectedUnit = unitsData.find(function(unit) {
+        return unit[0] === editedCode;
+    });
+
+    if (selectedUnit) {
+        selectedUnit[1] = editedName;
+        selectedUnit[2] = editedPoints;
+        selectedUnit[3] = editedSemester;
+        selectedUnit[4] = editedCategory;
+        console.log("Unit information edited and saved:", selectedUnit);
+    }
+
+    // Redirect to the staff editing page
+    window.location.href = "{{ url_for('staff_editing') }}";
+}
+
+document.getElementById("showUnitInfo").addEventListener("click", updateUnitInfo);
+document.getElementById("submitEdit").addEventListener("click", editAndSaveUnit)

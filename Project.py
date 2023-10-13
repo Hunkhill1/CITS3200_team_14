@@ -53,6 +53,10 @@ def staff_editing():
     print(units)  # Debug: Print units to console
     return render_template('staff_editing.html', units=units)
 
+@app.route('/edit_unit')
+def edit_unit():
+    return render_template('staff_editing_edit.html')
+
 @app.route('/process_json', methods=['POST'])
 def process_json_data():
     try:

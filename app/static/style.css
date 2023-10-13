@@ -308,3 +308,30 @@ select:focus {
 }
 
 
+/* CSS for the legend container */
+.legend-container1 {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 999; /* Ensure it's above other content */
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* width: 400px; Adjust the height as needed */
+}
+
+#legend {
+  width: 600px; /* Adjust the height as needed */
+  overflow-y: auto; /* Add a vertical scrollbar if content exceeds the height */
+}
+
+
+
+/* CSS for the legend button */
+.legend-button1 {
+  cursor: pointer;
+  font-size: 20px;
+  float: right;
+  margin-left: 10px;
+}

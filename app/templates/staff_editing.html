@@ -31,7 +31,7 @@ Staff Editing Page - Unit Planner
 
     <!-- Placeholder buttons for Edit and Add -->
     <div class="unit-options">
-        <button class="button edit-button" id="editUnitButton">Edit</button>
+        <a class="button edit-button" href="{{ url_for('edit_unit') }}">Edit</a>
         <button class="button add-button" id="addUnitButton">Add</button>
     </div>
 
@@ -41,8 +41,60 @@ Staff Editing Page - Unit Planner
     </form>
 </div>
 
+{% block legend %}
+<!-- Legend Section -->
+<div id="legend-container1" class="legend-container1">
+    <!-- Button for toggling the legend -->
+    <div id="legend-button1" class="legend-button1" onclick="toggleLegend()">&#63;</div>
+    
+    <div id="legend" class="legend">
+        <h2>Legend</h2>
+        <p style="text-align: center;"><b>Explanation of Terms</b></p>
+        <!-- Add your legend content here -->
+        <div class="legend-item">
+            <div class="legend-box1 legend-semester"></div>
+            <div class="legend-text"><b>Semester:</b> Indicates the semesters in which the unit is offered.</div>
+        </div>
+        <div class="legend-item">
+            <div class="legend-box1 legend-points"></div>
+            <div class="legend-text"><b>Credit Points:</b> Represents the number of credit points required for this unit.</div>
+        </div>
+        <div class="legend-item">
+            <div class="legend-box1 legend-category"></div>
+            <div class="legend-text"><b>Category:</b> Refers to the main category of the unit which is divided into 4 types.</div>
+        </div>
+        <div class="legend-item">
+            <div class="legend-box1 legend-subcategory"></div>
+            <div class="legend-text"><b>Subcategories:</b></div>
+        </div>
+        <div class="legend-subitem">
+            <div class="legend-box1 legend-subcategory1"></div>
+            <div class="legend-text"><b>Category 1:</b>Core Unit.</div>
+        </div>
+        <div class="legend-subitem">
+            <div class="legend-box1 legend-subcategory2"></div>
+            <div class="legend-text"><b>Category 2:</b> Broadening Unit.</div>
+        </div>
+        <div class="legend-subitem">
+            <div class="legend-box1 legend-subcategory3"></div>
+            <div class="legend-text"><b>Category 3:</b> Optional Unit.</div>
+        </div>
+        <div class="legend-subitem">
+            <div class="legend-box1 legend-subcategory4"></div>
+            <div class="legend-text"><b>Category 4:</b> Group A unit.</div>
+        </div>
+        <div class="legend-subitem">
+            <div class="legend-box1 legend-subcategory5"></div>
+            <div class="legend-text"><b>Category 5:</b> Group B unit.</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
 <script>
     var unitsData = JSON.parse('{{ units | tojson | safe }}');
+
+    // Log the units data to the console as an arra
     
     function updateUnitInfo() {
         // Get the selected unit code from the dropdown
@@ -60,6 +112,7 @@ Staff Editing Page - Unit Planner
             document.getElementById("unitPointsPlaceholder").textContent = selectedUnit[2];
             document.getElementById("semesterPlaceholder").textContent = selectedUnit[3];
             document.getElementById("categoryIdPlaceholder").textContent = selectedUnit[4];
+            console.log(selectedUnit);
         }
     }
 
