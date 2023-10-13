@@ -81,3 +81,29 @@ def planner2_route():
     }
 
     return render_template('planner2.html', default_plan=default_plan, all_units=units_from_database)
+
+@index.route('/plannerCivil')
+def planner3_route():
+    units_from_database =  database_interface.get_all_units()
+    
+    # Define the default plan
+    default_plan = {
+        'year_1': {
+            'semester_1': ['MATH1011', 'PHYS1001', 'CITS2401', 'BROAD001'],
+            'semester_2': ['MATH1012', 'GENG1010', 'ENSC2004', 'GENG1014'],
+        },
+        'year_2': {
+            'semester_1': ['GENG2004', 'GENG2009', 'CIVL2251', 'BROAD002'],
+            'semester_2': ['CIVL2008', 'GENG2010', 'GENG2012', 'BROAD003'],
+        },
+        'year_3': {
+            'semester_1': ['CIVL3401', 'CIVL3402', 'CIVL3404', 'BROAD004'],
+            'semester_2': ['CIVL3403', 'CIVL4430', 'GENG3405', 'OPTION'],
+        },
+        'year_4': {
+            'semester_1': ['GENG4411', 'CIVL5550', 'GENG5505', 'OPTION'],
+            'semester_2': ['GENG4412', 'CIVL5552', 'GENG5507', 'OPTION'],
+        }
+    }
+
+    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database)

@@ -7,6 +7,7 @@ cursor = connection.cursor()
 
 # Insert sample data into the Unit table with the "core" category_id
 unit_data = [
+    # Mechanical
     # Unit name, unit code, semester, unit_points, category_id (for "core")
     # Year 1 Semester 1
     ('MATH1011', 'Multivariable Calculus',  12, 0, 1),  # "core"
@@ -60,7 +61,22 @@ unit_data = [
     ('BROAD002', 'BROADENING',  1, 0, 2),
     ('BROAD003', 'BROADENING',  1, 0, 2),
     ('BROAD004', 'BROADENING',  1, 0, 2),
-    
+
+    # Civil
+    ('GENG1014', 'Earth Systems Engineering',  2, 0, 1),  # "core"
+    ('GENG2012', 'Data Collection and Analysis',  2, 0, 1),  # "core"
+    ('CIVL2551', 'Civil Engineering Practice',  2, 0, 1),  # "core"
+    ('CIVL2008', 'Structual Analysis',  2, 0, 1),  # "core"
+    ('GENG2010', 'Principles of Hydraulics',  2, 0, 1),  # "core"
+    ('GENG2009', 'Principles of Geomechanics',  1, 0, 1),  # "core"
+    ('CIVL3403', 'Structual Concrete Design',  2, 0, 1),  # "core"
+    ('CIVL4430', 'Transportation and Pavement Engineering',  2, 96, 1),  # "core"
+    ('CIVL3401', 'Applied Geomechanics',  1, 0, 1),  # "core"
+    ('CIVL5552', 'Civil Structual Design Project',  2, 120, 4),  # "Option Group A"
+    ('CIVL3404', 'Structual Steel Design',  1, 0, 1),  # "core"
+    ('CIVL5550', 'Civil Infrastrucuture Design Project',  12, 120, 4),  # "Option Group A"
+    ('CIVL3402', 'Hydraulics for Civil Engineers',  1, 0, 1),  # "core"
+
 ]
 
 # Define an SQL query to insert data into the Unit table (with category_id)
@@ -141,6 +157,28 @@ unit_relationship_data = [
     ("GENG5514", "GENG3405"),
     ("MECH4428", "MECH2002"),
     
+    # Civil 
+    ("CIVL2008", "MATH1011"),
+    ("CIVL2008", "ENSC2004"),
+    ("GENG2009", "MATH1011"),
+    ("GENG2009", "MATH1012"),
+    ("GENG2009", "PHYS1001"),
+    ("GENG2010", "MATH1011"),
+    ("GENG2010", "MATH1012"),
+    ("GENG2012", "MATH1012"),
+    ("GENG2012", "CITS2401"),
+    ("CIVL3401", "GENG2009"),
+    ("CIVL3402", "GENG2010"),
+    ("CIVL3403", "GENG2004"),
+    ("CIVL3403", "GENG1000"),
+    ("CIVL3404", "GENG2004"),
+    ("CIVL4430", "MATH1011"),
+    ("CIVL4430", "CITS2401"),
+    ("CIVL4430", "CITS2401"),
+    ("CIVL5550", "GENG3000"),
+    ("CIVL5550", "CIVL4430"),
+    ("CIVL5552", "GENG3000"),
+    ("CIVL5552", "CIVL3404"),
 ]
 
 # Define an SQL query to insert data into the UnitRelationship table
