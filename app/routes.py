@@ -109,5 +109,5 @@ def planner3_route():
             'semester_2': ['GENG4412', 'CIVL5552', 'GENG5507', 'OPTION'],
         }
     }
-
-    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database)
+    num_years = len(default_plan)
+    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
