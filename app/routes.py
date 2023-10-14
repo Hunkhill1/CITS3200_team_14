@@ -111,3 +111,33 @@ def planner3_route():
     }
     num_years = len(default_plan)
     return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
+
+@index.route('/plannerCivil2')
+def planner4_route():
+    units_from_database =  database_interface.get_all_units()
+    
+    # Define the default plan
+    default_plan = {
+        'year_1': {
+            'semester_1': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
+            'semester_2': ['MATH1011', 'CITS2401', 'GENG1014', 'PHYS1001'],
+        },
+        'year_2': {
+            'semester_1': ['MATH1012', 'CIVL2251', 'ENSC2004', 'GENG1010'],
+            'semester_2': ['GENG2012', 'CIVL2008', 'GENG2010', 'BROAD001'],
+        },
+        'year_3': {
+            'semester_1': ['GENG2004', 'GENG2009', 'BROAD002', 'BROAD003'],
+            'semester_2': ['CIVL3403', 'OPTION', 'BROAD004', 'GENG3405'],
+        },
+        'year_4': {
+            'semester_1': ['CIVL3401', 'CIVL3404', 'OPTION', 'CIVL3402'],
+            'semester_2': ['GENG4411', 'CIVL4430', 'GENG5505', 'CIVL5552'],
+        },
+        'year_5': {
+            'semester_1': ['GENG4412', 'GENG5507', 'CIVL5550', 'OPTION'],
+            'semester_2': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
+        }
+    }
+    num_years = len(default_plan)
+    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
