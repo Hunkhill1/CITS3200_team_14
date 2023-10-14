@@ -358,7 +358,7 @@ def add_completed_unit_to_planner(unit_code: str) -> None:
 
                 if next_available_semester:
                     semester_to_be_updated, cell_index = next_available_semester           
-                    if search_strings_in_list(constants.summer_units, prerequisites) and check_summer_units_index(constants.summer_units, semester):
+                    if search_strings_in_list(constants.summer_units, prerequisites) and check_summer_units_index(constants.summer_units, semester_to_be_updated):
                         temp_list = completed_units + constants.summer_units
                         if all(prereq in temp_list for prereq in prerequisites):
                             update_study_unit(semester_to_be_updated,cell_index, unit_code)  
