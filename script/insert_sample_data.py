@@ -160,23 +160,32 @@ unit_relationship_data = [
     # Civil 
     ("CIVL2008", "MATH1011"),
     ("CIVL2008", "ENSC2004"),
+    
     ("GENG2009", "MATH1011"),
     ("GENG2009", "MATH1012"),
     ("GENG2009", "PHYS1001"),
+    
     ("GENG2010", "MATH1011"),
     ("GENG2010", "MATH1012"),
+    
     ("GENG2012", "MATH1012"),
     ("GENG2012", "CITS2401"),
+    
     ("CIVL3401", "GENG2009"),
+    
     ("CIVL3402", "GENG2010"),
+    
     ("CIVL3403", "GENG2004"),
     ("CIVL3403", "GENG1000"),
+    
     ("CIVL3404", "GENG2004"),
+    
     ("CIVL4430", "MATH1011"),
     ("CIVL4430", "CITS2401"),
-    ("CIVL4430", "CITS2401"),
+    
     ("CIVL5550", "GENG3000"),
     ("CIVL5550", "CIVL4430"),
+    
     ("CIVL5552", "GENG3000"),
     ("CIVL5552", "CIVL3404"),
 ]
