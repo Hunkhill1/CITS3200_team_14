@@ -282,3 +282,37 @@ function saveUnit() {
       window.location.href = "{{ url_for('staff_editing') }}";
   }
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const editUnitForm = document.getElementById('editUnitForm');
+  const saveButton = document.getElementById('submitEdit');
+
+  saveButton.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      const unitCode = document.getElementById('editUnitCode').value;
+      const unitName = document.getElementById('editUnitName').value;
+      const unitPoints = document.getElementById('editUnitPoints').value;
+      const unitSemester = document.getElementById('editUnitSemester').value;
+      const unitCategory = document.getElementById('editUnitCategory').value;
+
+      const jsonData = {
+          unitCode: unitCode,
+          unitName: unitName,
+          unitPoints: unitPoints,
+          unitSemester: unitSemester,
+          unitCategory: unitCategory
+      };
+
+      // Send the JSON data to the server using a POST request
+      fetch('/process_unit_edit', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonData)
+      });
+  });
+});
+

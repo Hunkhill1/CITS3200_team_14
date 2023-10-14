@@ -105,11 +105,15 @@ def process_json_data():
 
 @app.route('/process_unit_edit', methods=['POST'])
 def process_unit_edit():
-    # Process the form data and update the database
-    # ...
-
-    # Redirect to the staff editing page after processing
-    return redirect(url_for('staff_editing'))
+    data = request.get_json()
+    
+    # Save the JSON data to a file
+    data = request.get_json()
+    
+    # Print the JSON data to the terminal
+    print(data)
+    
+    return jsonify(data)
 
 
 if __name__ == '__main__':
