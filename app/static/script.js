@@ -317,6 +317,64 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+  const addUnitForm = document.getElementById('addUnitForm');
+  const saveButton = document.getElementById('submitAdd');
+
+  saveButton.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      const unitCode = document.getElementById('addUnitCode').value;
+      const unitName = document.getElementById('addUnitName').value;
+      const unitPoints = document.getElementById('addUnitPoints').value;
+      const unitSemester = document.getElementById('addUnitSemester').value;
+      const unitCategory = document.getElementById('addUnitCategory').value;
+
+      const jsonData = {
+          unitCode: unitCode,
+          unitName: unitName,
+          unitPoints: unitPoints,
+          unitSemester: unitSemester,
+          unitCategory: unitCategory
+      };
+
+      // Send the JSON data to the server using a POST request
+      fetch('/process_unit_add', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonData)
+      });
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const deleteUnitForm = document.getElementById('deleteUnitForm');
+  const deleteButton = document.getElementById('submitDelete');
+
+  deleteButton.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      const unitCode = document.getElementById('deleteUnitCode').value;
+
+      const jsonData = {
+          unitCode: unitCode
+      };
+
+      // Send the JSON data to the server using a POST request
+      fetch('/process_unit_delete', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonData)
+      });
+  });
+});
+
+
+
 // document.addEventListener('DOMContentLoaded', function () {
 //   // Handle the "Add" button click
 //   document.getElementById("addUnitButton").addEventListener("click", function () {

@@ -149,18 +149,47 @@ def process_unit_edit():
 @app.route('/process_unit_add', methods=['POST'])
 def process_unit_add():
 
-    # Process the data, add it to your database, or perform any necessary actions for adding a unit.
-
-    return redirect(url_for('staff_editing'))
+    # Save the JSON data to a file
+    data = request.get_json()
+    
+    unit_code = data.get('unitCode')
+    unit_name = data.get('unitName')
+    unit_points = int(data.get('unitPoints'))
+    unit_semester = int(data.get('unitSemester'))
+    unit_category_id = int(data.get('unitCategory'))
+    
+    print(unit_code)
+    print(unit_name)
+    print(unit_points)
+    print(unit_semester)
+    print(unit_category_id)
+    
+    # Print the JSON data to the terminal
+    print(data)
+    
+    # Edit the unit in the database - Uncomment this line when ready
+    #database_interface.edit_units(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
+    
+    # Delete a unit from the database - Uncomment this line when ready
+    #database_interface.delete_unit_by_code(unit_code)
+    
+    # Add a unit to the database - Uncomment this line when ready
+    #database_interface.add_unit(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
+    
+    
+    
+    return jsonify(data)
 
 @app.route('/process_unit_delete', methods=['POST'])
 def process_unit_delete():
-    # Get the unit code from the form
+    data = request.get_json()
+    
+    # Print the JSON data to the terminal
+    unit_code = data.get('unitCode')
 
-    # Implement code to delete the unit from your database based on the unit code
-    # Example: database_interface.delete_unit(unit_code)
-
-    return redirect(url_for('staff_editing'))  # Redirect to the staff editing page after deletion
+    print(unit_code)
+    
+    return jsonify(data)
 
 
 
