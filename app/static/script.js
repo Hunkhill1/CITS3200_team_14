@@ -317,30 +317,30 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-  // Handle the "Add" button click
-  document.getElementById("addUnitButton").addEventListener("click", function () {
-      // Redirect to staff_editing_new.html
-      window.location.href = "{{ url_for('staff_editing_new') }}";
+// document.addEventListener('DOMContentLoaded', function () {
+//   // Handle the "Add" button click
+//   document.getElementById("addUnitButton").addEventListener("click", function () {
+//       // Redirect to staff_editing_new.html
+//       window.location.href = "{{ url_for('staff_editing_new') }}";
 
-      // Sample data to send for unit addition
-      const jsonData = {
-          unitCode: "NEW123",
-          unitName: "New Unit",
-          unitPoints: "4",
-          unitSemester: "Spring",
-          unitCategory: "Category 1"
-      };
+//       // Sample data to send for unit addition
+//       const jsonData = {
+//           unitCode: "NEW123",
+//           unitName: "New Unit",
+//           unitPoints: "4",
+//           unitSemester: "Spring",
+//           unitCategory: "Category 1"
+//       };
 
-      // Send a POST request to process the addition
-      fetch('/process_unit_add', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(jsonData)
-      });
-      window.location.href = "/staff_editing";
-  });
-});
+//       // Send a POST request to process the addition
+//       fetch('/process_unit_add', {
+//           method: 'POST',
+//           headers: {
+//               'Content-Type': 'application/json'
+//           },
+//           body: JSON.stringify(jsonData)
+//       });
+//       window.location.href = "/staff_editing";
+//   });
+// });
 

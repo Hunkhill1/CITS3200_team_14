@@ -63,6 +63,10 @@ def edit_unit():
 def add_unit():
     return render_template('staff_editing_add.html')
 
+@app.route('/delete_unit')
+def delete_unit():
+    return render_template('staff_editing_delete.html')
+
 @app.route('/process_json', methods=['POST'])
 def process_json_data():
     try:
@@ -144,11 +148,20 @@ def process_unit_edit():
 
 @app.route('/process_unit_add', methods=['POST'])
 def process_unit_add():
-    data = request.get_json()
 
     # Process the data, add it to your database, or perform any necessary actions for adding a unit.
 
-    return jsonify({'message': 'Unit added successfully'})
+    return redirect(url_for('staff_editing'))
+
+@app.route('/process_unit_delete', methods=['POST'])
+def process_unit_delete():
+    # Get the unit code from the form
+
+    # Implement code to delete the unit from your database based on the unit code
+    # Example: database_interface.delete_unit(unit_code)
+
+    return redirect(url_for('staff_editing'))  # Redirect to the staff editing page after deletion
+
 
 
 if __name__ == '__main__':
