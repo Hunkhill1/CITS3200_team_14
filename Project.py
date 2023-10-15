@@ -110,12 +110,35 @@ def process_json_data():
 @app.route('/process_unit_edit', methods=['POST'])
 def process_unit_edit():
     data = request.get_json()
-    
+        
     # Save the JSON data to a file
     data = request.get_json()
     
+    unit_code = data.get('unitCode')
+    unit_name = data.get('unitName')
+    unit_points = int(data.get('unitPoints'))
+    unit_semester = int(data.get('unitSemester'))
+    unit_category_id = int(data.get('unitCategory'))
+    
+    print(unit_code)
+    print(unit_name)
+    print(unit_points)
+    print(unit_semester)
+    print(unit_category_id)
+    
     # Print the JSON data to the terminal
     print(data)
+    
+    # Edit the unit in the database - Uncomment this line when ready
+    #database_interface.edit_units(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
+    
+    # Delete a unit from the database - Uncomment this line when ready
+    #database_interface.delete_unit_by_code(unit_code)
+    
+    # Add a unit to the database - Uncomment this line when ready
+    #database_interface.add_unit(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
+    
+    
     
     return jsonify(data)
 
