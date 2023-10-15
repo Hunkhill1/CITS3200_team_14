@@ -1,3 +1,25 @@
+"""
+insert_sample_data.py
+
+This script populates the degree database with sample data for units and their prerequisites.
+
+Contents:
+- Connection to the database defined in constants.py
+- Insertion of sample data into the Unit and UnitRelationship tables.
+
+Usage:
+1. Run this script to insert sample data into the degree database.
+2. It populates the database with units and their prerequisites.
+3. This sample data is used for testing and demonstration purposes.
+"""
+
+import sqlite3
+import constants as constants  # Import configuration constants
+
+# Rest of your code...
+
+
+
 import sqlite3
 import constants as constants
 

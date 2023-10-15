@@ -1,5 +1,31 @@
+"""
+study_planner/algo.py
+
+This module contains the algorithm for generating a study plan based on completed and incomplete units.
+
+Functions:
+- algorithm(completed_units_list, incomplete_units, start_sem): Generates a study plan matrix based on completed and incomplete units.
+- remove_string_from_list(input_list, string_to_remove): Removes all occurrences of a specified string from a list.
+- clean_list(input_list): Removes specific strings from a list.
+
+Usage:
+1. Call the `algorithm` function to generate a study plan matrix.
+2. Use the `remove_string_from_list` and `clean_list` functions for list manipulation.
+
+Note:
+- This algorithm assumes certain dependencies and prerequisites for unit completion.
+- The algorithm utilizes an external `CanDo` function for unit prioritization.
+"""
+
 from script.study_planner_interface import *
 from script.available_units import CanDo
+
+# Rest of your code...
+
+
+from script.study_planner_interface import *
+from script.available_units import CanDo
+
 
 
 def algorithm(completed_units_list: list[str], incomplete_units: list[str], start_sem:int) -> None:
@@ -9,6 +35,8 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str], star
         completed_units_list (list[str]): list of completed unit codes
         incomplete_units (list[str]): list of uncompleted unit codes
     """
+   # When Submit again it would remain the rows for recaculation 
+    clear_table_and_preserve_rows()
     # Rearrange compelteed units in joshs heuristic order
     
     # Step 1: Add completed units to the study planner
@@ -46,6 +74,7 @@ def algorithm(completed_units_list: list[str], incomplete_units: list[str], star
         incomplete_units = remaining_units
         
     update_null_values(start_sem)
+    
 
         
 def remove_string_from_list(input_list:list[str], string_to_remove:str)->list[str]:

@@ -1,3 +1,6 @@
+# route.py
+# This file contains the Flask routes for the Mechanical and Civil Engineering study planners.
+
 from flask import Blueprint, render_template, request, jsonify, flash, redirect
 import sqlite3
 from app.forms import LoginForm

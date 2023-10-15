@@ -1,3 +1,16 @@
+"""
+script/available_units.py
+
+This module contains functions related to determining available units for a study plan.
+
+Functions:
+- CanDo(completed_units, incomplete_units): Checks if a unit can be done based on prerequisites.
+
+Note:
+- This module relies on the script.database_interface module for prerequisite information.
+- It is used to prioritize units for inclusion in a study plan.
+"""
+
 from script.database_interface import get_prerequisites
 import script.constants as constants 
 

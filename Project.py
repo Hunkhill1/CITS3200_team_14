@@ -53,11 +53,7 @@ def process_json_data():
     try:
         json_data = request.get_json()
         
-        # Process the JSON data as needed
-        # print("Received JSON data:")
-        # print(json.dumps(json_data, indent=4))  # Pretty-print JSON data
-
-        # Initialize lists to store complete and incomplete units
+       # Initialize lists to store complete and incomplete units
         complete_units = []
         incomplete_units = []
 
@@ -81,7 +77,7 @@ def process_json_data():
 
 
         start_year_semester = int(json_data["startYearSemester"])
-        print(start_year_semester)   
+        print(start_year_semester) 
                
         algorithm(filtered_incomplete_units, filtered_complete_units, start_year_semester)
 
