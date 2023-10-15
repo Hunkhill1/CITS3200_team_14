@@ -117,11 +117,6 @@ Staff Editing Page - Unit Planner
             }
         }
         
-        // Handle the "Add" button click
-        document.getElementById("addUnitButton").addEventListener("click", function() {
-            // Redirect to staff_editing_new.html
-            window.location.href = "{{ url_for('add_unit') }}";
-        });
 
         // Attach the "Show Unit Info" event
         document.getElementById("showUnitInfo").addEventListener("click", updateUnitInfo);
