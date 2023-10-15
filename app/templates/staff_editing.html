@@ -93,34 +93,37 @@ Staff Editing Page - Unit Planner
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    var unitsData = JSON.parse('{{ units | tojson | safe }}');
-
-    // Log the units data to the console as an arra
-    
-    function updateUnitInfo() {
-        // Get the selected unit code from the dropdown
-        var selectedUnitCode = document.getElementById("unitCode").value;
-
-        // Find the selected unit in the unitsData array
-        var selectedUnit = unitsData.find(function(unit) {
-            return unit[0] === selectedUnitCode;
+        var unitsData = JSON.parse('{{ units | tojson | safe }}');
+        
+        function updateUnitInfo() {
+            // Get the selected unit code from the dropdown
+            var selectedUnitCode = document.getElementById("unitCode").value;
+            
+            // Find the selected unit in the unitsData array
+            var selectedUnit = unitsData.find(function(unit) {
+                return unit[0] === selectedUnitCode;
+            });
+            
+            if (selectedUnit) {
+                // Update the placeholders with the unit details
+                document.getElementById("unitCodePlaceholder").textContent = selectedUnit[0];
+                document.getElementById("unitNamePlaceholder").textContent = selectedUnit[1];
+                document.getElementById("unitPointsPlaceholder").textContent = selectedUnit[2];
+                document.getElementById("semesterPlaceholder").textContent = selectedUnit[3];
+                document.getElementById("categoryIdPlaceholder").textContent = selectedUnit[4];
+                console.log(selectedUnit);
+            }
+        }
+        
+        // Handle the "Add" button click
+        document.getElementById("addUnitButton").addEventListener("click", function() {
+            // Redirect to staff_editing_new.html
+            window.location.href = "{{ url_for('add_unit') }}";
         });
 
-        if (selectedUnit) {
-            // Update the placeholders with the unit details
-            document.getElementById("unitCodePlaceholder").textContent = selectedUnit[0];
-            document.getElementById("unitNamePlaceholder").textContent = selectedUnit[1];
-            document.getElementById("unitPointsPlaceholder").textContent = selectedUnit[2];
-            document.getElementById("semesterPlaceholder").textContent = selectedUnit[3];
-            document.getElementById("categoryIdPlaceholder").textContent = selectedUnit[4];
-            console.log(selectedUnit);
-        }
-    }
-
-    document.getElementById("showUnitInfo").addEventListener("click", updateUnitInfo);
-
-
-});
+        // Attach the "Show Unit Info" event
+        document.getElementById("showUnitInfo").addEventListener("click", updateUnitInfo);
+    });
 </script>
 
 {% endblock %}

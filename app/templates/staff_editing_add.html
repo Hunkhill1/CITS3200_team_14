@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Unit - Unit Planner
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Add Unit Information</h1>
+
+    <!-- Add form for unit information -->
+    <form id="addUnitForm" action="{{ url_for('process_unit_add') }}" method="POST">
+        <label for="unitCode">Unit Code:</label>
+        <input type="text" id="addUnitCode" name="unitCode">
+        <br> <!-- Add line breaks here -->
+        <label for="unitName">Name:</label>
+        <input type="text" id="addUnitName" name="unitName">
+        <br> <!-- Add line breaks here -->
+        <label for="unitPoints">Unit Points Required:</label>
+        <input type="text" id="addUnitPoints" name="unitPoints">
+        <br> <!-- Add line breaks here -->
+        <label for="unitSemester">Semester:</label>
+        <input type="text" id="addUnitSemester" name="unitSemester">
+        <br> <!-- Add line breaks here -->
+        <label for="unitCategory">Category:</label>
+        <input type="text" id="addUnitCategory" name="unitCategory">
+        <br> <!-- Add line breaks here -->
+        <button class="button save-button" id="submitAdd">Add</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -49,7 +49,7 @@ def planner():
 
 @app.route('/staff_editing')
 def staff_editing():
-    units = database_interface.get_all_units()
+    units = database_interface.get_all_units_everything()
     # units = database_interface.get_all_units_everything()
 
     print(units)  # Debug: Print units to console
@@ -58,6 +58,10 @@ def staff_editing():
 @app.route('/edit_unit')
 def edit_unit():
     return render_template('staff_editing_edit.html')
+
+@app.route('/add_unit')
+def add_unit():
+    return render_template('staff_editing_add.html')
 
 @app.route('/process_json', methods=['POST'])
 def process_json_data():
@@ -114,6 +118,14 @@ def process_unit_edit():
     print(data)
     
     return jsonify(data)
+
+@app.route('/process_unit_add', methods=['POST'])
+def process_unit_add():
+    data = request.get_json()
+
+    # Process the data, add it to your database, or perform any necessary actions for adding a unit.
+
+    return jsonify({'message': 'Unit added successfully'})
 
 
 if __name__ == '__main__':
