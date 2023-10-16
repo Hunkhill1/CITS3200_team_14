@@ -100,7 +100,7 @@ def planner3_route():
             'semester_2': ['MATH1012', 'GENG1010', 'ENSC2004', 'GENG1014'],
         },
         'year_2': {
-            'semester_1': ['GENG2004', 'GENG2009', 'CIVL2251', 'BROAD002'],
+            'semester_1': ['GENG2004', 'GENG2009', 'CIVL2551', 'BROAD002'],
             'semester_2': ['CIVL2008', 'GENG2010', 'GENG2012', 'BROAD003'],
         },
         'year_3': {
@@ -122,11 +122,11 @@ def planner4_route():
     # Define the default plan
     default_plan = {
         'year_1': {
-            'semester_1': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
+            'semester_1': ['BLANK1', 'BLANK2', 'BLANK3', 'BLANK4'],
             'semester_2': ['MATH1011', 'CITS2401', 'GENG1014', 'PHYS1001'],
         },
         'year_2': {
-            'semester_1': ['MATH1012', 'CIVL2251', 'ENSC2004', 'GENG1010'],
+            'semester_1': ['MATH1012', 'CIVL2551', 'ENSC2004', 'GENG1010'],
             'semester_2': ['GENG2012', 'CIVL2008', 'GENG2010', 'BROAD001'],
         },
         'year_3': {
