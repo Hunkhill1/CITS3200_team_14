@@ -382,6 +382,7 @@ function closeNewLegend() {
 
 
 
+
 // Function to handle the edit button click
 // console.log('{{ units | tojson | safe }}');
 // var unitsData = JSON.parse('{{ units | tojson | safe }}');
