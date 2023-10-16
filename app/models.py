@@ -1,3 +1,10 @@
+
+"""
+models.py
+
+This module defines the database models for user data in the Flask-based study planner application.
+"""
+
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin

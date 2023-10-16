@@ -1,3 +1,20 @@
+"""
+database_interface.py
+
+This module serves as the interface for managing unit data within the study planner application's SQLite database.
+
+Contents:
+- Functions to interact with the database, including retrieving unit prerequisites, semesters, and all available units.
+- Functions to insert unit data and prerequisites into the database.
+
+Usage:
+1. This module is responsible for handling interactions with the study planner's database, such as querying and inserting unit-related data.
+2. It offers functions for accessing prerequisites, semesters, and unit details.
+3. Functions for inserting new unit data and prerequisites are available.
+4. The database connection parameters are imported from the constants module.
+"""
+
+
 import sqlite3
 import script.constants as constants
 

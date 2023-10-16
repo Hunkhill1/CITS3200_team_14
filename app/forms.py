@@ -1,3 +1,14 @@
+"""
+forms.py
+
+This module defines the Flask-WTF forms for user authentication and registration in the study planner application.
+
+Contents:
+- LoginForm class: A form for user login with fields for username, password, and "Remember Me" option.
+- RegistrationForm class: A form for user registration with fields for username, email, password, and password confirmation.
+- Form validation functions to check the uniqueness of usernames and email addresses.
+"""
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
