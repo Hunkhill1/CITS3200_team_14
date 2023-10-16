@@ -113,7 +113,7 @@ def planner3_route():
         }
     }
     num_years = len(default_plan)
-    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
+    return render_template('plannerCivil.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
 
 @index.route('/plannerCivil2')
 def planner4_route():
@@ -122,7 +122,7 @@ def planner4_route():
     # Define the default plan
     default_plan = {
         'year_1': {
-            'semester_1': ['BLANK1', 'BLANK2', 'BLANK3', 'BLANK4'],
+            'semester_1': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
             'semester_2': ['MATH1011', 'CITS2401', 'GENG1014', 'PHYS1001'],
         },
         'year_2': {
@@ -143,4 +143,4 @@ def planner4_route():
         }
     }
     num_years = len(default_plan)
-    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
+    return render_template('plannerCivil2.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
