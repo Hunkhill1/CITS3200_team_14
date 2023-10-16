@@ -131,10 +131,10 @@ def process_unit_edit():
     print(unit_category_id)
     
     # Print the JSON data to the terminal
-    print(data)
+    # print(data)
     
     # Edit the unit in the database - Uncomment this line when ready
-    #database_interface.edit_units(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
+    database_interface.edit_units(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
     
     # Delete a unit from the database - Uncomment this line when ready
     #database_interface.delete_unit_by_code(unit_code)
@@ -164,17 +164,9 @@ def process_unit_add():
     print(unit_semester)
     print(unit_category_id)
     
-    # Print the JSON data to the terminal
-    print(data)
-    
-    # Edit the unit in the database - Uncomment this line when ready
-    #database_interface.edit_units(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
-    
-    # Delete a unit from the database - Uncomment this line when ready
-    #database_interface.delete_unit_by_code(unit_code)
     
     # Add a unit to the database - Uncomment this line when ready
-    #database_interface.add_unit(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
+    database_interface.add_unit(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
     
     
     
@@ -187,7 +179,8 @@ def process_unit_delete():
     # Print the JSON data to the terminal
     unit_code = data.get('unitCode')
 
-    print(unit_code)
+    # Delete a unit from the database - Uncomment this line when ready
+    database_interface.delete_unit_by_code(unit_code)
     
     return jsonify(data)
 

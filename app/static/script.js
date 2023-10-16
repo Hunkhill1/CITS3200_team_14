@@ -346,6 +346,8 @@ document.addEventListener('DOMContentLoaded', function () {
           },
           body: JSON.stringify(jsonData)
       });
+      window.location.href = "/staff_editing";
+
   });
 });
 
@@ -370,6 +372,8 @@ document.addEventListener('DOMContentLoaded', function () {
           },
           body: JSON.stringify(jsonData)
       });
+      window.location.href = "/staff_editing";
+
   });
 });
 

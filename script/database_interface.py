@@ -93,12 +93,13 @@ def edit_units(unit_code: str, name: str, unit_points_required: int, semester: i
     cursor = connection.cursor()
 
     # Check if the unit exists in the database
-    cursor.execute("SELECT COUNT(*) FROM Unit WHERE code=?", (unit_code,))
-    unit_exists = cursor.fetchone()[0]
+    #cursor.execute("SELECT COUNT(*) FROM Unit WHERE code=?", (unit_code,))
+    #unit_exists = cursor.fetchone()[0]
+    
 
-    if unit_exists == 0:
-        connection.close()
-        raise Exception("Unit not found in the database.")
+    #if unit_exists == 0:
+        #connection.close()
+        #raise Exception("Unit not found in the database.")
 
     # Update the unit attributes
     update_unit_query = """
