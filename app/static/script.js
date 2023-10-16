@@ -1,3 +1,35 @@
+/**
+ * script.js
+ * 
+ * This JavaScript file contains client-side functionality for the Study Planner web application.
+ * It manages user interactions, form submissions, and dynamic updates of the user interface.
+ * 
+ * Contents:
+ * - Caching and fetching of unit prerequisites.
+ * - Highlighting prerequisites and post-requisites.
+ * - Setup of event listeners for checking prerequisites.
+ * - Handling the display of unit information and prerequisites.
+ * - Updating the unit selection interface.
+ * - Managing user actions, such as editing and deleting units.
+ * - Sending JSON data to the server for processing.
+ * 
+ * Usage:
+ * 1. This script handles various client-side features, including the display of prerequisites,
+ *    unit selection, highlighting, and user actions.
+ * 2. It interacts with the server to retrieve unit data and make updates.
+ * 3. Event listeners are set up to respond to user interactions and form submissions.
+ * 
+ * Important Notes:
+ * - This script interacts with specific HTML elements and assumes the structure of the web application.
+ * - Ensure that this script is linked to your HTML templates correctly.
+ * - Server-side routes and endpoints are expected to be available for data retrieval and processing.
+ * - The script uses asynchronous functions and fetch requests to communicate with the server.
+ * - Verify that the script works in the context of your web application and make adjustments as needed.
+ * 
+ * For more details on specific functions and actions, refer to the code comments below.
+ */
+
+
 // Dictionary to cache fetched prerequisites for each unit code
 const fetchedPrerequisites = {};
 const selectedUnits = [];
