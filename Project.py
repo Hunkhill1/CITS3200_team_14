@@ -8,6 +8,9 @@ from app import db
 from script.algo import algorithm, remove_string_from_list, clean_list
 import script.constants as constants
 import json
+import script.database_interface as database_interface
+import script.constants as constants
+
 
 
 app = Flask(__name__, template_folder=constants.template_folder_address, static_folder=constants.static_folder_address)
@@ -46,7 +49,23 @@ def planner():
 
 @app.route('/staff_editing')
 def staff_editing():
-    return render_template('staff_editing.html', title='Staff Editing Page')
+    units = database_interface.get_all_units_everything()
+    # units = database_interface.get_all_units_everything()
+
+    print(units)  # Debug: Print units to console
+    return render_template('staff_editing.html', units=units)
+
+@app.route('/edit_unit')
+def edit_unit():
+    return render_template('staff_editing_edit.html')
+
+@app.route('/add_unit')
+def add_unit():
+    return render_template('staff_editing_add.html')
+
+@app.route('/delete_unit')
+def delete_unit():
+    return render_template('staff_editing_delete.html')
 
 @app.route('/process_json', methods=['POST'])
 def process_json_data():
@@ -86,6 +105,81 @@ def process_json_data():
         return jsonify(response_data), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+
+@app.route('/process_unit_edit', methods=['POST'])
+def process_unit_edit():
+    data = request.get_json()
+        
+    # Save the JSON data to a file
+    data = request.get_json()
+    
+    unit_code = data.get('unitCode')
+    unit_name = data.get('unitName')
+    unit_points = int(data.get('unitPoints'))
+    unit_semester = int(data.get('unitSemester'))
+    unit_category_id = int(data.get('unitCategory'))
+    
+    print(unit_code)
+    print(unit_name)
+    print(unit_points)
+    print(unit_semester)
+    print(unit_category_id)
+    
+    # Print the JSON data to the terminal
+    # print(data)
+    
+    # Edit the unit in the database - Uncomment this line when ready
+    database_interface.edit_units(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
+    
+    # Delete a unit from the database - Uncomment this line when ready
+    #database_interface.delete_unit_by_code(unit_code)
+    
+    # Add a unit to the database - Uncomment this line when ready
+    #database_interface.add_unit(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
+    
+    
+    
+    return jsonify(data)
+
+@app.route('/process_unit_add', methods=['POST'])
+def process_unit_add():
+
+    # Save the JSON data to a file
+    data = request.get_json()
+    
+    unit_code = data.get('unitCode')
+    unit_name = data.get('unitName')
+    unit_points = int(data.get('unitPoints'))
+    unit_semester = int(data.get('unitSemester'))
+    unit_category_id = int(data.get('unitCategory'))
+    
+    print(unit_code)
+    print(unit_name)
+    print(unit_points)
+    print(unit_semester)
+    print(unit_category_id)
+    
+    
+    # Add a unit to the database - Uncomment this line when ready
+    database_interface.add_unit(unit_code, unit_name, unit_points, unit_semester, unit_category_id)
+    
+    
+    
+    return jsonify(data)
+
+@app.route('/process_unit_delete', methods=['POST'])
+def process_unit_delete():
+    data = request.get_json()
+    
+    # Print the JSON data to the terminal
+    unit_code = data.get('unitCode')
+
+    # Delete a unit from the database - Uncomment this line when ready
+    database_interface.delete_unit_by_code(unit_code)
+    
+    return jsonify(data)
+
 
 
 if __name__ == '__main__':

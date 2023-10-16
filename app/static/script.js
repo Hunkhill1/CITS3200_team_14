@@ -333,3 +333,195 @@ function closeLegend() {
     var legend = document.getElementById("legend");
     legend.style.display = "none";
 }
+
+
+// Function to handle the edit button click
+// console.log('{{ units | tojson | safe }}');
+// var unitsData = JSON.parse('{{ units | tojson | safe }}');
+
+// function updateUnitInfo() {
+//     var selectedUnitCode = document.getElementById("unitCode").value;
+//     var selectedUnit = unitsData.find(function(unit) {
+//         return unit[0] === selectedUnitCode;
+//     });
+
+//     if (selectedUnit) {
+//         document.getElementById("unitCodePlaceholder").textContent = selectedUnit[0];
+//         document.getElementById("unitNamePlaceholder").textContent = selectedUnit[1];
+//         document.getElementById("unitPointsPlaceholder").textContent = selectedUnit[2];
+//         document.getElementById("semesterPlaceholder").textContent = selectedUnit[3];
+//         document.getElementById("categoryIdPlaceholder").textContent = selectedUnit[4];
+//     }
+// }
+
+// function saveUnit() {
+//   var editedCode = document.getElementById("editUnitCode").value;
+//   var editedName = document.getElementById("editUnitName").value;
+//   var editedPoints = document.getElementById("editUnitPoints").value;
+//   var editedSemester = document.getElementById("editUnitSemester").value;
+//   var editedCategory = document.getElementById("editUnitCategory").value;
+
+//   var selectedUnit = unitsData.find(function(unit) {
+//       return unit[0] === editedCode;
+//   });
+
+//   if (selectedUnit) {
+//       selectedUnit[1] = editedName;
+//       selectedUnit[2] = editedPoints;
+//       selectedUnit[3] = editedSemester;
+//       selectedUnit[4] = editedCategory;
+//       console.log("Unit information edited and saved:", selectedUnit);
+
+//       window.location.href = "{{ url_for('staff_editing') }}";
+//   }
+// }
+
+
+// // document.getElementById("showUnitInfo1").addEventListener("click", updateUnitInfo);
+// document.getElementById("submitEdit").addEventListener("click", saveUnit);
+function saveUnit() {
+  var editedCode = document.getElementById("editUnitCode").value;
+  var editedName = document.getElementById("editUnitName").value;
+  var editedPoints = document.getElementById("editUnitPoints").value;
+  var editedSemester = document.getElementById("editUnitSemester").value;
+  var editedCategory = document.getElementById("editUnitCategory").value;
+
+  var selectedUnit = unitsData.find(function(unit) {
+      return unit[0] === editedCode;
+  });
+
+  if (selectedUnit) {
+      selectedUnit[1] = editedName;
+      selectedUnit[2] = editedPoints;
+      selectedUnit[3] = editedSemester;
+      selectedUnit[4] = editedCategory;
+      console.log("Unit information edited and saved:", selectedUnit);
+
+      // Redirect to the staff editing page
+      window.location.href = "{{ url_for('staff_editing') }}";
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const editUnitForm = document.getElementById('editUnitForm');
+  const saveButton = document.getElementById('submitEdit');
+
+  saveButton.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      const unitCode = document.getElementById('editUnitCode').value;
+      const unitName = document.getElementById('editUnitName').value;
+      const unitPoints = document.getElementById('editUnitPoints').value;
+      const unitSemester = document.getElementById('editUnitSemester').value;
+      const unitCategory = document.getElementById('editUnitCategory').value;
+
+      const jsonData = {
+          unitCode: unitCode,
+          unitName: unitName,
+          unitPoints: unitPoints,
+          unitSemester: unitSemester,
+          unitCategory: unitCategory
+      };
+
+      // Send the JSON data to the server using a POST request
+      fetch('/process_unit_edit', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonData)
+      });
+      window.location.href = "/staff_editing";
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const addUnitForm = document.getElementById('addUnitForm');
+  const saveButton = document.getElementById('submitAdd');
+
+  saveButton.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      const unitCode = document.getElementById('addUnitCode').value;
+      const unitName = document.getElementById('addUnitName').value;
+      const unitPoints = document.getElementById('addUnitPoints').value;
+      const unitSemester = document.getElementById('addUnitSemester').value;
+      const unitCategory = document.getElementById('addUnitCategory').value;
+
+      const jsonData = {
+          unitCode: unitCode,
+          unitName: unitName,
+          unitPoints: unitPoints,
+          unitSemester: unitSemester,
+          unitCategory: unitCategory
+      };
+
+      // Send the JSON data to the server using a POST request
+      fetch('/process_unit_add', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonData)
+      });
+      window.location.href = "/staff_editing";
+
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const deleteUnitForm = document.getElementById('deleteUnitForm');
+  const deleteButton = document.getElementById('submitDelete');
+
+  deleteButton.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      const unitCode = document.getElementById('deleteUnitCode').value;
+
+      const jsonData = {
+          unitCode: unitCode
+      };
+
+      // Send the JSON data to the server using a POST request
+      fetch('/process_unit_delete', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonData)
+      });
+      window.location.href = "/staff_editing";
+
+  });
+});
+
+
+
+// document.addEventListener('DOMContentLoaded', function () {
+//   // Handle the "Add" button click
+//   document.getElementById("addUnitButton").addEventListener("click", function () {
+//       // Redirect to staff_editing_new.html
+//       window.location.href = "{{ url_for('staff_editing_new') }}";
+
+//       // Sample data to send for unit addition
+//       const jsonData = {
+//           unitCode: "NEW123",
+//           unitName: "New Unit",
+//           unitPoints: "4",
+//           unitSemester: "Spring",
+//           unitCategory: "Category 1"
+//       };
+
+//       // Send a POST request to process the addition
+//       fetch('/process_unit_add', {
+//           method: 'POST',
+//           headers: {
+//               'Content-Type': 'application/json'
+//           },
+//           body: JSON.stringify(jsonData)
+//       });
+//       window.location.href = "/staff_editing";
+//   });
+// });
+

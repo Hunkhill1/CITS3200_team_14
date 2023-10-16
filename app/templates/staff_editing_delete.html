@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete Unit - Unit Planner
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Delete Unit</h1>
+
+    <!-- Delete form for unit information -->
+    <form id="deleteUnitForm" action="{{ url_for('process_unit_delete') }}" method="POST">
+        <label for="unitCode">Unit Code:</label>
+        <input type="text" id="deleteUnitCode" name="unitCode">
+        <br> <!-- Add line breaks here -->
+        <button class="button delete-button" id="submitDelete">Delete</button>
+    </form>
+</div>
+
+{% endblock %}

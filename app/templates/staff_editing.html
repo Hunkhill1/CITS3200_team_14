@@ -9,35 +9,32 @@ Staff Editing Page - Unit Planner
     <h1>Staff Editing Page</h1>
 
     <!-- Dropdown to select a unit -->
-    <div class="select-wrapper"> <!-- Wrap the label and select element in a div for styling -->
+    <div class="select-wrapper">
         <label for="unitCode">Select a unit:</label>
         <select id="unitCode" name="unit_code">
-            {% for row in data %}
-            <option value="{{ row[0] }}">{{ row[0] }}</option>
+            {% for unit in units %}
+            <option value="{{ unit[0] }}">{{ unit[0] }}</option>
             {% endfor %}
         </select>
     </div>
-    <button class="button" id="showPrerequisites">Show Prerequisites</button>
+    <button class="button" id="showUnitInfo">Show Unit Info</button>
 
+    <!-- Unit Information Display -->
+    <div class="unit-info">
+        <h2>Unit Information</h2>
+        <p><strong>Unit Code:</strong> <span id="unitCodePlaceholder"></span></p>
+        <p><strong>Name:</strong> <span id="unitNamePlaceholder"></span></p>
+        <p><strong>Unit Points Required:</strong> <span id="unitPointsPlaceholder"></span></p>
+        <p><strong>Semester:</strong> <span id="semesterPlaceholder"></span></p>
+        <p><strong>Category ID:</strong> <span id="categoryIdPlaceholder"></span></p>
+    </div>
 
-    <!-- Unit Planner Display -->
-    <div class="unit-planner">
-        <div class="unit-info">
-            <h2>Unit Information</h2>
-            <!-- Information about the selected unit will be displayed here -->
-        </div>
-        <div class="prerequisites">
-            <h2>Prerequisites</h2>
-            <ul id="prerequisitesList">
-                <!-- Prerequisites will be added here dynamically -->
-            </ul>
-            <!-- 'Edit', 'Delete', and 'Add' options for each unit -->
-            <div class="unit-options">
-                <button class="button edit-button">Edit</button>
-                <button class="button delete-button">Delete</button>
-                <button class="button add-button">Add</button>
-            </div>
-        </div>
+    <!-- Placeholder buttons for Edit and Add -->
+    <div class="unit-options">
+        <a class="button edit-button" href="{{ url_for('edit_unit') }}">Edit</a>
+        <a class="button add-button" href="{{ url_for('add_unit') }}">Add</a>
+        <a class="button delete-button" href="{{ url_for('delete_unit') }}">Delete</a>
+        <div></div>
     </div>
 
     <!-- Log Out button -->
@@ -46,5 +43,84 @@ Staff Editing Page - Unit Planner
     </form>
 </div>
 
-<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% block legend %}
+<!-- Legend Section -->
+<div id="legend-container1" class="legend-container1">
+    <!-- Button for toggling the legend -->
+    <div id="legend-button1" class="legend-button1" onclick="toggleLegend()">&#63;</div>
+    
+    <div id="legend" class="legend">
+        <h2>Legend</h2>
+        <p style="text-align: center;"><b>Explanation of Terms</b></p>
+        <!-- Add your legend content here -->
+        <div class="legend-item">
+            <div class="legend-box1 legend-semester"></div>
+            <div class="legend-text"><b>Semester:</b> Indicates the semesters in which the unit is offered.</div>
+        </div>
+        <div class="legend-item">
+            <div class="legend-box1 legend-points"></div>
+            <div class="legend-text"><b>Credit Points:</b> Represents the number of credit points required for this unit.</div>
+        </div>
+        <div class="legend-item">
+            <div class="legend-box1 legend-category"></div>
+            <div class="legend-text"><b>Category:</b> Refers to the main category of the unit which is divided into 4 types.</div>
+        </div>
+        <div class="legend-item">
+            <div class="legend-box1 legend-subcategory"></div>
+            <div class="legend-text"><b>Subcategories:</b></div>
+        </div>
+        <div class="legend-subitem">
+            <div class="legend-box1 legend-subcategory1"></div>
+            <div class="legend-text"><b>Category 1:</b>Core Unit.</div>
+        </div>
+        <div class="legend-subitem">
+            <div class="legend-box1 legend-subcategory2"></div>
+            <div class="legend-text"><b>Category 2:</b> Broadening Unit.</div>
+        </div>
+        <div class="legend-subitem">
+            <div class="legend-box1 legend-subcategory3"></div>
+            <div class="legend-text"><b>Category 3:</b> Optional Unit.</div>
+        </div>
+        <div class="legend-subitem">
+            <div class="legend-box1 legend-subcategory4"></div>
+            <div class="legend-text"><b>Category 4:</b> Group A unit.</div>
+        </div>
+        <div class="legend-subitem">
+            <div class="legend-box1 legend-subcategory5"></div>
+            <div class="legend-text"><b>Category 5:</b> Group B unit.</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var unitsData = JSON.parse('{{ units | tojson | safe }}');
+        
+        function updateUnitInfo() {
+            // Get the selected unit code from the dropdown
+            var selectedUnitCode = document.getElementById("unitCode").value;
+            
+            // Find the selected unit in the unitsData array
+            var selectedUnit = unitsData.find(function(unit) {
+                return unit[0] === selectedUnitCode;
+            });
+            
+            if (selectedUnit) {
+                // Update the placeholders with the unit details
+                document.getElementById("unitCodePlaceholder").textContent = selectedUnit[0];
+                document.getElementById("unitNamePlaceholder").textContent = selectedUnit[1];
+                document.getElementById("unitPointsPlaceholder").textContent = selectedUnit[2];
+                document.getElementById("semesterPlaceholder").textContent = selectedUnit[3];
+                document.getElementById("categoryIdPlaceholder").textContent = selectedUnit[4];
+                console.log(selectedUnit);
+            }
+        }
+        
+
+        // Attach the "Show Unit Info" event
+        document.getElementById("showUnitInfo").addEventListener("click", updateUnitInfo);
+    });
+</script>
+
 {% endblock %}
