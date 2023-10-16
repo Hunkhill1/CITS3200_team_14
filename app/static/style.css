@@ -355,3 +355,44 @@ select:focus {
   background-color: yellow;
   padding: 10px;
 }
+
+.legend-container1 {
+  position: relative;
+  text-align: right;
+  margin: 10px;
+}
+
+.legend-button1 {
+  cursor: pointer;
+  border: 1.5px solid black;
+  font-size: 20px;
+  position: absolute;
+  top: auto;
+  right: 2%;
+}
+
+.legend1 {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1;
+}
+
+.close-legend {
+  cursor: pointer;
+  float: inline-end;
+}
+
+.legend-box1 {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+  border: 2px solid black;
+}

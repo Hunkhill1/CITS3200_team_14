@@ -366,6 +366,21 @@ function closeLegend() {
     legend.style.display = "none";
 }
 
+function toggleNewLegend() {
+  var newLegend = document.getElementById("new-legend");
+  if (newLegend.style.display === "none" || newLegend.style.display === "") {
+      newLegend.style.display = "block";
+  } else {
+      newLegend.style.display = "none";
+  }
+}
+
+function closeNewLegend() {
+  var newLegend = document.getElementById("new-legend");
+  newLegend.style.display = "none";
+}
+
+
 
 // Function to handle the edit button click
 // console.log('{{ units | tojson | safe }}');
