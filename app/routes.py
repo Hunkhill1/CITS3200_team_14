@@ -86,8 +86,8 @@ def planner2_route():
             'semester_2': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
         }
     }
-
-    return render_template('planner2.html', default_plan=default_plan, all_units=units_from_database)
+    num_years = len(default_plan)
+    return render_template('planner2.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
 
 @index.route('/plannerCivil')
 def planner3_route():
