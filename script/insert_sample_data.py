@@ -87,7 +87,7 @@ unit_data = [
     # Civil
     ('GENG1014', 'Earth Systems Engineering',  2, 0, 1),  # "core"
     ('GENG2012', 'Data Collection and Analysis',  2, 0, 1),  # "core"
-    ('CIVL2551', 'Civil Engineering Practice',  2, 0, 1),  # "core"
+    ('CIVL2551', 'Civil Engineering Practice',  1, 0, 1),  # "core"
     ('CIVL2008', 'Structual Analysis',  2, 0, 1),  # "core"
     ('GENG2010', 'Principles of Hydraulics',  2, 0, 1),  # "core"
     ('GENG2009', 'Principles of Geomechanics',  1, 0, 1),  # "core"
@@ -164,7 +164,7 @@ unit_relationship_data = [
     ("GENG3402", "MATH1012"),
     
     # Group A
-    ("GENG4411", "GENG3000"),
+    #("GENG4411", "GENG3000"),
     ("GENG4412", "GENG4411"),
     ("MECH5552", "MECH5551"),
     
@@ -205,10 +205,10 @@ unit_relationship_data = [
     ("CIVL4430", "MATH1011"),
     ("CIVL4430", "CITS2401"),
     
-    ("CIVL5550", "GENG3000"),
+    #("CIVL5550", "GENG3000"),
     ("CIVL5550", "CIVL4430"),
     
-    ("CIVL5552", "GENG3000"),
+    #("CIVL5552", "GENG3000"),
     ("CIVL5552", "CIVL3404"),
 ]
 

@@ -86,8 +86,8 @@ def planner2_route():
             'semester_2': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
         }
     }
-
-    return render_template('planner2.html', default_plan=default_plan, all_units=units_from_database)
+    num_years = len(default_plan)
+    return render_template('planner2.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
 
 @index.route('/plannerCivil')
 def planner3_route():
@@ -100,7 +100,7 @@ def planner3_route():
             'semester_2': ['MATH1012', 'GENG1010', 'ENSC2004', 'GENG1014'],
         },
         'year_2': {
-            'semester_1': ['GENG2004', 'GENG2009', 'CIVL2251', 'BROAD002'],
+            'semester_1': ['GENG2004', 'GENG2009', 'CIVL2551', 'BROAD002'],
             'semester_2': ['CIVL2008', 'GENG2010', 'GENG2012', 'BROAD003'],
         },
         'year_3': {
@@ -113,7 +113,7 @@ def planner3_route():
         }
     }
     num_years = len(default_plan)
-    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
+    return render_template('plannerCivil.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
 
 @index.route('/plannerCivil2')
 def planner4_route():
@@ -126,7 +126,7 @@ def planner4_route():
             'semester_2': ['MATH1011', 'CITS2401', 'GENG1014', 'PHYS1001'],
         },
         'year_2': {
-            'semester_1': ['MATH1012', 'CIVL2251', 'ENSC2004', 'GENG1010'],
+            'semester_1': ['MATH1012', 'CIVL2551', 'ENSC2004', 'GENG1010'],
             'semester_2': ['GENG2012', 'CIVL2008', 'GENG2010', 'BROAD001'],
         },
         'year_3': {
@@ -143,4 +143,4 @@ def planner4_route():
         }
     }
     num_years = len(default_plan)
-    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
+    return render_template('plannerCivil2.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
