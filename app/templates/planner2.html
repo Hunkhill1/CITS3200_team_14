@@ -63,7 +63,7 @@
                                 <select name="unit{{ unit_num }}_{{ year }}_{{ semester }}" id="unit{{ unit_num }}_year{{ year }}_semester{{ semester }}" class="unit-select">
                                     {% set default_code = default_plan[year_key][semester_key][unit_num - 1] %}
                                     <option value="{{ default_code }}" selected>{{ default_code }}</option>
-                                    {% for code, name, unit_semester, _, _1 in all_units %}
+                                    {% for code, name, unit_semester in all_units %}
                                         {% if code != default_code and (unit_semester == semester or unit_semester == 12) %}
                                             <option value="{{ code }}">{{ code }}</option>
                                         {% endif %}
