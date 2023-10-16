@@ -1,3 +1,6 @@
+# route.py
+# This file contains the Flask routes for the Mechanical and Civil Engineering study planners.
+
 from flask import Blueprint, render_template, request, jsonify, flash, redirect
 import sqlite3
 from app.forms import LoginForm
@@ -26,7 +29,6 @@ def unit_route(unit_code):
 @index.route('/planner')
 def planner_route():
     units_from_database =  database_interface.get_all_units()
-    
     # Define the default plan
     default_plan = {
         'year_1': {
@@ -46,14 +48,15 @@ def planner_route():
             'semester_2': ['GENG5507', 'GENG3402', 'OPTION', 'OPTION'],
         }
     }
-
-    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database)
+    num_years = len(default_plan)
+    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
 
 @index.route('/fetch-database')
 def fetch_database_route():
     new_plan = study_planner_interface.fetch_database_as_plan()
-    #print (new_plan)
-    return jsonify(new_plan=new_plan)
+    num_years = len(new_plan)
+    units_from_database =  database_interface.get_all_units()
+    return jsonify(new_plan=new_plan, num_years=num_years, all_units=units_from_database)
 
 @index.route('/planner2')
 def planner2_route():
@@ -77,9 +80,67 @@ def planner2_route():
         'year_4': {
             'semester_1': ['GENG5507', 'MECH5551', 'BROAD001', 'BROAD002'],
             'semester_2': ['GENG3402', 'BROAD003', 'OPTION', 'OPTION'],
+        },
+        'year_5': {
+            'semester_1': ['BROAD004', 'MECH4426', 'OPTION', 'MECH4429'],
+            'semester_2': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
         }
     }
 
     return render_template('planner2.html', default_plan=default_plan, all_units=units_from_database)
 
+@index.route('/plannerCivil')
+def planner3_route():
+    units_from_database =  database_interface.get_all_units()
+    
+    # Define the default plan
+    default_plan = {
+        'year_1': {
+            'semester_1': ['MATH1011', 'PHYS1001', 'CITS2401', 'BROAD001'],
+            'semester_2': ['MATH1012', 'GENG1010', 'ENSC2004', 'GENG1014'],
+        },
+        'year_2': {
+            'semester_1': ['GENG2004', 'GENG2009', 'CIVL2251', 'BROAD002'],
+            'semester_2': ['CIVL2008', 'GENG2010', 'GENG2012', 'BROAD003'],
+        },
+        'year_3': {
+            'semester_1': ['CIVL3401', 'CIVL3402', 'CIVL3404', 'BROAD004'],
+            'semester_2': ['CIVL3403', 'CIVL4430', 'GENG3405', 'OPTION'],
+        },
+        'year_4': {
+            'semester_1': ['GENG4411', 'CIVL5550', 'GENG5505', 'OPTION'],
+            'semester_2': ['GENG4412', 'CIVL5552', 'GENG5507', 'OPTION'],
+        }
+    }
+    num_years = len(default_plan)
+    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)
 
+@index.route('/plannerCivil2')
+def planner4_route():
+    units_from_database =  database_interface.get_all_units()
+    
+    # Define the default plan
+    default_plan = {
+        'year_1': {
+            'semester_1': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
+            'semester_2': ['MATH1011', 'CITS2401', 'GENG1014', 'PHYS1001'],
+        },
+        'year_2': {
+            'semester_1': ['MATH1012', 'CIVL2251', 'ENSC2004', 'GENG1010'],
+            'semester_2': ['GENG2012', 'CIVL2008', 'GENG2010', 'BROAD001'],
+        },
+        'year_3': {
+            'semester_1': ['GENG2004', 'GENG2009', 'BROAD002', 'BROAD003'],
+            'semester_2': ['CIVL3403', 'OPTION', 'BROAD004', 'GENG3405'],
+        },
+        'year_4': {
+            'semester_1': ['CIVL3401', 'CIVL3404', 'OPTION', 'CIVL3402'],
+            'semester_2': ['GENG4411', 'CIVL4430', 'GENG5505', 'CIVL5552'],
+        },
+        'year_5': {
+            'semester_1': ['GENG4412', 'GENG5507', 'CIVL5550', 'OPTION'],
+            'semester_2': ['BLANK', 'BLANK', 'BLANK', 'BLANK'],
+        }
+    }
+    num_years = len(default_plan)
+    return render_template('planner.html', default_plan=default_plan, all_units=units_from_database, num_years=num_years)

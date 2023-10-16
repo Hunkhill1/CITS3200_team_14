@@ -1,3 +1,19 @@
+"""
+create_database.py
+
+This script initializes and configures a SQLite database for the study planner application.
+
+Contents:
+- Database creation and table setup for unit categories, units, and unit relationships.
+- Configuration parameters imported from the constants module.
+
+Usage:
+1. Run this script to create and configure the SQLite database for the study planner.
+2. It creates tables for unit categories, units, and unit relationships.
+3. It inserts predefined unit categories.
+4. It sets up the necessary database schema for the application.
+"""
+
 import sqlite3
 import constants as constants
 

@@ -21,12 +21,6 @@ async function checkAndHighlightPrerequisitesAndPostreqs(selectedUnitCode) {
     selectElements.forEach(async (select) => {
         const unitCode = select.value;
 
-      select.style.fontWeight = '';
-
-      if (unitCode === selectedUnitCode) {
-          select.style.fontWeight = 'bold';
-      }
-
       if (prerequisites.includes(unitCode)) {
           select.style.boxShadow = '0 0 2rem orange';
       }
@@ -37,6 +31,48 @@ async function checkAndHighlightPrerequisitesAndPostreqs(selectedUnitCode) {
       }
   });
 }
+
+function setupCheckPrereqButtons() {
+  const checkPrereqButtons = document.querySelectorAll(".check-prereq-btn");
+  let lastChecked = null;
+
+  checkPrereqButtons.forEach((button) => {
+      button.addEventListener("change", async function() {
+          const unitSelectId = this.getAttribute("data-unit-id");
+          const unitSelect = document.getElementById(unitSelectId);
+          const selectedUnitCode = unitSelect.value;
+
+          const selectElements = document.querySelectorAll(".unit-select");
+          selectElements.forEach((select) => {
+              select.style.boxShadow = "";
+          });
+
+          if (this.checked) {
+              if (lastChecked === this) {
+                  this.checked = false;
+                  lastChecked = null;
+              } else {
+                  lastChecked = this;
+                  await checkAndHighlightPrerequisitesAndPostreqs(selectedUnitCode);
+              }
+          } else {
+              lastChecked = null;
+          }
+      });
+
+      button.addEventListener("click", function() {
+          if (button === lastChecked) {
+              button.checked = false;
+              lastChecked = null;
+
+              const selectElements = document.querySelectorAll(".unit-select");
+              selectElements.forEach((select) => {
+                  select.style.boxShadow = "";
+              });
+          }
+      });
+  });
+};
 
 document.addEventListener("DOMContentLoaded", function () {
   const unitCodeDropdown = document.getElementById("unitCode");
@@ -64,41 +100,66 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Existing jQuery-based dropdown code
-document.addEventListener("DOMContentLoaded", function () {
+function setupDropdownClick() {
   $(".dropdown-item").click(function () {
     var dropdownButton = $(this).closest(".dropdown").find(".dropdown-toggle");
     var selectedValue = $(this).attr("data-value");
     dropdownButton.text(selectedValue);
   });
-});
+};
 
 function removeSelect(element) {
   const selectElement = element.previousElementSibling;
   const value = selectElement.value;
 
-  const index = selectedUnits.indexOf(value);
+  const selectedIndex = selectedUnits.indexOf(value);
+  const unselectedIndex = unselectedUnits.indexOf(value);
 
-    if (index === -1) {
-        selectedUnits.push(value);
-        selectElement.style.borderColor = 'red';
-        selectElement.style.backgroundColor = '#ffcccc';
-    } else {
-        selectedUnits.splice(index, 1);
-        selectElement.style.borderColor = 'blue';
-        selectElement.style.backgroundColor = '#87CEEB';
+  if (selectedIndex === -1) { // if the unit is not already in the selectedUnits
+    selectedUnits.push(value);
+    if (unselectedIndex !== -1) { // remove from unselectedUnits if present
+      unselectedUnits.splice(unselectedIndex, 1);
     }
-    
-    // Push the removed unit into the unselectedUnits array
-    unselectedUnits.push(value);
+    selectElement.style.borderColor = 'red';
+    selectElement.style.backgroundColor = '#ffcccc';
+  } else { // if the unit is in the selectedUnits
+    selectedUnits.splice(selectedIndex, 1);
+    if (unselectedIndex === -1) { // only add to unselectedUnits if not already present
+      unselectedUnits.push(value);
+    }
+    selectElement.style.borderColor = 'blue';
+    selectElement.style.backgroundColor = '#87CEEB';
+  }
 
-    
-    selectElement.disabled = false;
+  selectElement.disabled = false;
 
   console.log("Selected Units: ", selectedUnits);
   console.log("Unselected Units: ", unselectedUnits);
 }
+
+function setupUnitSelectChange() {
+  const selectElements = document.querySelectorAll(".unit-select");
+  selectElements.forEach((select) => {
+      select.addEventListener("change", function () {
+      // Clear all existing highlights
+      selectElements.forEach((select) => {
+        select.style.boxShadow = "";
+      });
+
+      // Re-check and highlight prerequisites and post-requisites
+      checkAndHighlightPrerequisitesAndPostreqs(this.value);
+    });
+  });
+};
+
 document.addEventListener("DOMContentLoaded", () => {
+  const selectElements = document.querySelectorAll(".unit-select");
+  selectElements.forEach((select) => {
+    selectedUnits.push(select.value);
+  });
+  setupCheckPrereqButtons();
+  setupDropdownClick();
+  setupUnitSelectChange();
   // Add an event listener to the submit button
   const submitButton = document.querySelector(".submit-button button");
   submitButton.addEventListener("click", () => {
@@ -143,62 +204,120 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
-document.addEventListener("DOMContentLoaded", () => {
-  const selectElements = document.querySelectorAll(".unit-select");
-
-  selectElements.forEach((select) => {
-    selectedUnits.push(select.value); // Initial selected units
-
-    select.addEventListener("change", function () {
-      // Clear all existing highlights
-      selectElements.forEach((select) => {
-        select.style.boxShadow = "";
-      });
-
-      // Re-check and highlight prerequisites and post-requisites
-      checkAndHighlightPrerequisitesAndPostreqs(this.value);
-    });
-  });
-});
-
 $('#submit-button').click(function(e) {
-    e.preventDefault(); // Prevent the default form submission
-    
-    setTimeout(function() {
-        $.ajax({
-            url: '/fetch-database',
-            type: 'GET',
-            success: function(data) {
-                updatePlanner(data.new_plan);
-            },
-            error: function(error) {
-                console.error('Error fetching the new plan', error);
-            }
-        });
-    }, 2000); // 2000 milliseconds (2 seconds) delay
+  e.preventDefault();
+  setTimeout(function() {
+      $.ajax({
+          url: '/fetch-database',
+          type: 'GET',
+          success: function(data) {
+              // First call to updatePlanner
+              updatePlanner(data.new_plan);
+
+              // Call to updateYearsAndSemesters
+              updateYearsAndSemesters(data.num_years, data.new_plan, data.all_units, () => {
+                  // Second call to updatePlanner inside the callback to ensure it runs after updateYearsAndSemesters
+                  updatePlanner(data.new_plan);
+              });
+          },
+          error: function(error) {
+              console.error('Error fetching the new plan', error);
+          }
+      });
+  }, 2000);
 });
 
 function updatePlanner(newPlan) {
   for (const [yearKey, semesters] of Object.entries(newPlan)) {
       for (const [semesterKey, units] of Object.entries(semesters)) {
           units.forEach((unit, index) => {
-              // Extract year and semester number from the keys
               const year = yearKey.split('_')[1];
               const semester = semesterKey.split('_')[1];
-              const unitNum = index + 1; // index is 0-based, unitNum is 1-based
+              const unitNum = index + 1;
               
-              // Construct the ID of the select element
               const selectId = `unit${unitNum}_year${year}_semester${semester}`;
-              
-              // Find the select element by ID and update its value
               const selectElement = document.getElementById(selectId);
+              
               if (selectElement) {
-                  selectElement.value = unit;
+                selectElement.value = (unit && unit !== "None") ? unit : "OPTION";
               }
           });
       }
   }
+}
+
+function updateYearsAndSemesters(numYears, newPlan, all_units) {
+  const container = document.querySelector('.container.text-center');
+  const submitButton = document.querySelector('.submit-button');
+  const existingYears = container.querySelectorAll('h2').length;
+
+  let content = "";
+
+  for (let year = existingYears + 1; year <= numYears; year++) {
+      content += `<div><h2>Year ${year}</h2>`;
+      for (let semester = 1; semester <= 2; semester++) {
+          content += `
+              <div class="semester">
+                  <h3>Semester ${semester}</h3>
+                  <table class="table">
+                      <tr>
+                          <th>Unit 1</th>
+                          <th>Unit 2</th>
+                          <th>Unit 3</th>
+                          <th>Unit 4</th>
+                      </tr>
+                      <tr>`;
+
+          for (let unit_num = 1; unit_num <= 4; unit_num++) {
+              const selectId = `unit${unit_num}_year${year}_semester${semester}`;
+              const unitCode = newPlan[`year_${year}`][`semester_${semester}`][unit_num - 1];
+
+              content += `
+  <td>
+      <div class="select-wrapper">
+          <select name="unit${unit_num}_${year}_${semester}" id="${selectId}" class="unit-select">`;
+              
+          // Add the selected unit as the first option
+          content += `<option value="${unitCode}" selected>${unitCode}</option>`;
+
+          for (const unit of all_units) {
+              const currentUnitCode = unit[0];
+              const unitSemester = unit[2]; 
+
+              // Applying the condition from your template in JavaScript
+              if (currentUnitCode !== unitCode && (unitSemester === semester || unitSemester === 12)) {
+                  content += `<option value="${currentUnitCode}">${currentUnitCode}</option>`;
+              }
+          }
+
+          content += `</select>
+                      <span class="close-icon" onclick="removeSelect(this)">&#10006;</span>
+                      <div class="form-check">
+                          <input class="form-check-input check-prereq-btn" type="radio" name="prereqOption" id="checkPrereq${unit_num}_year${year}_semester${semester}" data-unit-id="${selectId}">
+                      </div>                                
+                  </div>
+              </td>`;
+
+          }
+
+          content += `</tr></table></div>`;
+      }
+      content += '</div>';
+  }
+
+  // Create a temporary container to hold the content
+  const tempContainer = document.createElement('div');
+  tempContainer.innerHTML = content;
+
+  // Insert each year's content before the submit button
+  while (tempContainer.firstChild) {
+      container.insertBefore(tempContainer.firstChild, submitButton);
+  }
+
+  // Apply setup functions after all new content has been added
+  setupCheckPrereqButtons();
+  setupDropdownClick();
+  setupUnitSelectChange();
 }
 
 function toggleLegend() {

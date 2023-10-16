@@ -26,9 +26,9 @@ h1 {
 }
 
 h2 {
-  border: 1px solid #007bff;
+  border: 1px solid blue;
   padding: 10px;
-  background-color: #007bff;
+  background-color: blue;
   color: white;
 }
 
@@ -39,12 +39,12 @@ label {
 
 .select-wrapper {
   display: flex;
-  flex-direction: column; /* Display label and select vertically */
-  margin-bottom: 17px; /* Add margin between elements */
+  flex-direction: column; 
+  margin-bottom: 17px; 
 }
 
 .button {
-  background-color: #5579C6;
+  background-color: blue;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -104,22 +104,20 @@ select {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0);
 }
-/* Style for the individual options within the dropdown */
+
 .custom-select option:hover {
-  background-color: #5579C6; /* Blue on hover for individual options */
-  color: #fff; /* White text on hover for individual options */
+  background-color: #5579C6; 
+  color: #fff; 
 }
 
-/* Center the login container vertically at the top of the page */
 .login-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-height: 100vh; /* Ensures the container takes at least the full viewport height */
+  min-height: 100vh; 
 }
 
-/* Style the form elements */
 .form-group {
   margin-bottom: 20px;
   text-align: center;
@@ -134,8 +132,6 @@ label {
   color: red;
 }
 
-
-/* Add this to your CSS or inside a <style> block in your template */
 .legend-container {
   position: relative;
   text-align: right;
@@ -144,31 +140,31 @@ label {
 
 .legend-button {
   cursor: pointer;
+  border: 1.5px solid black;
   font-size: 20px;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: auto;
+  right: 2%;
 }
 
 .legend {
   display: none;
   position: absolute;
-  top: 30px;
+  top: 0;
   right: 0;
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1;
 }
 
 .close-legend {
   cursor: pointer;
-  float: right;
+  float: inline-end;
 }
 
-
-
-/* Color-coded legend styles */
 .legend-box {
   display: inline-block;
   width: 12px;
@@ -197,21 +193,17 @@ label {
   width: 20px;
 }
 
-
-/* Center the welcome text */
 .welcome-heading {
   text-align: center;
-  font-size: 24px; /* Make the welcome text larger */
-  margin-top: 20px; /* Add margin for spacing */
+  font-size: 24px; 
+  margin-top: 20px; 
 }
 
-/* Style for the welcome text */
 .welcome-text {
-  font-size: 18px; /* Make the welcome text larger */
-  margin-bottom: 20px; /* Add margin for spacing */
+  font-size: 18px; 
+  margin-bottom: 20px; 
 }
 
-/* Define styles for status boxes */
 .status-box {
   width: 20px;
   height: 20px;
@@ -240,25 +232,22 @@ label {
 
 select:focus {
   border-color: black;
-  border-width: 3.5px; /* Adjust the value to make it thicker or thinner */
+  border-width: 3.5px; 
 }
 
-/* Add vertical margin above and below the dropdown container */
 .dropdown-container {
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-/* Add margin between the button and the content below it */
 .update-button {
   margin-top: 10px;
 }
 
-/* Style for the question mark toggle button */
 .question-toggle {
-  position: absolute;
-  top: 95px; /* Adjust the top position as needed */
-  right: 80px; /* Adjust the right position as needed */
+  position: relative;
+  top: 95px; 
+  right: 80px; 
 }
 
 .question-toggle button {
@@ -268,21 +257,19 @@ select:focus {
   cursor: pointer;
 }
 
-/* Style for the user manual */
 .user-manual {
   display: none;
   position: absolute;
-  top: 50px; /* Adjust the top position as needed */
-  right: 20px; /* Adjust the right position as needed */
+  top: 50px; 
+  right: 20px; 
   background-color: #fff;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  z-index: 9999; /* Ensure it's above other content */
+  z-index: 9999; 
 }
 
-/* Style for the close button */
 .close-manual-button {
   background-color: transparent;
   border: none;
@@ -293,45 +280,78 @@ select:focus {
   right: 5px;
 }
 
-/* Style for the user manual header */
 .user-manual-header {
   position: relative;
 }
 
-/* Increase the font size and make the text bold for the welcome-heading */
 .welcome-heading {
   text-align: center;
-  font-size: 45px; /* Adjust the font size to your preference */
-  font-weight: bold; /* Make the text bold */
-  margin-top: 10px; /* Add margin for spacing */
+  font-size: 45px; 
+  font-weight: bold; 
+  margin-top: 10px; 
   margin-bottom: 35px;
 }
-
-
-/* CSS for the legend container */
-.legend-container1 {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 999; /* Ensure it's above other content */
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  /* width: 400px; Adjust the height as needed */
+.start-year-dropdown{
+  background-color: #87CEEB;
+  border: 2px solid blue;
+  -webkit-appearance: button ;
 }
 
-#legend {
-  width: 600px; /* Adjust the height as needed */
-  overflow-y: auto; /* Add a vertical scrollbar if content exceeds the height */
+.welcome-heading {
+  text-align: center;
+  font-size: 45px; 
+  font-weight: bold; 
+  margin-top: 10px; 
+  margin-bottom: 35px;
+
 }
 
+.dropdown-submenu {
+  position: relative;
+}
 
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 0.25rem 0.25rem;
+}
 
-/* CSS for the legend button */
-.legend-button1 {
-  cursor: pointer;
-  font-size: 20px;
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
   float: right;
-  margin-left: 10px;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #ccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+  border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+  float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 0.1rem;
+  border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.SU {
+  font-size: 1rem;
+  background-color: yellow;
+  padding: 10px;
 }

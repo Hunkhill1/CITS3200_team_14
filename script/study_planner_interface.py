@@ -1,3 +1,24 @@
+"""
+study_planner_interface.py
+
+This module provides functions and utilities for managing a study planner database. It allows you to add and update study units, manage prerequisites, and plan your academic journey.
+
+Functions:
+- create_database(): Create an SQLite database and the study_units table.
+- get_study_units(): Retrieve study units from the database.
+- update_semester_column(): Update the semester column in the database.
+- add_completed_unit_to_planner(unit_code): Add a unit to the study matrix based on prerequisites and availability.
+- add_incompleted_unit_to_planner(unit_code, start_sem): Add a unit to the study matrix based on prerequisites and availability, considering the starting semester.
+- clear_table(): Clear all data from the study_units table.
+- clear_table_and_preserve_rows(): Clear data in columns while preserving rows in the study_units table.
+- calculate_current_points(): Calculate the current points based on study units.
+- check_points(unit_code): Check if the current points meet unit points prerequisites.
+- fetch_database_as_plan(): Fetch the contents of the study_units table and return them in a structured dictionary format.
+
+"""
+
+
+
 import sqlite3
 import datetime
 import script.constants as constants
@@ -358,7 +379,7 @@ def add_completed_unit_to_planner(unit_code: str) -> None:
 
                 if next_available_semester:
                     semester_to_be_updated, cell_index = next_available_semester           
-                    if search_strings_in_list(constants.summer_units, prerequisites) and check_summer_units_index(constants.summer_units, semester):
+                    if search_strings_in_list(constants.summer_units, prerequisites) and check_summer_units_index(constants.summer_units, semester_to_be_updated):
                         temp_list = completed_units + constants.summer_units
                         if all(prereq in temp_list for prereq in prerequisites):
                             update_study_unit(semester_to_be_updated,cell_index, unit_code)  
@@ -518,6 +539,8 @@ def add_incompleted_unit_to_planner(unit_code: str,start_sem: int) -> None:
         # If no suitable semester is found, print a message
         print(f"Unit {unit_code} cannot be added for semester {semester}.")
         print("Matrix is full for this semester and future semesters of the same type. Cannot add more units.")
+        add_extra_year()
+        add_incompleted_unit_to_planner(unit_code, start_sem)
     except sqlite3.Error as e:
         print(f"Error adding unit to planner: {e}")
     finally:
@@ -590,6 +613,21 @@ def clear_table()->None:
     print("All data has been cleared from the 'study_units' table.")
     # Close the database connection when done
     conn.close()
+
+def clear_table_and_preserve_rows() -> None:
+    """Clear the data from the study_units table while preserving the rows."""
+    conn = sqlite3.connect(constants.study_planner_db_address)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('UPDATE study_units SET unit_1 = NULL, unit_2 = NULL, unit_3 = NULL, unit_4 = NULL')
+        conn.commit()
+        print("Data in columns unit_1 to unit_4 has been cleared while preserving the rows.")
+    except sqlite3.Error as e:
+        print(f"Error: {e}")
+    finally:
+        # Close the database connection when done
+        conn.close()
 
 def calculate_current_points() -> int:
     """ Calculate current points based on study units.
@@ -761,7 +799,35 @@ def fetch_database_as_plan() -> dict:
         print(f"Error fetching data from the database: {e}")
     return new_plan
 
- 
+def add_extra_year() -> None:
+    """Add an extra year to the study plan."""
+    
+    conn = sqlite3.connect(constants.study_planner_db_address)
+    cursor = conn.cursor()
+
+    # Get the current year and semester from the last entry in the database
+    cursor.execute('SELECT semester FROM study_units ORDER BY id DESC LIMIT 1')
+    last_entry = cursor.fetchone()
+    if last_entry:
+        last_semester, last_year = last_entry[0].split(", ")
+        last_year = int(last_year)
+        if "Semester 1" in last_semester:
+            next_semesters = [("Semester 2", last_year), ("Semester 1", last_year + 1)]
+        else:
+            next_semesters = [("Semester 1", last_year + 1), ("Semester 2", last_year + 1)]
+    else:
+        # Default values if the table is empty
+        next_semesters = [("Semester 1", 2023), ("Semester 2", 2023)]
+
+    # Insert the next two semesters into the database
+    for semester_name, year in next_semesters:
+        cursor.execute('''
+            INSERT INTO study_units (semester)
+            VALUES (?)
+        ''', (f"{semester_name}, {year}",))
+
+    conn.commit()
+    conn.close()
 
 def run():
     # Create the database and table
